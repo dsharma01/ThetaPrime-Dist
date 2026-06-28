@@ -1,7 +1,1 @@
-﻿{
-    "released":  "2026-06-28",
-    "min_supported":  "0.9.0",
-    "download_url":  "https://github.com/dsharma01/ThetaPrime-Dist/releases/latest/download/ThetaPrime-setup.exe",
-    "version":  "0.9.0",
-    "release_notes":  "Initial public release"
-}
+{"version":"0.10.0","released":"2026-06-28","download_url":"https://github.com/dsharma01/ThetaPrime-Dist/releases/latest/download/ThetaPrime-setup.exe","release_notes":"Update management, config.py data root","min_supported":"0.9.0"}
