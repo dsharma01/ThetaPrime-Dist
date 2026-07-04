@@ -1,1 +1,7 @@
-{"version":"0.10.0","released":"2026-06-28","download_url":"https://github.com/dsharma01/ThetaPrime-Dist/releases/latest/download/ThetaPrime-setup.exe","release_notes":"Update management, config.py data root","min_supported":"0.9.0"}
+{
+  "version": "0.12.6",
+  "released": "2026-07-04",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.12.6/ThetaPrime-0.12.6-setup.exe",
+  "release_notes": "Removed `release.yml` and `windows-build.yml`: a real v0.12.5 release attempt showed Nuitka's `--standalone` C-compile takes 2+ hours (still running when cancelled) on a hosted GitHub Actions Windows runner \u2014 it never completed a build there. The installer build and `ThetaPrime-Dist` publish step now always run locally: `installer\\build.ps1` then the new `installer\\publish-release.ps1` (tags `main`, creates the GitHub Release + uploads the installer, commits a fresh `version.json`). `installer/build_version_json.py` extracts the manifest-building logic previously inlined in the removed workflow. `DIST_REPO_TOKEN` is no longer used by anything.",
+  "min_supported": "0.12.6"
+}
