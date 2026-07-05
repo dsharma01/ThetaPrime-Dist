@@ -1,7 +1,7 @@
 {
-  "version": "0.13.0",
+  "version": "0.14.1",
   "released": "2026-07-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.13.0/ThetaPrime-0.13.0-setup.exe",
-  "release_notes": "Orphan position detection: compares active state files against the broker's live positions and alerts on any divergence (dashboard banner + notification), without ever auto-closing a position. See `docs/security.md`. Data Management page (`/data`): download/restore a full backup of app data (auto-snapshots before restore), plus one-click simulation and temp-file cleanup. See `docs/data-management.md`. (#82) `performance.db`, `run_history.db`, `sim_sessions.db`, and the app event log now live under `DATA_ROOT` instead of the source directory, so they're included in backups and land in `%APPDATA%\\ThetaPrime` in the packaged installer like the rest of the app's data.",
-  "min_supported": "0.13.0"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.1/ThetaPrime-0.14.1-setup.exe",
+  "release_notes": "The reconcile badge now shows the affected symbols (broker-only vs state-only) directly beneath it on a mismatch, instead of only in a hover tooltip. Reconcile falsely flagged every active **paper-mode** strategy as an orphan position, since it compared paper trades (which never touch the broker) against broker positions like real ones. Paper-mode legs are now excluded from the comparison entirely.",
+  "min_supported": "0.14.1"
 }
