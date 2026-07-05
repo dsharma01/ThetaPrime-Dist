@@ -1,7 +1,7 @@
 {
-  "version": "0.14.2",
+  "version": "0.14.3",
   "released": "2026-07-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.2/ThetaPrime-0.14.2-setup.exe",
-  "release_notes": "Packaged installer wrote all app data (config, secrets, strategies, databases) next to `app.exe` in `Program Files` instead of `%APPDATA%\\ThetaPrime`, because Nuitka standalone builds never set `sys.frozen` (a PyInstaller/cx_Freeze-only convention) \u2014 `_data_root()` now also checks for Nuitka's `__compiled__` marker.",
-  "min_supported": "0.14.2"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.3/ThetaPrime-0.14.3-setup.exe",
+  "release_notes": "Packaged installer ran in dev mode (exposing dev-only nav items, endpoints, and disabling login on localhost) because a standalone install has no `.git` directory: `git rev-parse` failed silently (non-zero exit, no exception) and the empty branch name fell through to `'dev'` instead of `'prod'`. `_detect_env()` now treats a failed git lookup as `'prod'`. Composer's pre-seeded \"ATM Strangle\" example strategy failed to save with `unknown parameter for 'atm'`. The default leg selector (alphabetically first in the catalog, `'atm'`) was never updated to `'otm_pct'` when the seed template set its `pct` params, so validation rejected it \u2014 this blocked creating/enabling any strategy on a fresh install. 0.14.2's `__compiled__`-based fix for the installer's data path (writing to `Program Files` instead of `%APPDATA%\\ThetaPrime`) didn't actually work \u2014 `_data_root()` now keys off `sys.executable` instead, which Nuitka standalone reliably replaces with the compiled binary itself (a documented, deliberate behavior, unlike `__compiled__`'s per-module injection).",
+  "min_supported": "0.14.3"
 }
