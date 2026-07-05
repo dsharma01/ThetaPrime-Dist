@@ -1,7 +1,7 @@
 {
-  "version": "0.14.1",
+  "version": "0.14.2",
   "released": "2026-07-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.1/ThetaPrime-0.14.1-setup.exe",
-  "release_notes": "The reconcile badge now shows the affected symbols (broker-only vs state-only) directly beneath it on a mismatch, instead of only in a hover tooltip. Reconcile falsely flagged every active **paper-mode** strategy as an orphan position, since it compared paper trades (which never touch the broker) against broker positions like real ones. Paper-mode legs are now excluded from the comparison entirely.",
-  "min_supported": "0.14.1"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.2/ThetaPrime-0.14.2-setup.exe",
+  "release_notes": "Packaged installer wrote all app data (config, secrets, strategies, databases) next to `app.exe` in `Program Files` instead of `%APPDATA%\\ThetaPrime`, because Nuitka standalone builds never set `sys.frozen` (a PyInstaller/cx_Freeze-only convention) \u2014 `_data_root()` now also checks for Nuitka's `__compiled__` marker.",
+  "min_supported": "0.14.2"
 }
