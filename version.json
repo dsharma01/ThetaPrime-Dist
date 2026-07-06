@@ -1,7 +1,7 @@
 {
-  "version": "0.14.15",
+  "version": "0.14.16",
   "released": "2026-07-06",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.15/ThetaPrime-0.14.15-setup.exe",
-  "release_notes": "A `.spec.json`-based strategy (e.g. Composer strategies) stopped being monitored after any server restart while its real-time jobs were registered \u2014 confirmed in production when `nifty_strangle_composer_02jul2026.spec.json` entered a trade at 10:13, then sat unmonitored for ~95 minutes after a 10:13 restart. Root cause: `scheduler.py`'s `_refresh_realtime_jobs()`, run on every scheduler start to re-register jobs, rebuilt each strategy's filename from its job ID via `base + '.py'`. That round-trips for plain `.py` strategies, but a spec strategy's job ID is `<name>.spec.json_entry`, so this produced `<name>.spec.json.py` \u2014 a key absent from `metadata.json`, causing `get_enabled()` to default to `False` and every monitor tick to silently skip as \"disabled\". `_refresh_realtime_jobs()` now reads the strategy filename directly from the job's stored `args[0]` instead of reconstructing it.",
-  "min_supported": "0.14.15"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.16/ThetaPrime-0.14.16-setup.exe",
+  "release_notes": "Trade status modal footer kept showing a stale `Exit HARD_EXIT` / `Short P&L` snapshot from the moment short legs closed, even while long legs stayed open and kept moving \u2014 the backend only writes `total_pnl` once the *entire* trade closes, so the footer never had a current figure to fall back to. It now shows a single `Total P&L` computed live from the same per-leg P&L already rendered in the legs table.",
+  "min_supported": "0.14.16"
 }
