@@ -1,7 +1,7 @@
 {
-  "version": "0.14.16",
+  "version": "0.14.17",
   "released": "2026-07-06",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.16/ThetaPrime-0.14.16-setup.exe",
-  "release_notes": "Trade status modal footer kept showing a stale `Exit HARD_EXIT` / `Short P&L` snapshot from the moment short legs closed, even while long legs stayed open and kept moving \u2014 the backend only writes `total_pnl` once the *entire* trade closes, so the footer never had a current figure to fall back to. It now shows a single `Total P&L` computed live from the same per-leg P&L already rendered in the legs table.",
-  "min_supported": "0.14.16"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.17/ThetaPrime-0.14.17-setup.exe",
+  "release_notes": "Composer UI now shows the dashboard's live lots value for `fixed_lots` sizing (readonly, mirrored from the strategy's dashboard config) instead of the spec's saved default, so the two can no longer visibly disagree. Running a Breeze-backed strategy without configured Breeze API credentials failed deep inside `BreezeAdapter` with a raw `KeyError`. `app.py` now checks upfront and returns a clear 400 error, and `BreezeAdapter` itself raises a `RuntimeError` with guidance if constructed without credentials. `fixed_lots` sizing read its own spec `params.lots` instead of `ctx.lots` (the dashboard/`STRATEGY_LOTS` value), so changing lots in the dashboard silently had no effect on live sizing for Composer strategies. It now uses `ctx.lots` as the single source of truth.",
+  "min_supported": "0.14.17"
 }
