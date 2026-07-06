@@ -1,7 +1,7 @@
 {
-  "version": "0.14.13",
-  "released": "2026-07-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.13/ThetaPrime-0.14.13-setup.exe",
-  "release_notes": "Running/simulating a spec-based (Composer) strategy on a compiled install silently failed (recorded as `rc=2`, no useful error) \u2014 confirmed via production log during a fullday simulation. Root cause: `runner.py` spawns the strategy as a subprocess via `[sys.executable, '-m', 'strategies.engine', spec_path]`, but in a compiled build `sys.executable` *is* `app.exe` itself, not a real `python.exe` \u2014 it has no `-m`/generic-script support, so this silently launched a second copy of the Flask server instead of the strategy engine. `app.py` now intercepts a `--run-strategy-subprocess <path>` flag at the very top of the module, before any of its own heavy top-level side effects (`scheduler.start()` etc.), and dispatches directly into `strategies.engine.run()` (spec strategies) or `runpy.run_path(..., run_name='__main__')` (legacy `.py` strategies) instead of starting the server. `runner.py` uses this new flag only when compiled; dev-mode invocation is unchanged.",
-  "min_supported": "0.14.13"
+  "version": "0.14.14",
+  "released": "2026-07-06",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.14/ThetaPrime-0.14.14-setup.exe",
+  "release_notes": "Running a plain `.py` strategy (not a `.spec.json`) on a compiled install failed with an argparse error like `unrecognized arguments: --run-strategy-subprocess <path>`. Root cause: `app.py`'s `--run-strategy-subprocess` handler runs legacy strategies via `runpy.run_path(..., run_name='__main__')`, but left `sys.argv` as `['app.exe', '--run-strategy-subprocess', <path>]` \u2014 the strategy script's own `argparse.parse_args()` then choked on those wrapper args. `sys.argv` is now reset to `[<strategy_path>]` before `runpy.run_path`, matching the uncompiled `python strategy_path` invocation.",
+  "min_supported": "0.14.14"
 }
