@@ -1,7 +1,7 @@
 {
-  "version": "0.14.17",
+  "version": "0.15.1",
   "released": "2026-07-06",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.14.17/ThetaPrime-0.14.17-setup.exe",
-  "release_notes": "Composer UI now shows the dashboard's live lots value for `fixed_lots` sizing (readonly, mirrored from the strategy's dashboard config) instead of the spec's saved default, so the two can no longer visibly disagree. Running a Breeze-backed strategy without configured Breeze API credentials failed deep inside `BreezeAdapter` with a raw `KeyError`. `app.py` now checks upfront and returns a clear 400 error, and `BreezeAdapter` itself raises a `RuntimeError` with guidance if constructed without credentials. `fixed_lots` sizing read its own spec `params.lots` instead of `ctx.lots` (the dashboard/`STRATEGY_LOTS` value), so changing lots in the dashboard silently had no effect on live sizing for Composer strategies. It now uses `ctx.lots` as the single source of truth.",
-  "min_supported": "0.14.17"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.15.1/ThetaPrime-0.15.1-setup.exe",
+  "release_notes": "`BrokerClient.order_fill()` (Kite + Breeze) reads back real order status, filled quantity, and average price for a placed order. Strategies built from `strategy_template.py` assumed a market order fully filled at the pre-trade quote; entries now poll the broker for the actual fill, and exits close only the quantity that actually filled instead of always closing the full requested size \u2014 previously a partial fill on entry could get flipped to an unintended opposite position on exit. `calc_pnl()` now weights each leg by its own filled quantity so mixed fill sizes across legs still net correctly. `reconciliation.reconcile()` matched broker positions to strategy state by symbol + direction only, so two strategies holding the same strike (or a partial fill) could both silently match a single broker position line even if the combined quantity didn't actually reconcile. It now sums each strategy's leg quantity per symbol before comparing to the broker's netted line.",
+  "min_supported": "0.15.1"
 }
