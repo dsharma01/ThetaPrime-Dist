@@ -1,7 +1,7 @@
 {
-  "version": "0.19.1",
+  "version": "0.20.0",
   "released": "2026-07-10",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.19.1/ThetaPrime-0.19.1-setup.exe",
-  "release_notes": "`reconciliation.py` looked up a strategy's real/paper mode with a hardcoded `.py` extension, so spec-based (Composer) strategies always resolved to `paper` and had their parked long legs (held after `SHORT_CLOSED`) dropped from the comparison \u2014 the broker's genuinely open positions then showed up as false `orphan_broker` alerts. Daily loss limit check now normalizes the configured threshold's sign when read, instead of trusting whatever sign is stored in `config.json`. A stale/hand-edited positive value inverted the comparison so that any profit under the threshold counted as a breach \u2014 today a +26.1pt winning trade falsely disabled all real strategies for the rest of the day.",
-  "min_supported": "0.19.1"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.20.0/ThetaPrime-0.20.0-setup.exe",
+  "release_notes": "**Iron butterfly, single-leg, and vertical spread structures** in the Strategy Composer: `iron_butterfly` (ATM-shorted iron condor variant), single-leg blocks (short/long call, short/long put), and credit/debit vertical spreads. **Template loader** in the Strategy Composer: a dropdown to load pre-built recipes (matching `docs/composer-strategy-examples.md`) into the working draft. Selecting one only fills the browser draft \u2014 nothing is saved or schedulable until reviewed and explicitly saved.",
+  "min_supported": "0.20.0"
 }
