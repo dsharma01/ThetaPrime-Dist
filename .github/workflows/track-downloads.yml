@@ -1,0 +1,43 @@
+name: Track Release Downloads
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # daily at 03:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Snapshot asset download counts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          csv="downloads.csv"
+          [ -f "$csv" ] || echo "timestamp,tag,asset,download_count" > "$csv"
+
+          gh api "repos/${{ github.repository }}/releases" --paginate \
+            --jq '.[] | .tag_name as $tag | .assets[] | [$tag, .name, .download_count] | @csv' \
+            | while IFS= read -r row; do
+                echo "${ts},${row}" >> "$csv"
+              done
+
+      - name: Commit snapshot if changed
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- downloads.csv)" ]; then
+            echo "No change in download counts, skipping commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add downloads.csv
+          git commit -m "chore: snapshot release download counts"
+          git push
