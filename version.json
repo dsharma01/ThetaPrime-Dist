@@ -1,7 +1,7 @@
 {
-  "version": "0.20.0",
-  "released": "2026-07-10",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.20.0/ThetaPrime-0.20.0-setup.exe",
-  "release_notes": "**Iron butterfly, single-leg, and vertical spread structures** in the Strategy Composer: `iron_butterfly` (ATM-shorted iron condor variant), single-leg blocks (short/long call, short/long put), and credit/debit vertical spreads. **Template loader** in the Strategy Composer: a dropdown to load pre-built recipes (matching `docs/composer-strategy-examples.md`) into the working draft. Selecting one only fills the browser draft \u2014 nothing is saved or schedulable until reviewed and explicitly saved.",
-  "min_supported": "0.20.0"
+  "version": "0.21.0",
+  "released": "2026-07-11",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.21.0/ThetaPrime-0.21.0-setup.exe",
+  "release_notes": "**Ask AI (Phase 0, browser handoff)** on Reports, Performance, Multi-Sim results, and the Strategy Composer: builds a context-rich prompt server-side (`ai_prompts.py`) and hands it to the user's own ChatGPT, Claude, Perplexity, Gemini, or Copilot session via URL or clipboard. No API key stored, no provider calls from the app. The background orphan-position reconciliation now only runs on trading days between 09:15 and 16:00 IST. Outside market hours the broker's position book can be stale or incomplete \u2014 a Saturday Kite session omitted two genuinely open NRML long legs, producing a false orphan alert every 5 minutes all day. Positions can't change while the market is closed, so nothing is lost; the window extends past the 15:30 close to still catch broker EOD square-offs. Manual `/api/reconcile` is unaffected.",
+  "min_supported": "0.21.0"
 }
