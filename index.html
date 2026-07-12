@@ -377,7 +377,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
       </div>
       <div class="steps">
         <div class="step"><div class="step-num mono">01</div><h3>Connect</h3><p>Log in to Kite or Breeze the way you already do — OAuth in your browser, TOTP and all. ThetaPrime stores the resulting token, not your password, and a refresh each morning is one click.</p></div>
-        <div class="step"><div class="step-num mono">02</div><h3>Build</h3><p>Click blocks together in the Composer — structure, strikes, exits, sizing — or drop in a Python file if you'd rather write it. Either way it runs on the same engine, dashboard, and performance tracking.</p></div>
+        <div class="step"><div class="step-num mono">02</div><h3>Build</h3><p>Click blocks together in the Composer — structure, strikes, exits, sizing. The spec preview validates every parameter as you go, and a payoff diagram with one-click AI review helps you sanity-check the shape before you save.</p></div>
         <div class="step"><div class="step-num mono">03</div><h3>Arm</h3><p>Every strategy starts in Paper. Flip it to Real, then Arm it — two separate, deliberate clicks. Restart the app and it's unarmed again, every time, no exceptions.</p></div>
       </div>
     </div>
@@ -389,20 +389,21 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div>
           <span class="eyebrow">No-code strategy composer</span>
           <h2 style="margin-top:0.7rem;">Build a strangle by clicking, not scripting.</h2>
-          <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Save writes a runnable strategy that sits next to your hand-written ones, indistinguishable to the dashboard, the scheduler, or the P&amp;L reports.</p>
+          <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Every saved strategy runs on the same engine, dashboard, and P&amp;L reports — there's no separate code path to fall back to.</p>
           <ul class="check-list">
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
-            <li><b>Same engine as hand-written code</b> — no separate runner, no second class of strategy.</li>
+            <li><b>Payoff diagram + Ask AI</b> — once valid, see max profit/loss and breakevens, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
           </ul>
         </div>
         <div class="block-panel">
-          <div class="block-group"><h4>Structures</h4><div class="chip-row"><span class="chip">Strangle</span><span class="chip">Straddle</span><span class="chip">Diagonal</span></div></div>
-          <div class="block-group"><h4>Leg selectors</h4><div class="chip-row"><span class="chip">OTM %</span><span class="chip">ATM</span><span class="chip">Delta target</span></div></div>
+          <div class="block-group"><h4>Structures</h4><div class="chip-row"><span class="chip">Strangle</span><span class="chip">Straddle</span><span class="chip">Iron condor</span><span class="chip">Iron butterfly</span><span class="chip">Diagonal</span><span class="chip">Vertical spread</span><span class="chip">Calendar spread</span><span class="chip">Single-leg</span></div></div>
+          <div class="block-group"><h4>Leg selectors</h4><div class="chip-row"><span class="chip">OTM %</span><span class="chip">ATM</span><span class="chip">Premium target</span><span class="chip">Delta target</span></div></div>
           <div class="block-group"><h4>Expiry</h4><div class="chip-row"><span class="chip">Next weekly</span><span class="chip">Monthly</span></div></div>
-          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Stop loss</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">EOD</span></div></div>
-          <div class="block-group"><h4>Filters</h4><div class="chip-row"><span class="chip">Time window</span><span class="chip">VIX skip</span><span class="chip">Gap skip</span></div></div>
+          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Stop loss</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">Per-leg price stop</span><span class="chip">Time-locked profit</span><span class="chip">Soft exit</span><span class="chip">Carry position</span><span class="chip">Long leg exit</span><span class="chip">EOD</span></div></div>
+          <div class="block-group"><h4>Filters</h4><div class="chip-row"><span class="chip">Time window</span><span class="chip">VIX skip</span><span class="chip">VIX floor</span><span class="chip">VIX + gap skip</span><span class="chip">Gap skip</span></div></div>
           <div class="block-group"><h4>Sizing</h4><div class="chip-row"><span class="chip">Fixed lots</span><span class="chip">Capital %</span></div></div>
+          <div class="block-group"><h4>Re-entry</h4><div class="chip-row"><span class="chip">Directional re-entry</span></div></div>
         </div>
       </div>
     </div>
@@ -420,8 +421,10 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy disarms itself and Real mode locks for the rest of the day.</p></div>
         <div class="feature-card"><span class="tag">Entry guard</span><h3>No double entry</h3><p>A strategy already holding a position can't open a second one. No accidental doubling from a re-triggered signal or a stray manual click.</p></div>
         <div class="feature-card"><span class="tag">Sizing</span><h3>Hard lot cap</h3><p>A ceiling on lot size per strategy, enforced before the order is placed. A misconfigured strategy gets silently capped, never silently oversized.</p></div>
-        <div class="feature-card"><span class="tag">Reconciliation</span><h3>Orphan detection</h3><p>Every five minutes, and at startup, ThetaPrime diffs your broker's live positions against its own trade state. A crash or a manual square-off shows up as a red badge, not a surprise next week.</p></div>
+        <div class="feature-card"><span class="tag">Reconciliation</span><h3>Orphan detection</h3><p>Every five minutes during market hours, and at startup, ThetaPrime diffs your broker's live positions against its own trade state. A crash or a manual square-off shows up as a red badge, not a surprise next week.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
+        <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite or Breeze token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
+        <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — closing whatever filled, cancelling what's still open — instead of leaving a silent, unhedged position.</p></div>
       </div>
     </div>
   </section>
@@ -513,8 +516,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <div class="a">Nothing is deleted. Strategies, trade history, and configuration all stay on disk exactly as they were. Renewing restores full dashboard access immediately — and any strategy the scheduler was already running kept running the whole time.</div>
         </details>
         <details>
-          <summary>Do I need to know Python?</summary>
-          <div class="a">No. The Composer builds and validates a strategy from clickable blocks with no code. Writing a <code>.py</code> strategy by hand is still there if you'd rather.</div>
+          <summary>Do I need to know how to code?</summary>
+          <div class="a">No. Every strategy — a simple strangle, an iron condor, a calendar spread — is built entirely in the Composer by clicking blocks together. There's no code path to write or maintain.</div>
         </details>
       </div>
     </div>
