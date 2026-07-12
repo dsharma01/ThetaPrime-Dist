@@ -504,6 +504,18 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <div class="a">No. It's a self-hosted automation tool that places orders through your own Zerodha or ICICI Direct account. You choose the strategies and carry SEBI compliance responsibility; Kite Connect's API subscription is billed to you by Zerodha, separately from ThetaPrime.</div>
         </details>
         <details>
+          <summary>Does my computer need to stay on during the trading day?</summary>
+          <div class="a">Yes. ThetaPrime runs as a Windows service on your own PC, not in any cloud — it can only enter, monitor, and exit positions while that machine is powered on and the service is running. A laptop that sleeps or shuts down stops managing your open trades until it's back.</div>
+        </details>
+        <details>
+          <summary>What if my internet connection drops?</summary>
+          <div class="a">ThetaPrime needs a live connection to your broker for as long as a position is open — entries, monitoring, and exits all depend on it. Brief blips are retried automatically, but a sustained outage means it can't act on your positions until connectivity returns, the same as if you were watching a terminal yourself. A stable, always-on connection is part of the setup, not optional.</div>
+        </details>
+        <details>
+          <summary>Do I need a static IP address?</summary>
+          <div class="a">Yes. SEBI's API trading rules require a fixed IP address for order placement, which you register with your broker alongside your API credentials. Most ISPs offer a static IP as a paid add-on to a home broadband plan — request one before setting up your Kite or Breeze API app.</div>
+        </details>
+        <details>
           <summary>Can I run one license on two computers?</summary>
           <div class="a">No — one license, one machine. Buy a second license for a second machine.</div>
         </details>
