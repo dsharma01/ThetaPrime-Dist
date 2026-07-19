@@ -1,7 +1,7 @@
 {
-  "version": "0.24.0",
-  "released": "2026-07-17",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.24.0/ThetaPrime-0.24.0-setup.exe",
-  "release_notes": "**Long straddle / long strangle** structures in the Strategy Composer (`long_straddle`, `long_strangle`): buy an ATM call+put or OTM call+put on the same expiry \u2014 the long-volatility counterparts to the existing short strangle/straddle. **`short_entry` notifications**: `notifier.py` now recognizes `short_entry` (diagonal short-leg re-entry) and the composer engine's `<LEG>_symbol`/`<LEG>_entry` event shape \u2014 previously this event type produced no notification at all despite live re-entries firing it. **Playwright UI test suite** (`tests/ui/`): browser-driven coverage for the Composer, login, Reports, indicators, strategy toggle, and AI handoff flows, run via `npm run test:ui`. **`strangle`/`straddle` structures renamed** to `short_strangle`/`short_straddle` for symmetry with the new long variants. Old type keys still resolve everywhere a spec is built or validated via a new legacy-alias registry in `strategies/components/base.py`, so previously saved strategies keep working unchanged; only the Composer palette shows the new names.",
-  "min_supported": "0.24.0"
+  "version": "0.25.1",
+  "released": "2026-07-19",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.25.1/ThetaPrime-0.25.1-setup.exe",
+  "release_notes": "**Dhan \"session expired\" spam from a misclassified Data API entitlement gap**: confirmed live 2026-07-19 that a Dhan account without Data API access gets error `810 \"ClientId is invalid\"` on marketfeed/charts calls even though the same credentials work fine for Trading API calls (margins/positions/orders) \u2014 the adapter was treating this as a dead session (triggering repeated re-login-required alerts) instead of the same permanent entitlement gap already handled for Dhan's other error shape (`451`/\"not subscribed\"). Also fixed the underlying cause of the *volume* of alerts: `notifier.send_notification()` now de-dups an identical message within a 10-minute window, since a broker adapter with a stuck-bad token was re-sending the same alert on every poll (each request builds a fresh adapter instance, so its own \"alert once\" guard never carried across requests).",
+  "min_supported": "0.25.1"
 }
