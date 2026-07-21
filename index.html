@@ -311,9 +311,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
   <section class="hero wrap">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">Windows desktop · Zerodha Kite + ICICI Breeze · Self-hosted</span>
+        <span class="eyebrow">Windows desktop · Kite + Breeze + Dhan · Self-hosted</span>
         <h1>Time decays.<br>Discipline shouldn't.</h1>
-        <p class="lede">ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, with the safety rails a manual trader always means to build and rarely finishes. Connects directly to Zerodha Kite and ICICI Breeze. No cloud account, no code required to build a strategy.</p>
+        <p class="lede">ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, with the safety rails a manual trader always means to build and rarely finishes. Connects directly to Zerodha Kite, ICICI Breeze, and Dhan. No cloud account, no code required to build a strategy.</p>
         <div class="decay-rule" aria-hidden="true"></div>
         <div class="hero-cta">
           <a class="btn btn-primary" href="mailto:license@thetaprime.in?subject=ThetaPrime%20License%20Request">Request a license →</a>
@@ -376,7 +376,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <h2>Connect, build, arm.</h2>
       </div>
       <div class="steps">
-        <div class="step"><div class="step-num mono">01</div><h3>Connect</h3><p>Log in to Kite or Breeze the way you already do — OAuth in your browser, TOTP and all. ThetaPrime stores the resulting token, not your password, and a refresh each morning is one click.</p></div>
+        <div class="step"><div class="step-num mono">01</div><h3>Connect</h3><p>Log in to Kite, Breeze, or Dhan the way you already do — OAuth in your browser, TOTP and all. ThetaPrime stores the resulting token, not your password, and a refresh each morning is one click.</p></div>
         <div class="step"><div class="step-num mono">02</div><h3>Build</h3><p>Click blocks together in the Composer — structure, strikes, exits, sizing. The spec preview validates every parameter as you go, and a payoff diagram with one-click AI review helps you sanity-check the shape before you save.</p></div>
         <div class="step"><div class="step-num mono">03</div><h3>Arm</h3><p>Every strategy starts in Paper. Flip it to Real, then Arm it — two separate, deliberate clicks. Restart the app and it's unarmed again, every time, no exceptions.</p></div>
       </div>
@@ -397,10 +397,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           </ul>
         </div>
         <div class="block-panel">
-          <div class="block-group"><h4>Structures</h4><div class="chip-row"><span class="chip">Strangle</span><span class="chip">Straddle</span><span class="chip">Iron condor</span><span class="chip">Iron butterfly</span><span class="chip">Diagonal</span><span class="chip">Vertical spread</span><span class="chip">Calendar spread</span><span class="chip">Single-leg</span></div></div>
+          <div class="block-group"><h4>Structures</h4><div class="chip-row"><span class="chip">Short strangle</span><span class="chip">Short straddle</span><span class="chip">Long strangle</span><span class="chip">Long straddle</span><span class="chip">Iron condor</span><span class="chip">Iron butterfly</span><span class="chip">Diagonal</span><span class="chip">Vertical spread</span><span class="chip">Calendar spread</span><span class="chip">Single-leg</span></div></div>
           <div class="block-group"><h4>Leg selectors</h4><div class="chip-row"><span class="chip">OTM %</span><span class="chip">ATM</span><span class="chip">Premium target</span><span class="chip">Delta target</span></div></div>
           <div class="block-group"><h4>Expiry</h4><div class="chip-row"><span class="chip">Next weekly</span><span class="chip">Monthly</span></div></div>
-          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Stop loss</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">Per-leg price stop</span><span class="chip">Time-locked profit</span><span class="chip">Soft exit</span><span class="chip">Carry position</span><span class="chip">Long leg exit</span><span class="chip">EOD</span></div></div>
+          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Profit target (% premium)</span><span class="chip">Stop loss</span><span class="chip">Delta stop</span><span class="chip">Volatility stop</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">Per-leg price stop</span><span class="chip">Time-locked profit</span><span class="chip">Soft exit</span><span class="chip">Carry position</span><span class="chip">Long leg exit</span><span class="chip">EOD</span></div></div>
+          <div class="block-group"><h4>Adjustments</h4><div class="chip-row"><span class="chip">Roll a leg</span></div></div>
           <div class="block-group"><h4>Filters</h4><div class="chip-row"><span class="chip">Time window</span><span class="chip">VIX skip</span><span class="chip">VIX floor</span><span class="chip">VIX + gap skip</span><span class="chip">Gap skip</span></div></div>
           <div class="block-group"><h4>Sizing</h4><div class="chip-row"><span class="chip">Fixed lots</span><span class="chip">Capital %</span></div></div>
           <div class="block-group"><h4>Re-entry</h4><div class="chip-row"><span class="chip">Directional re-entry</span></div></div>
@@ -417,13 +418,13 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <p class="lede">This is the part a solo Python script usually skips. It's the part that matters most.</p>
       </div>
       <div class="feature-grid">
-        <div class="feature-card"><span class="tag">Arming</span><h3>Real ≠ live</h3><p>A strategy needs to be set to Real <i>and</i> Armed before an order goes out. Arming resets to off on every restart, so an unattended reboot can never quietly start trading.</p></div>
+        <div class="feature-card"><span class="tag">Arming</span><h3>Real ≠ live</h3><p>A strategy needs to be set to Real <i>and</i> Armed before an order goes out. Arming survives a restart only if you deliberately kept it on; anything left Real-but-unarmed stays paper-only and alerts you daily until you re-arm it by hand.</p></div>
         <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy disarms itself and Real mode locks for the rest of the day.</p></div>
         <div class="feature-card"><span class="tag">Entry guard</span><h3>No double entry</h3><p>A strategy already holding a position can't open a second one. No accidental doubling from a re-triggered signal or a stray manual click.</p></div>
         <div class="feature-card"><span class="tag">Sizing</span><h3>Hard lot cap</h3><p>A ceiling on lot size per strategy, enforced before the order is placed. A misconfigured strategy gets silently capped, never silently oversized.</p></div>
         <div class="feature-card"><span class="tag">Reconciliation</span><h3>Orphan detection</h3><p>Every five minutes during market hours, and at startup, ThetaPrime diffs your broker's live positions against its own trade state. A crash or a manual square-off shows up as a red badge, not a surprise next week.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
-        <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite or Breeze token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
+        <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite, Breeze, or Dhan token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
         <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — closing whatever filled, cancelling what's still open — instead of leaving a silent, unhedged position.</p></div>
       </div>
     </div>
@@ -433,14 +434,15 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     <div class="wrap">
       <div class="split">
         <div>
-          <span class="eyebrow">One engine, two brokers</span>
-          <h2 style="margin-top:0.7rem;">Zerodha Kite and ICICI Breeze, side by side.</h2>
+          <span class="eyebrow">One engine, three brokers</span>
+          <h2 style="margin-top:0.7rem;">Kite, Breeze, and Dhan, side by side.</h2>
         </div>
         <div>
-          <p class="lede">Write or compose a strategy once; run it against either broker's live data and order book from the same dashboard.</p>
+          <p class="lede">Write or compose a strategy once; run it against any connected broker's live data and order book from the same dashboard. Enable or disable a broker with one switch — no restart.</p>
           <ul class="check-list">
+            <li><b>Dhan support</b> — OAuth login with a manual access-token fallback, contract-validated before a token is stored, same as Kite and Breeze.</li>
             <li><b>Breeze quote batching</b> — option-chain lookups are batched per expiry so delta-target scans stay under ICICI's own rate limit.</li>
-            <li><b>India VIX sourced correctly</b> — pulled from NSE directly for Breeze strategies, since Breeze doesn't quote it itself.</li>
+            <li><b>India VIX sourced correctly</b> — pulled from NSE directly for brokers that don't quote it themselves.</li>
             <li><b>One dashboard, one history</b> — trades, P&amp;L, and reconciliation look identical regardless of which broker filled the order.</li>
           </ul>
         </div>
@@ -479,7 +481,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <li><span class="t">Scope</span><span class="v">One machine, offline activation</span></li>
           <li><span class="t">Updates included</span><span class="v">3 quarterly feature releases</span></li>
           <li><span class="t">Expiry warning</span><span class="v">30 days ahead, in-app</span></li>
-          <li><span class="t">Grace period</span><span class="v">3 days after expiry</span></li>
+          <li><span class="t">Grace period</span><span class="v">7 days after expiry</span></li>
           <li><span class="t">Scheduled strategies</span><span class="v">Keep running through expiry</span></li>
           <li><span class="t">Moving PCs</span><span class="v">New fingerprint, same-year, no charge</span></li>
         </ul>
@@ -501,7 +503,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
       <div class="faq">
         <details>
           <summary>Is ThetaPrime a broker or an investment adviser?</summary>
-          <div class="a">No. It's a self-hosted automation tool that places orders through your own Zerodha or ICICI Direct account. You choose the strategies and carry SEBI compliance responsibility; Kite Connect's API subscription is billed to you by Zerodha, separately from ThetaPrime.</div>
+          <div class="a">No. It's a self-hosted automation tool that places orders through your own Zerodha, ICICI Direct, or Dhan account. You choose the strategies and carry SEBI compliance responsibility; the broker's own API subscription is billed to you directly, separately from ThetaPrime.</div>
         </details>
         <details>
           <summary>Does my computer need to stay on during the trading day?</summary>
@@ -513,7 +515,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         </details>
         <details>
           <summary>Do I need a static IP address?</summary>
-          <div class="a">Yes. SEBI's API trading rules require a fixed IP address for order placement, which you register with your broker alongside your API credentials. Most ISPs offer a static IP as a paid add-on to a home broadband plan — request one before setting up your Kite or Breeze API app.</div>
+          <div class="a">Yes. SEBI's API trading rules require a fixed IP address for order placement, which you register with your broker alongside your API credentials. Most ISPs offer a static IP as a paid add-on to a home broadband plan — request one before setting up your Kite, Breeze, or Dhan API app.</div>
         </details>
         <details>
           <summary>Can I run one license on two computers?</summary>
@@ -555,7 +557,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     <div class="foot-meta">
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
-      <span>Requires a Zerodha Kite Connect subscription or ICICI Direct Breeze API access, billed separately</span>
+      <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>
     </div>
   </div>
 </footer>
