@@ -1,7 +1,7 @@
 {
-  "version": "0.25.1",
-  "released": "2026-07-19",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.25.1/ThetaPrime-0.25.1-setup.exe",
-  "release_notes": "**Dhan \"session expired\" spam from a misclassified Data API entitlement gap**: confirmed live 2026-07-19 that a Dhan account without Data API access gets error `810 \"ClientId is invalid\"` on marketfeed/charts calls even though the same credentials work fine for Trading API calls (margins/positions/orders) \u2014 the adapter was treating this as a dead session (triggering repeated re-login-required alerts) instead of the same permanent entitlement gap already handled for Dhan's other error shape (`451`/\"not subscribed\"). Also fixed the underlying cause of the *volume* of alerts: `notifier.send_notification()` now de-dups an identical message within a 10-minute window, since a broker adapter with a stuck-bad token was re-sending the same alert on every poll (each request builds a fresh adapter instance, so its own \"alert once\" guard never carried across requests).",
-  "min_supported": "0.25.1"
+  "version": "0.26.3",
+  "released": "2026-07-22",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.3/ThetaPrime-0.26.3-setup.exe",
+  "release_notes": "**POP (Probability of Profit) on the Composer payoff panel**: the payoff diagram now shows a Black-Scholes-estimated probability that the structure is profitable at expiry (India VIX as the IV proxy), alongside max profit/loss and breakevens. Computed by integrating the risk-neutral spot distribution over the existing payoff curve grid (`strategies/payoff.py`), so it works for any leg shape, not just single-breakeven strangles. Also included in the Composer's **Ask AI** prompt. **Option Greeks section on the Composer payoff panel**: a dedicated section below the chart shows the net position's Delta/Gamma/Theta/Vega (word + symbol, Black-Scholes estimates at entry, per lot). **P&L what-if table**: below the payoff chart, a small table shows expiry and mid-trade P&L at spot \u00b11/2/3%. **Gamma target leg selector**: new `gamma_target` block scans an OTM% band for the strike whose Black-Scholes gamma is closest to a target \u2014 an alternative to OTM %/premium/delta targeting for strategies that care about rate-of-change of delta.",
+  "min_supported": "0.26.3"
 }
