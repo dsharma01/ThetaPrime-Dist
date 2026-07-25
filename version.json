@@ -1,7 +1,7 @@
 {
-  "version": "0.26.4",
-  "released": "2026-07-22",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.4/ThetaPrime-0.26.4-setup.exe",
-  "release_notes": "**License fingerprint no longer flaps on restart**: `get_fingerprint()` now reads Windows' per-install `MachineGuid` instead of `uuid.getnode()` (MAC address). The old scheme was unstable on any machine with more than one network adapter (e.g. Wi-Fi + a VPN like Tailscale) \u2014 adapter enumeration order can race the VPN service coming up at boot, silently changing the fingerprint and invalidating an otherwise-valid license until the app was restarted again. Every key issued before this fix needs reissuing against the new MachineGuid-based fingerprint.",
-  "min_supported": "0.26.4"
+  "version": "0.26.6",
+  "released": "2026-07-25",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.6/ThetaPrime-0.26.6-setup.exe",
+  "release_notes": "**Installer shipped the developer's own dev strategies to every customer**: `installer/build.ps1` copied `strategies/` wholesale, only stripping legacy raw `.py` scripts \u2014 every composer `.spec.json` instance (e.g. `dib_30jun2026`, `nifty_strangle_live`, `rent_collector_condor_dev`), their sidecars, `metadata.json` (real broker/lots/enabled settings), and a 13MB stale `instruments_cache/` dump all reached the customer install. Now strips everything in `strategies/` except the framework files and the blank `strategy_template.py`/`.json` pair, so a fresh install ships with zero pre-configured strategies.",
+  "min_supported": "0.26.6"
 }
