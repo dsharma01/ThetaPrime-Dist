@@ -1,7 +1,7 @@
 {
-  "version": "0.26.8",
+  "version": "0.26.9",
   "released": "2026-07-26",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.8/ThetaPrime-0.26.8-setup.exe",
-  "release_notes": "**0.26.7 installer crash-looped on startup**: `installer/build.ps1`'s strategy-instance allowlist (and its `strategy_manager.py` counterpart) predated `strategies/margin_estimate.py`, so the build stripped it before packaging and every compiled `app.py` import of it raised `ModuleNotFoundError` at startup. Added the file to both allowlists.",
-  "min_supported": "0.26.8"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.9/ThetaPrime-0.26.9-setup.exe",
+  "release_notes": "**Simulation Notes**: multi-day sim sessions now have a free-text notes field for recording parameter-setting observations when reviewing past tests. **Recorded strategy config**: each sim session now snapshots the strategy's full config as it was at launch (composer spec blocks, or flat params for script strategies), shown as a collapsed, human-readable breakdown \u2014 not a raw JSON dump \u2014 in both the results page and Reports \u2192 Sim History, so later live edits to the strategy don't retroactively change what a historical report shows. **Run time**: multi-day sim sessions now record and display how long the run took, in both the session list and the detail view. Adjustment rolls now apply to any position with a short SC/SP pair, not just structures with exactly two legs (e.g. iron condor's long wings are left untouched by the roll instead of blocking it entirely). Default strategy entry time moved from 9:45am to 10:00am. Multi-Day Sim's \"Start\" button now shows a spinner while the run is being launched, instead of the modal closing instantly with no feedback.",
+  "min_supported": "0.26.9"
 }
