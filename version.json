@@ -1,7 +1,7 @@
 {
-  "version": "0.26.6",
-  "released": "2026-07-25",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.6/ThetaPrime-0.26.6-setup.exe",
-  "release_notes": "**Installer shipped the developer's own dev strategies to every customer**: `installer/build.ps1` copied `strategies/` wholesale, only stripping legacy raw `.py` scripts \u2014 every composer `.spec.json` instance (e.g. `dib_30jun2026`, `nifty_strangle_live`, `rent_collector_condor_dev`), their sidecars, `metadata.json` (real broker/lots/enabled settings), and a 13MB stale `instruments_cache/` dump all reached the customer install. Now strips everything in `strategies/` except the framework files and the blank `strategy_template.py`/`.json` pair, so a fresh install ships with zero pre-configured strategies.",
-  "min_supported": "0.26.6"
+  "version": "0.26.8",
+  "released": "2026-07-26",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.8/ThetaPrime-0.26.8-setup.exe",
+  "release_notes": "**0.26.7 installer crash-looped on startup**: `installer/build.ps1`'s strategy-instance allowlist (and its `strategy_manager.py` counterpart) predated `strategies/margin_estimate.py`, so the build stripped it before packaging and every compiled `app.py` import of it raised `ModuleNotFoundError` at startup. Added the file to both allowlists.",
+  "min_supported": "0.26.8"
 }
