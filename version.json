@@ -1,7 +1,7 @@
 {
-  "version": "0.26.11",
-  "released": "2026-07-27",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.26.11/ThetaPrime-0.26.11-setup.exe",
-  "release_notes": "**Scheduled Jobs showed live countdowns for disabled/unarmed strategies**: the Scheduled Jobs list had no idea whether a strategy was enabled or armed, so a fully-off strategy still displayed active entry/monitor jobs. Each job row now shows \"disabled \u2014 will not run\" or \"unarmed \u2014 will run as paper, not real\" based on the strategy's actual state. Manual entry/exit now warns in the response if the performance-log write fails, so a backfilled trade doesn't silently drop out of reports.",
-  "min_supported": "0.26.11"
+  "version": "0.28.0",
+  "released": "2026-07-29",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.0/ThetaPrime-0.28.0-setup.exe",
+  "release_notes": "**Archive / Unarchive strategy**: strategies can now be hidden from the active dashboard list without deleting them, via **\u22ee \u2192 \ud83d\uddc4 Archive Strategy**. Archived strategies live in a collapsed **Archived** panel with **Restore** and **\u2715 Delete Permanently** actions. Archiving requires the strategy to be disabled with no open position first, and automatically disarms it and removes its scheduled jobs. **Dashboard and Performance pages showed strategy identity inconsistently**: the Dashboard showed the display name with the filename hidden behind a dev-only flag, while the Performance page mostly showed the raw filename. Both pages now always show \"Display Name (filename)\" together. The Performance page's strategy-label lookup also now matches on the extension-stripped base name, so a trade event recorded under a slightly different identifier still resolves to the right display name instead of falling back to a bare, unlabeled string. Scheduler no longer logs a `strategy.skipped` event to the App Event Log every time a disabled strategy's job fires and no-ops \u2014 this was pure noise since disabling is already a deliberate, visible action.",
+  "min_supported": "0.28.0"
 }
