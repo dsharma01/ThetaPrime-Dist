@@ -300,6 +300,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
       <a href="#how">How it works</a>
       <a href="#composer">Composer</a>
       <a href="#safety">Safety</a>
+      <a href="#monitoring">Monitoring</a>
       <a href="#pricing">License</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -378,7 +379,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
       <div class="steps">
         <div class="step"><div class="step-num mono">01</div><h3>Connect</h3><p>Log in to Kite, Breeze, or Dhan the way you already do — OAuth in your browser, TOTP and all. ThetaPrime stores the resulting token, not your password, and a refresh each morning is one click.</p></div>
         <div class="step"><div class="step-num mono">02</div><h3>Build</h3><p>Click blocks together in the Composer — structure, strikes, exits, sizing. The spec preview validates every parameter as you go, and a payoff diagram with one-click AI review helps you sanity-check the shape before you save.</p></div>
-        <div class="step"><div class="step-num mono">03</div><h3>Arm</h3><p>Every strategy starts in Paper. Flip it to Real, then Arm it — two separate, deliberate clicks. Restart the app and it's unarmed again, every time, no exceptions.</p></div>
+        <div class="step"><div class="step-num mono">03</div><h3>Arm</h3><p>Every strategy starts in Paper. Flipping it to Real is the arm step itself — one deliberate toggle, with a confirmation showing today's P&amp;L before it takes effect. A separate Automation switch controls whether it runs on schedule at all, so pausing a strategy never means quietly forgetting its mode.</p></div>
       </div>
     </div>
   </section>
@@ -392,7 +393,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Every saved strategy runs on the same engine, dashboard, and P&amp;L reports — there's no separate code path to fall back to.</p>
           <ul class="check-list">
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
-            <li><b>Payoff diagram + Ask AI</b> — once valid, see max profit/loss and breakevens, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
+            <li><b>Payoff diagram + Ask AI</b> — see max profit/loss, breakevens, probability of profit, net Delta/Gamma/Theta/Vega, and a P&amp;L what-if at spot ±1/2/3%, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
           </ul>
         </div>
@@ -418,14 +419,33 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <p class="lede">This is the part a solo Python script usually skips. It's the part that matters most.</p>
       </div>
       <div class="feature-grid">
-        <div class="feature-card"><span class="tag">Arming</span><h3>Real ≠ live</h3><p>A strategy needs to be set to Real <i>and</i> Armed before an order goes out. Arming survives a restart only if you deliberately kept it on; anything left Real-but-unarmed stays paper-only and alerts you daily until you re-arm it by hand.</p></div>
+        <div class="feature-card"><span class="tag">Arming</span><h3>Real ≠ live</h3><p>Switching a strategy to Real <i>is</i> the arm step — one toggle, one confirmation showing today's P&amp;L, never a setting you flip by accident. Arming survives a restart only if you deliberately kept it on; anything left Real-but-unarmed runs as paper and alerts you daily until you re-arm it by hand.</p></div>
+        <div class="feature-card"><span class="tag">Automation</span><h3>Pause without losing your mode</h3><p>One switch creates or removes a strategy's scheduled entry and monitor jobs. Turning it off — or switching a Real position back to Paper — asks for confirmation first whenever it would stop exit monitoring on an open trade.</p></div>
         <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy disarms itself and Real mode locks for the rest of the day.</p></div>
         <div class="feature-card"><span class="tag">Entry guard</span><h3>No double entry</h3><p>A strategy already holding a position can't open a second one. No accidental doubling from a re-triggered signal or a stray manual click.</p></div>
         <div class="feature-card"><span class="tag">Sizing</span><h3>Hard lot cap</h3><p>A ceiling on lot size per strategy, enforced before the order is placed. A misconfigured strategy gets silently capped, never silently oversized.</p></div>
+        <div class="feature-card"><span class="tag">Capital</span><h3>Margin required, before you commit</h3><p>Every strategy card shows notional exposure and margin required — a real broker basket-margin call where available, a conservative estimate otherwise — so sizing isn't a guess.</p></div>
         <div class="feature-card"><span class="tag">Reconciliation</span><h3>Orphan detection</h3><p>Every five minutes during market hours, and at startup, ThetaPrime diffs your broker's live positions against its own trade state. A crash or a manual square-off shows up as a red badge, not a surprise next week.</p></div>
+        <div class="feature-card"><span class="tag">Bookkeeping</span><h3>Fix state, never place an order</h3><p>Manual Entry and Edit Trade State correct ThetaPrime's own record when a fill happened outside automation — never a backdoor for placing or closing a position, and every edit is checked against the broker and logged.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
         <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite, Breeze, or Dhan token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
         <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — closing whatever filled, cancelling what's still open — instead of leaving a silent, unhedged position.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="monitoring">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Always watching, always provable</span>
+        <h2>Nothing this tool does happens silently.</h2>
+        <p class="lede">Discipline handles the moment of decision. Monitoring is what lets you trust it afterward — live state you can check right now, and a record you can point to later.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card"><span class="tag">Live P&amp;L</span><h3>Per-leg, not a static ticket</h3><p>Trade Status shows live P&amp;L for every leg, priced off the broker's current LTP and refreshing automatically every 30 seconds while it's open — not a number you have to manually pull.</p></div>
+        <div class="feature-card"><span class="tag">WhatsApp</span><h3>Status on demand, off the dashboard</h3><p>Push a trade's current state straight to WhatsApp without opening the app — useful mid-meeting, mid-commute, anywhere a screen isn't handy.</p></div>
+        <div class="feature-card"><span class="tag">Event Log</span><h3>Every action, one searchable trail</h3><p>Login, entry, exit, adjustment, error — every action lands in a filterable log (by category and level) with CSV export, so you can reconstruct exactly what happened and when.</p></div>
+        <div class="feature-card"><span class="tag">Live status</span><h3>Badges, not a one-time check</h3><p>Broker connection, available margin, and the Nifty LTP sit in the navbar on every page, updating in the background for the whole session — not just at login.</p></div>
       </div>
     </div>
   </section>
