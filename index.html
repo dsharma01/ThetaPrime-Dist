@@ -334,7 +334,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
               </div>
               <div class="sc-badges">
                 <span class="pill pill-green"><span class="pill-dot"></span>Token OK</span>
-                <span class="pill pill-red"><span class="pill-dot"></span>Armed</span>
+                <span class="pill pill-red"><span class="pill-dot"></span>Live</span>
               </div>
             </div>
             <div class="sc-stats">
@@ -374,12 +374,12 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">How it works</span>
-        <h2>Connect, build, arm.</h2>
+        <h2>Connect, build, go live.</h2>
       </div>
       <div class="steps">
         <div class="step"><div class="step-num mono">01</div><h3>Connect</h3><p>Log in to Kite, Breeze, or Dhan the way you already do — OAuth in your browser, TOTP and all. ThetaPrime stores the resulting token, not your password, and a refresh each morning is one click.</p></div>
         <div class="step"><div class="step-num mono">02</div><h3>Build</h3><p>Click blocks together in the Composer — structure, strikes, exits, sizing. The spec preview validates every parameter as you go, and a payoff diagram with one-click AI review helps you sanity-check the shape before you save.</p></div>
-        <div class="step"><div class="step-num mono">03</div><h3>Arm</h3><p>Every strategy starts in Paper. Flipping it to Real is the arm step itself — one deliberate toggle, with a confirmation showing today's P&amp;L before it takes effect. A separate Automation switch controls whether it runs on schedule at all, so pausing a strategy never means quietly forgetting its mode.</p></div>
+        <div class="step"><div class="step-num mono">03</div><h3>Go live</h3><p>Every strategy starts in Paper. Switching it to Real is the only gate for live trading — one deliberate toggle, with a confirmation showing today's P&amp;L before it takes effect. A separate Automation switch controls whether it runs on schedule at all, so pausing a strategy never means quietly forgetting its mode.</p></div>
       </div>
     </div>
   </section>
@@ -419,9 +419,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <p class="lede">This is the part a solo Python script usually skips. It's the part that matters most.</p>
       </div>
       <div class="feature-grid">
-        <div class="feature-card"><span class="tag">Arming</span><h3>Real ≠ live</h3><p>Switching a strategy to Real <i>is</i> the arm step — one toggle, one confirmation showing today's P&amp;L, never a setting you flip by accident. Arming survives a restart only if you deliberately kept it on; anything left Real-but-unarmed runs as paper and alerts you daily until you re-arm it by hand.</p></div>
+        <div class="feature-card"><span class="tag">Real mode</span><h3>Real ≠ live by accident</h3><p>Switching a strategy to Real triggers a confirmation showing today's P&amp;L before anything takes effect — never a setting you flip without noticing. Lose that state — a restart that didn't keep it on, or a daily loss-limit trip — and the strategy stays set to Real but stops placing live orders, alerting you daily until you switch it back on by hand.</p></div>
         <div class="feature-card"><span class="tag">Automation</span><h3>Pause without losing your mode</h3><p>One switch creates or removes a strategy's scheduled entry and monitor jobs. Turning it off — or switching a Real position back to Paper — asks for confirmation first whenever it would stop exit monitoring on an open trade.</p></div>
-        <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy disarms itself and Real mode locks for the rest of the day.</p></div>
+        <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy stops placing live orders and Real mode locks for the rest of the day.</p></div>
         <div class="feature-card"><span class="tag">Entry guard</span><h3>No double entry</h3><p>A strategy already holding a position can't open a second one. No accidental doubling from a re-triggered signal or a stray manual click.</p></div>
         <div class="feature-card"><span class="tag">Sizing</span><h3>Hard lot cap</h3><p>A ceiling on lot size per strategy, enforced before the order is placed. A misconfigured strategy gets silently capped, never silently oversized.</p></div>
         <div class="feature-card"><span class="tag">Capital</span><h3>Margin required, before you commit</h3><p>Every strategy card shows notional exposure and margin required — a real broker basket-margin call where available, a conservative estimate otherwise — so sizing isn't a guess.</p></div>
