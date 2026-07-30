@@ -1,7 +1,7 @@
 {
-  "version": "0.28.3",
-  "released": "2026-07-30",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.3/ThetaPrime-0.28.3-setup.exe",
-  "release_notes": "**Composer strategies with a `time_window` filter later than 09:45 could never enter**: the scheduler's one-shot entry job always fired at 09:45 regardless of the spec's own filter (composer sidecars never expose an `entry_time` param), and monitor mode never retried entry \u2014 any transient miss silently forfeited the whole day. The entry job now derives its fire time from the spec's `time_window` filter when set; `run_monitor()` now retries entry on every tick while no position is open; `run_entry()` gained a guard against re-entering after the day's trade has already closed (reentries exhausted / max daily loss hit), so the new retry path can't restart trading past that limit. Also fixes `nifty_strangle_adjustment_12jul2026` and `rent_collector_condor_dev`, which had the same latent bug. Webhook notification failures are now logged as an app event (`notify.whatsapp_failed`) instead of only a log line, so a broken WhatsApp webhook is visible in the Event Log.",
-  "min_supported": "0.28.3"
+  "version": "0.28.4",
+  "released": "2026-07-31",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.4/ThetaPrime-0.28.4-setup.exe",
+  "release_notes": "**Telegram notification channel**: alerts (entries, exits, adjustments) can now be sent directly to a Telegram chat via the Bot API, alongside the existing email and webhook channels \u2014 no bridge process required. Configure a bot token + chat ID in the Notifications card, with a **Send Test** button. Notification setup docs (email, Telegram, webhook, trigger events, troubleshooting) moved into `docs/setup.md`.",
+  "min_supported": "0.28.4"
 }
