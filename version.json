@@ -1,7 +1,7 @@
 {
-  "version": "0.28.1",
-  "released": "2026-07-29",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.1/ThetaPrime-0.28.1-setup.exe",
-  "release_notes": "**Strategy card controls redesigned**: the 9-item **\u22ee** dropdown (Custom Schedule, Real-Time, separate Arm/Disarm) is replaced by two card-face controls \u2014 an **Automation** switch that directly creates/removes the strategy's scheduled entry+monitor jobs, and a **Paper/Real** toggle where switching to Real is now the arm action itself, no separate arm step. Turning Automation off or switching Real\u2192Paper while a Real position is open now asks for confirmation first, since it stops exit monitoring. Reports page adds an **Active / Archived / All** status filter (applies when no single strategy is selected) so a retired strategy's trade history stays reviewable after archiving. Performance page's Paper/Real mode badges now use the same solid-fill contrast as the dashboard's toggle, instead of a washed-out tonal style. Custom Schedule (interval/daily cron trigger) is gone \u2014 every strategy now schedules via the Automation switch's fixed entry+monitor jobs.",
-  "min_supported": "0.28.1"
+  "version": "0.28.3",
+  "released": "2026-07-30",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.3/ThetaPrime-0.28.3-setup.exe",
+  "release_notes": "**Composer strategies with a `time_window` filter later than 09:45 could never enter**: the scheduler's one-shot entry job always fired at 09:45 regardless of the spec's own filter (composer sidecars never expose an `entry_time` param), and monitor mode never retried entry \u2014 any transient miss silently forfeited the whole day. The entry job now derives its fire time from the spec's `time_window` filter when set; `run_monitor()` now retries entry on every tick while no position is open; `run_entry()` gained a guard against re-entering after the day's trade has already closed (reentries exhausted / max daily loss hit), so the new retry path can't restart trading past that limit. Also fixes `nifty_strangle_adjustment_12jul2026` and `rent_collector_condor_dev`, which had the same latent bug. Webhook notification failures are now logged as an app event (`notify.whatsapp_failed`) instead of only a log line, so a broken WhatsApp webhook is visible in the Event Log.",
+  "min_supported": "0.28.3"
 }
