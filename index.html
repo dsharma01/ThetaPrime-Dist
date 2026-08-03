@@ -212,6 +212,41 @@ header.nav{
 .leg-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;padding-block:0.28rem;color:var(--text-muted);}
 .leg-row b{color:var(--text);font-weight:500;}
 .reconcile-line{display:flex;align-items:center;gap:0.5rem;margin-top:0.9rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
+.pos{color:var(--accent-ink);}
+.neg{color:var(--red);}
+.push-end{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;}
+.pill-amber{background:var(--amber-wash);color:var(--amber);border-color:rgba(255,176,32,0.35);}
+
+/* illustration: payoff preview (composer) */
+.payoff-preview{margin-top:2rem;}
+.payoff-svg{width:100%;height:auto;display:block;}
+.payoff-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.9rem 0.75rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+@media(min-width:480px){.payoff-stats{grid-template-columns:repeat(6,1fr);}}
+
+/* illustration: monitoring device pair */
+.mock-pair{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-bottom:clamp(1.75rem,3.5vw,2.5rem);}
+@media(min-width:860px){.mock-pair{grid-template-columns:1fr 1fr;}}
+@keyframes pulse-live{
+  0%,100%{box-shadow:0 0 0 0 var(--accent-wash-strong);}
+  50%{box-shadow:0 0 0 5px transparent;}
+}
+.ts-refresh{display:flex;align-items:center;gap:0.5rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);margin-top:1rem;}
+.ts-refresh .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-ink);flex:none;animation:pulse-live 2s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){.ts-refresh .dot{animation:none;}}
+.ts-alert-btn{margin-top:1rem;}
+
+/* illustration: events log mock */
+.evt-filters{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.evt-chip{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;padding:0.3em 0.7em;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-muted);}
+.evt-chip.active{background:var(--accent-wash-strong);border-color:var(--accent-ink);color:var(--accent-ink);}
+.evt-row{display:grid;grid-template-columns:4.4rem 1fr auto;gap:0.6rem;align-items:center;padding-block:0.55rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.74rem;}
+.evt-row:first-of-type{border-top:none;}
+.evt-time{color:var(--text-muted);}
+.evt-cat{display:inline-flex;align-items:center;gap:0.45em;}
+.evt-cat .dot{width:6px;height:6px;border-radius:50%;flex:none;}
+.evt-cat.auth .dot{background:#7c6fff;}
+.evt-cat.trade .dot{background:var(--accent-ink);}
+.evt-cat.system .dot{background:var(--text-muted);}
 
 /* problem list */
 .problem-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
@@ -358,25 +393,29 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <div class="strategy-card">
             <div class="sc-top">
               <div>
-                <div class="sc-title">NIFTY ATM STRANGLE</div>
-                <div class="sc-sub">Weekly · 2 lots · Breeze</div>
+                <div class="sc-title">BANKNIFTY 9:20 STRADDLE</div>
+                <div class="sc-sub">Weekly · 3 lots · Kite</div>
               </div>
               <div class="sc-badges">
                 <span class="pill pill-green"><span class="pill-dot"></span>Token OK</span>
+                <span class="pill pill-green"><span class="pill-dot"></span>Auto</span>
                 <span class="pill pill-red"><span class="pill-dot"></span>Live</span>
               </div>
             </div>
             <div class="sc-stats">
               <div><div class="stat-label">Today P&amp;L</div><div class="stat-value pos mono">+₹4,260</div></div>
-              <div><div class="stat-label">Lots</div><div class="stat-value mono">2</div></div>
+              <div><div class="stat-label">Lots</div><div class="stat-value mono">3</div></div>
               <div><div class="stat-label">Expiry</div><div class="stat-value mono">3D</div></div>
               <div><div class="stat-label">Stop</div><div class="stat-value mono">−80 pts</div></div>
             </div>
             <div class="legs">
-              <div class="leg-row"><span><b>SC</b> Sell 24700 CE</span><span>LTP 42.15</span></div>
-              <div class="leg-row"><span><b>SP</b> Sell 24300 PE</span><span>LTP 38.60</span></div>
+              <div class="leg-row"><span><b>SC</b> Sell 52200 CE</span><span>LTP 186.40</span></div>
+              <div class="leg-row"><span><b>SP</b> Sell 52200 PE</span><span>LTP 171.85</span></div>
             </div>
-            <div class="reconcile-line"><span class="pill pill-neutral" style="animation:none;"><span class="pill-dot"></span>Reconcile: clean</span></div>
+            <div class="reconcile-line">
+              <span class="pill pill-neutral" style="animation:none;"><span class="pill-dot"></span>Reconcile: clean</span>
+              <span class="push-end">Notional ₹38.9L · Margin ₹2.1L</span>
+            </div>
           </div>
         </div>
       </div>
@@ -438,6 +477,26 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <div class="block-group"><h4>Re-entry</h4><div class="chip-row"><span class="chip">Directional re-entry</span></div></div>
         </div>
       </div>
+
+      <div class="device payoff-preview">
+        <div class="device-bar"><div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div><span>strategy-composer — payoff preview</span></div>
+        <div class="device-body">
+          <svg class="payoff-svg" viewBox="0 0 600 170" aria-hidden="true">
+            <line x1="0" y1="95" x2="600" y2="95" style="stroke:var(--border-strong);stroke-width:1"/>
+            <line x1="150" y1="10" x2="150" y2="160" style="stroke:var(--border);stroke-width:1;stroke-dasharray:3,3"/>
+            <line x1="450" y1="10" x2="450" y2="160" style="stroke:var(--border);stroke-width:1;stroke-dasharray:3,3"/>
+            <polyline points="20,150 150,150 260,45 340,45 450,150 580,150" style="fill:none;stroke:var(--accent-ink);stroke-width:3;stroke-linejoin:round;stroke-linecap:round"/>
+          </svg>
+          <div class="payoff-stats">
+            <div><div class="stat-label">Max profit</div><div class="stat-value pos mono">₹9,600</div></div>
+            <div><div class="stat-label">Max loss</div><div class="stat-value neg mono">Undefined</div></div>
+            <div><div class="stat-label">POP</div><div class="stat-value mono">68%</div></div>
+            <div><div class="stat-label">Delta</div><div class="stat-value mono">−0.04</div></div>
+            <div><div class="stat-label">Theta</div><div class="stat-value pos mono">+1,180</div></div>
+            <div><div class="stat-label">Vega</div><div class="stat-value mono">−340</div></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -471,6 +530,41 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <h2>Nothing this tool does happens silently.</h2>
         <p class="lede">Discipline handles the moment of decision. Monitoring is what lets you trust it afterward — live state you can check right now, and a record you can point to later.</p>
       </div>
+
+      <div class="mock-pair">
+        <div class="device">
+          <div class="device-bar"><div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div><span>Trade Status — 9:20 ATM Straddle</span></div>
+          <div class="device-body">
+            <div class="legs">
+              <div class="leg-row"><span><b>SC</b> Sell 24700 CE</span><span class="mono">LTP 38.20 · <span class="pos">+₹1,860</span></span></div>
+              <div class="leg-row"><span><b>SP</b> Sell 24300 PE</span><span class="mono">LTP 41.05 · <span class="neg">−₹640</span></span></div>
+            </div>
+            <div class="reconcile-line" style="margin-top:1rem;">
+              <span class="mono">Live P&amp;L</span>
+              <span class="push-end pos mono" style="font-weight:600;">+₹1,220</span>
+            </div>
+            <div class="ts-refresh"><span class="dot"></span>Auto-refreshing · next in 00:14</div>
+            <div class="hero-cta ts-alert-btn"><span class="btn btn-ghost">Send via WhatsApp</span></div>
+          </div>
+        </div>
+
+        <div class="device">
+          <div class="device-bar"><div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div><span>App Events</span></div>
+          <div class="device-body">
+            <div class="evt-filters">
+              <span class="evt-chip active">All</span>
+              <span class="evt-chip">Trade</span>
+              <span class="evt-chip">Auth</span>
+              <span class="evt-chip">System</span>
+            </div>
+            <div class="evt-row"><span class="evt-time">09:20:04</span><span class="evt-cat trade"><span class="dot"></span>strategy.entry</span><span class="pill pill-neutral" style="animation:none;">info</span></div>
+            <div class="evt-row"><span class="evt-time">09:45:31</span><span class="evt-cat auth"><span class="dot"></span>broker.token_refresh</span><span class="pill pill-neutral" style="animation:none;">info</span></div>
+            <div class="evt-row"><span class="evt-time">10:02:18</span><span class="evt-cat trade"><span class="dot"></span>strategy.exit</span><span class="pill pill-neutral" style="animation:none;">info</span></div>
+            <div class="evt-row"><span class="evt-time">14:31:52</span><span class="evt-cat system"><span class="dot"></span>reconcile.mismatch</span><span class="pill pill-amber" style="animation:none;">warning</span></div>
+          </div>
+        </div>
+      </div>
+
       <div class="feature-grid">
         <div class="feature-card"><span class="tag">Live P&amp;L</span><h3>Per-leg, not a static ticket</h3><p>Trade Status shows live P&amp;L for every leg, priced off the broker's current LTP and refreshing automatically every 30 seconds while it's open — not a number you have to manually pull.</p></div>
         <div class="feature-card"><span class="tag">Alerts</span><h3>Entries, exits, status — off the dashboard</h3><p>Every entry, exit, and adjustment can push straight to WhatsApp, Telegram, email, or a webhook — no bridge process to babysit, useful mid-meeting, mid-commute, anywhere a screen isn't handy.</p></div>
