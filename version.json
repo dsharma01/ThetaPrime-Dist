@@ -1,7 +1,7 @@
 {
-  "version": "0.28.5",
-  "released": "2026-07-31",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.5/ThetaPrime-0.28.5-setup.exe",
-  "release_notes": "**Data-driven regime calibration**: regime classifier thresholds (realized-vol, VIX delta, USDINR, crude, VIX-RV spread cutoffs) are now derived yearly from historical data via `broker/regime_calibrate.py` and loaded from `regime_calibration.json`, replacing hardcoded cutoffs. The FII/DII net-flow risk-appetite signal (NSE endpoint had no date param, blocking backtests) is replaced with a VIX-RV spread proxy. Notifier now formats composer-engine multi-leg exits and long-leg exits (previously only the strangle and LIB V1 shapes were handled), with a new `long_exit` notify event. New regime API endpoint.",
-  "min_supported": "0.28.5"
+  "version": "0.28.8",
+  "released": "2026-08-03",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.8/ThetaPrime-0.28.8-setup.exe",
+  "release_notes": "`strategies/instruments.py` (framework code for multi-instrument support) was missing from the installer's framework allowlist (`build.ps1`'s `$STRATEGY_INFRA_FILES` / `strategy_manager.py`'s `_INFRA_FILES`), so the build stripped it as a customer strategy instance and the compiled build crashed on startup with `ImportError: cannot import name 'instruments' from 'strategies'`.",
+  "min_supported": "0.28.8"
 }
