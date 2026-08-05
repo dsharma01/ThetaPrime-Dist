@@ -1,7 +1,7 @@
 {
-  "version": "0.28.8",
-  "released": "2026-08-03",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.8/ThetaPrime-0.28.8-setup.exe",
-  "release_notes": "`strategies/instruments.py` (framework code for multi-instrument support) was missing from the installer's framework allowlist (`build.ps1`'s `$STRATEGY_INFRA_FILES` / `strategy_manager.py`'s `_INFRA_FILES`), so the build stripped it as a customer strategy instance and the compiled build crashed on startup with `ImportError: cannot import name 'instruments' from 'strategies'`.",
-  "min_supported": "0.28.8"
+  "version": "0.28.11",
+  "released": "2026-08-05",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.28.11/ThetaPrime-0.28.11-setup.exe",
+  "release_notes": "`docs/mcp-setup.md` (ships to customers) trimmed to the installed-service MCP setup only. The running-from-source setup moved to new `docs/dev/mcp-setup.md` (internal, stripped by `build.ps1`), matching the existing `docs/dev/` pattern (`installation.md`, `licensing-internal.md`).",
+  "min_supported": "0.28.11"
 }
