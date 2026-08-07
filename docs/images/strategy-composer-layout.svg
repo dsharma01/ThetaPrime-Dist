@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1000" height="600" fill="#f6f7f9"/>
+
+  <!-- top nav -->
+  <rect x="0" y="0" width="1000" height="44" fill="#1f2937"/>
+  <text x="20" y="28" fill="#fff" font-size="15" font-weight="700">Options Strategy Runner</text>
+  <g font-size="12">
+    <rect x="640" y="12" width="78" height="22" rx="11" fill="#374151"/><text x="679" y="27" fill="#cbd5e1" text-anchor="middle">Dashboard</text>
+    <rect x="724" y="12" width="78" height="22" rx="11" fill="#374151"/><text x="763" y="27" fill="#cbd5e1" text-anchor="middle">Strategies</text>
+    <rect x="808" y="12" width="78" height="22" rx="11" fill="#f8fafc"/><text x="847" y="27" fill="#111827" text-anchor="middle" font-weight="700">Composer</text>
+    <rect x="892" y="12" width="78" height="22" rx="11" fill="#374151"/><text x="931" y="27" fill="#cbd5e1" text-anchor="middle">Auth</text>
+  </g>
+
+  <!-- PALETTE -->
+  <rect x="16" y="60" width="280" height="468" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <text x="32" y="86" font-size="14" font-weight="700" fill="#111827">Blocks</text>
+  <g font-size="11" fill="#6b7280" font-weight="700">
+    <text x="32" y="112">FILTERS</text>
+    <text x="32" y="176">EXPIRY</text>
+    <text x="32" y="226">STRUCTURE</text>
+    <text x="32" y="300">EXITS</text>
+    <text x="32" y="392">SIZING</text>
+  </g>
+  <g font-size="11" fill="#111827">
+    <!-- filters -->
+    <rect x="32" y="122" width="78" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="71" y="137" text-anchor="middle">Time window</text>
+    <rect x="116" y="122" width="62" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="147" y="137" text-anchor="middle">VIX skip</text>
+    <rect x="184" y="122" width="62" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="215" y="137" text-anchor="middle">Gap skip</text>
+    <!-- expiry -->
+    <rect x="32" y="186" width="84" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="74" y="201" text-anchor="middle">Next weekly</text>
+    <rect x="122" y="186" width="64" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="154" y="201" text-anchor="middle">Monthly</text>
+    <!-- structure -->
+    <rect x="32" y="236" width="66" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="65" y="251" text-anchor="middle">Strangle</text>
+    <rect x="104" y="236" width="62" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="135" y="251" text-anchor="middle">Straddle</text>
+    <rect x="172" y="236" width="64" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="204" y="251" text-anchor="middle">Diagonal</text>
+    <!-- exits -->
+    <rect x="32" y="310" width="84" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="74" y="325" text-anchor="middle">Profit target</text>
+    <rect x="122" y="310" width="66" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="155" y="325" text-anchor="middle">Stop loss</text>
+    <rect x="194" y="310" width="40" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="214" y="325" text-anchor="middle">EOD</text>
+    <rect x="32" y="338" width="84" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="74" y="353" text-anchor="middle">Trailing stop</text>
+    <rect x="122" y="338" width="80" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="162" y="353" text-anchor="middle">Per-leg stop</text>
+    <!-- sizing -->
+    <rect x="32" y="402" width="74" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="69" y="417" text-anchor="middle">Fixed lots</text>
+    <rect x="112" y="402" width="74" height="22" rx="11" fill="#fff" stroke="#cbd5e1"/><text x="149" y="417" text-anchor="middle">Capital %</text>
+  </g>
+  <text x="32" y="468" font-size="11" fill="#9ca3af" font-style="italic">Click a block to drop it into its socket.</text>
+
+  <!-- SOCKETS -->
+  <rect x="312" y="60" width="372" height="468" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <rect x="328" y="74" width="180" height="26" rx="5" fill="#fff" stroke="#cbd5e1"/><text x="338" y="91" font-size="12" fill="#111827">ATM Strangle</text>
+  <rect x="516" y="74" width="56" height="26" rx="5" fill="#e5e7eb"/><text x="544" y="91" font-size="11" fill="#374151" text-anchor="middle">NIFTY</text>
+
+  <g font-size="11" fill="#6b7280" font-weight="700">
+    <text x="328" y="124">FILTERS</text>
+    <text x="328" y="184">EXPIRY</text>
+    <text x="328" y="244">STRUCTURE</text>
+    <text x="328" y="372">EXITS</text>
+    <text x="328" y="448">SIZING</text>
+  </g>
+  <!-- filled chips -->
+  <g font-size="11" fill="#111827">
+    <rect x="328" y="132" width="150" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="336" y="148">Time window  ✕</text>
+    <rect x="328" y="192" width="120" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="336" y="208">Next weekly  ✕</text>
+    <rect x="328" y="252" width="110" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="336" y="268">Strangle  ✕</text>
+  </g>
+  <!-- leg rows -->
+  <g font-size="11">
+    <rect x="328" y="284" width="340" height="26" rx="6" fill="#fff" stroke="#cbd5e1"/>
+    <text x="338" y="301"><tspan font-weight="700" fill="#111827">SC</tspan><tspan fill="#6b7280"> SELL CE</tspan><tspan fill="#111827"> · OTM %</tspan></text>
+    <rect x="328" y="314" width="340" height="26" rx="6" fill="#fff" stroke="#6366f1"/>
+    <text x="338" y="331"><tspan font-weight="700" fill="#111827">SP</tspan><tspan fill="#6b7280"> SELL PE</tspan><tspan fill="#111827"> · OTM %</tspan><tspan fill="#6366f1"> ◀ selected</tspan></text>
+  </g>
+  <!-- exits chips -->
+  <g font-size="11" fill="#111827">
+    <rect x="328" y="380" width="92" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="336" y="396">Profit  ✕</text>
+    <rect x="428" y="380" width="92" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="436" y="396">Stop  ✕</text>
+    <rect x="528" y="380" width="78" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="536" y="396">EOD  ✕</text>
+  </g>
+  <rect x="328" y="456" width="120" height="24" rx="6" fill="#eef2ff" stroke="#6366f1"/><text x="336" y="472" font-size="11" fill="#111827">Fixed lots  ✕</text>
+
+  <!-- SETTINGS + PREVIEW -->
+  <rect x="700" y="60" width="284" height="190" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <text x="716" y="84" font-size="13" font-weight="700" fill="#111827">Leg settings — SP</text>
+  <text x="716" y="112" font-size="11" fill="#6b7280">Selector</text>
+  <rect x="716" y="118" width="252" height="26" rx="5" fill="#fff" stroke="#cbd5e1"/><text x="726" y="135" font-size="11" fill="#111827">OTM %  ▾</text>
+  <text x="716" y="168" font-size="11" fill="#6b7280">OTM percent</text>
+  <rect x="716" y="174" width="252" height="26" rx="5" fill="#fff" stroke="#cbd5e1"/><text x="726" y="191" font-size="11" fill="#111827">-1.0</text>
+  <text x="716" y="228" font-size="10" fill="#9ca3af">Out-of-range values are flagged on Validate / Save.</text>
+
+  <rect x="700" y="262" width="284" height="266" rx="8" fill="#fff" stroke="#d1d5db"/>
+  <text x="716" y="286" font-size="13" font-weight="700" fill="#111827">Spec preview</text>
+  <rect x="910" y="272" width="58" height="22" rx="11" fill="#dcfce7"/><text x="939" y="287" font-size="11" fill="#166534" text-anchor="middle" font-weight="700">Valid</text>
+  <g font-family="JetBrains Mono, Consolas, monospace" font-size="10" fill="#334155">
+    <text x="716" y="312">{ "spec_version": 1,</text>
+    <text x="716" y="328">  "display_name": "ATM Strangle",</text>
+    <text x="716" y="344">  "blocks": {</text>
+    <text x="716" y="360">    "filters": [ time_window ],</text>
+    <text x="716" y="376">    "expiry": next_weekly,</text>
+    <text x="716" y="392">    "structure": strangle {</text>
+    <text x="716" y="408">      SC: otm_pct 1.0,</text>
+    <text x="716" y="424">      SP: otm_pct 1.0 },</text>
+    <text x="716" y="440">    "exits": [ pt 30, sl 60, eod ],</text>
+    <text x="716" y="456">    "sizing": fixed_lots 3 } }</text>
+  </g>
+
+  <!-- action bar -->
+  <text x="20" y="566" font-size="11" fill="#6b7280">Valid — ready to save.</text>
+  <rect x="760" y="550" width="92" height="28" rx="5" fill="#fff" stroke="#9ca3af"/><text x="806" y="568" font-size="12" fill="#374151" text-anchor="middle">Validate</text>
+  <rect x="862" y="550" width="122" height="28" rx="5" fill="#2563eb"/><text x="923" y="568" font-size="12" fill="#fff" text-anchor="middle" font-weight="700">Save strategy</text>
+</svg>
