@@ -369,6 +369,14 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 
 </style>
 </head>
@@ -405,7 +413,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Setup Guide</div>
 <div class="doc-body">
-<h1 id="setup-guide">Setup Guide</h1>
+<h1 id="setup-guide">Setup Guide</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-login">Dashboard Login</a></li><li><a href="#first-run-setup-wizard">First-Run Setup Wizard</a></li><li><a href="#first-time-api-credentials">First-Time API Credentials</a></li><li><a href="#enablingdisabling-a-broker">Enabling/Disabling a Broker</a></li><li><a href="#daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</a></li><li><a href="#verifying-the-connection">Verifying the Connection</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#notification-setup-optional">Notification Setup (Optional)</a><ul><li><a href="#gmail-users-app-password-required">Gmail users — App Password required</a></li><li><a href="#telegram">Telegram</a></li><li><a href="#custom-notification-webhook-advanced">Custom notification webhook (advanced)</a></li><li><a href="#what-triggers-a-notification">What triggers a notification</a></li></ul></li><li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li></ul></nav>
 <p>Open <code>http://127.0.0.1:5000</code> in your browser. The server starts the scheduler automatically on launch.</p>
 <hr />
 <h2 id="dashboard-login">Dashboard Login</h2>

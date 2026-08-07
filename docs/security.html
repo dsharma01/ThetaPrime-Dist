@@ -369,6 +369,14 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 
 </style>
 </head>
@@ -405,7 +413,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Security</div>
 <div class="doc-body">
-<h1 id="security">Security</h1>
+<h1 id="security">Security</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a></li></ul></nav>
 <p>ThetaPrime is designed for personal use on your own computer. These protections keep your broker credentials safe and guard against accidental live trades.</p>
 <hr />
 <h2 id="dashboard-password">Dashboard Password</h2>

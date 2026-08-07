@@ -369,6 +369,14 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 
 </style>
 </head>
@@ -405,7 +413,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Strategy Composer Guide</div>
 <div class="doc-body">
-<h1 id="strategy-composer-guide">Strategy Composer Guide</h1>
+<h1 id="strategy-composer-guide">Strategy Composer Guide</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#contents">Contents</a></li><li><a href="#open-it">Open it</a></li><li><a href="#walkthrough-1-tune-the-seeded-strangle-and-save-it">Walkthrough 1: Tune the seeded strangle and save it</a></li><li><a href="#walkthrough-2-build-a-different-strategy-from-scratch">Walkthrough 2: Build a different strategy from scratch</a></li><li><a href="#what-valid-needs">What "Valid" needs</a></li><li><a href="#block-catalog-reference">Block catalog (reference)</a><ul><li><a href="#filters">Filters</a></li><li><a href="#regime-skip-filter">Regime skip filter</a></li><li><a href="#expiry">Expiry</a></li><li><a href="#leg-selectors">Leg selectors</a></li><li><a href="#structures">Structures</a></li><li><a href="#exits">Exits</a></li><li><a href="#sizing">Sizing</a></li><li><a href="#re-entry">Re-entry</a></li><li><a href="#adjustment">Adjustment</a></li></ul></li><li><a href="#what-gets-created-and-what-runs">What gets created, and what runs</a></li><li><a href="#importing-a-spec-upload-or-hand-written">Importing a spec (upload or hand-written)</a></li><li><a href="#editing-an-existing-strategy">Editing an existing strategy</a></li><li><a href="#current-limitations-v1">Current limitations (v1)</a></li></ul></nav>
 <p>The <strong>Strategy Composer</strong> (<code>/strategy-composer</code>) lets you build a fully working options strategy by clicking blocks together — no coding required. Once saved, it runs on its own schedule, tracks its own performance, and sends its own notifications, right from the dashboard.</p>
 <p>This guide is hands-on: two worked walkthroughs first, reference catalog at the end. For ready-to-build recipes of every strategy shape (straddles, strangles, iron condor/butterfly, diagonal), see <strong><a href="composer-strategy-examples.html">Composer Strategy Examples</a></strong>.</p>
 <h2 id="contents">Contents</h2>

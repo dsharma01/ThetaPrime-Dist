@@ -71,7 +71,17 @@ DOC_CSS = """
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 """
+
+TOC_MIN_HEADINGS = 4  # below this, a page's short enough that a TOC just adds noise
 
 MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists", "toc"]
 
@@ -95,14 +105,37 @@ def rewrite_chrome_links(block, root):
     return block
 
 
+def render_toc_ul(tokens):
+    items = []
+    for t in tokens:
+        nested = render_toc_ul(t["children"]) if t.get("children") else ""
+        items.append(f'<li><a href="#{t["id"]}">{t["name"]}</a>{nested}</li>')
+    return "<ul>" + "".join(items) + "</ul>"
+
+
+def count_headings(tokens):
+    return sum((1 if t["level"] > 1 else 0) + count_headings(t.get("children", [])) for t in tokens)
+
+
 def convert(md_text, image_root):
-    """Markdown -> HTML fragment, with .md links rewritten to .html and image paths fixed."""
+    """Markdown -> HTML fragment, with .md links rewritten to .html, image paths fixed,
+    and an auto-generated table of contents inserted after the title on longer pages."""
     md_text = md_text.replace("/docs/images/", f"{image_root}images/")
     # obtaining-credentials.md / setup.md link into brokers/*.md as "brokers/foo.md"; brokers/*.md
     # link to siblings as "foo.md" and back up via "obtaining-credentials.md" etc. Both patterns
     # just need the .md -> .html swap; relative directory structure already matches the output tree.
     md_text = re.sub(r"\]\(([\w./#-]+)\.md(#[\w-]*)?\)", r"](\1.html\2)", md_text)
-    html = md.markdown(md_text, extensions=MD_EXTENSIONS)
+
+    converter = md.Markdown(extensions=MD_EXTENSIONS)
+    html = converter.convert(md_text)
+
+    # toc_tokens' root is normally [{level:1 (the page's own H1), children: [h2, h2, ...]}] --
+    # drop that h1 wrapper itself, a TOC linking a page to its own title is pointless.
+    toc_tokens = converter.toc_tokens
+    headings = toc_tokens[0]["children"] if len(toc_tokens) == 1 and toc_tokens[0]["level"] == 1 else toc_tokens
+    if count_headings(headings) >= TOC_MIN_HEADINGS:
+        toc_html = f'<nav class="doc-toc"><span class="doc-toc-label">On this page</span>{render_toc_ul(headings)}</nav>'
+        html = re.sub(r"</h1>", lambda m: m.group(0) + toc_html, html, count=1)
     return html
 
 

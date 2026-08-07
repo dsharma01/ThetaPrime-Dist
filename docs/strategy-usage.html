@@ -369,6 +369,14 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 
 </style>
 </head>
@@ -405,7 +413,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Strategy Configuration & Usage</div>
 <div class="doc-body">
-<h1 id="strategy-configuration-usage">Strategy Configuration &amp; Usage</h1>
+<h1 id="strategy-configuration-usage">Strategy Configuration &amp; Usage</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#upload-a-new-strategy">Upload a New Strategy</a></li><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav>
 <blockquote>
 <p><strong>Building a new strategy?</strong> Two ways:
 - <strong>No code</strong> — assemble it from blocks in the <strong><a href="strategy-composer.html">Strategy Composer</a></strong> (<code>/strategy-composer</code>).

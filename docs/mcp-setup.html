@@ -369,6 +369,14 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
+.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+.doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
+.doc-toc li{margin-bottom:0.4rem;}
+.doc-toc a{color:var(--text-muted);text-decoration:none;}
+.doc-toc a:hover{color:var(--accent-ink);}
+.doc-toc ul ul a{font-size:0.85em;}
 
 </style>
 </head>
@@ -405,7 +413,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / MCP Setup (AI Assistant Tools)</div>
 <div class="doc-body">
-<h1 id="mcp-setup-ai-assistant-tools-claude-desktop-cursor">MCP Setup — AI Assistant Tools (Claude Desktop, Cursor)</h1>
+<h1 id="mcp-setup-ai-assistant-tools-claude-desktop-cursor">MCP Setup — AI Assistant Tools (Claude Desktop, Cursor)</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#requirements">Requirements</a></li><li><a href="#configure-claude-desktop">Configure Claude Desktop</a></li><li><a href="#tools">Tools</a></li><li><a href="#not-included">Not included</a></li></ul></nav>
 <p>ThetaPrime can expose read-only tools to an MCP-capable AI assistant, so you can
 ask things like "what's my BankNifty strangle's P&amp;L right now" or "is today's
 reconciliation clean" without opening the dashboard.</p>
