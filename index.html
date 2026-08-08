@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.28.6 (2026-08-07) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.30.1 (2026-08-08) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -464,6 +464,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <h2 style="margin-top:0.7rem;">Build a strangle by clicking, not scripting.</h2>
           <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Every saved strategy runs on the same engine, dashboard, and P&amp;L reports — there's no separate code path to fall back to.</p>
           <ul class="check-list">
+            <li><b>Build with AI</b> — describe what you want in plain English and ThetaPrime hands your own chat AI a prompt pre-loaded with the live block catalog, a worked example, and the guardrails it can't infer on its own (expiry rules, DTE floors, covered-leg scope); paste the reply back in and it imports as a spec.</li>
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
             <li><b>Payoff diagram + Ask AI</b> — see max profit/loss, breakevens, probability of profit, net Delta/Gamma/Theta/Vega, and a P&amp;L what-if at spot ±1/2/3%, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
@@ -517,7 +518,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Loss limit</span><h3>Daily stop, whole account</h3><p>Set a hard stop in points, rupees, or both. The instant combined real-mode P&amp;L crosses it, every Real strategy stops placing live orders and Real mode locks for the rest of the day.</p></div>
         <div class="feature-card"><span class="tag">Entry guard</span><h3>No double entry</h3><p>A strategy already holding a position can't open a second one. No accidental doubling from a re-triggered signal or a stray manual click.</p></div>
         <div class="feature-card"><span class="tag">Sizing</span><h3>Hard lot cap</h3><p>A ceiling on lot size per strategy, enforced before the order is placed. A misconfigured strategy gets silently capped, never silently oversized.</p></div>
-        <div class="feature-card"><span class="tag">Capital</span><h3>Margin required, before you commit</h3><p>Every strategy card shows notional exposure and margin required — a real broker basket-margin call where available, a conservative estimate otherwise — so sizing isn't a guess.</p></div>
+        <div class="feature-card"><span class="tag">Capital</span><h3>Margin required, before you commit</h3><p>Every strategy card shows notional exposure and margin required — a real broker basket-margin call where available, a conservative estimate otherwise — so sizing isn't a guess. A Covered call or Covered strangle template won't arm until a live holdings check confirms you actually hold the lot — priced and margined as naked otherwise, never assumed covered.</p></div>
         <div class="feature-card"><span class="tag">Reconciliation</span><h3>Orphan detection</h3><p>Every five minutes during market hours, and at startup, ThetaPrime diffs your broker's live positions against its own trade state. A crash or a manual square-off shows up as a red badge, not a surprise next week.</p></div>
         <div class="feature-card"><span class="tag">Bookkeeping</span><h3>Fix state, never place an order</h3><p>Manual Entry and Edit Trade State correct ThetaPrime's own record when a fill happened outside automation — never a backdoor for placing or closing a position, and every edit is checked against the broker and logged.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
@@ -574,6 +575,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Alerts</span><h3>Entries, exits, status — off the dashboard</h3><p>Every entry, exit, and adjustment can push straight to WhatsApp, Telegram, email, or a webhook — no bridge process to babysit, useful mid-meeting, mid-commute, anywhere a screen isn't handy.</p></div>
         <div class="feature-card"><span class="tag">Event Log</span><h3>Every action, one searchable trail</h3><p>Login, entry, exit, adjustment, error — every action lands in a filterable log (by category and level) with CSV export, so you can reconstruct exactly what happened and when.</p></div>
         <div class="feature-card"><span class="tag">Live status</span><h3>Badges, not a one-time check</h3><p>Broker connection, available margin, and the Nifty LTP sit in the navbar on every page, updating in the background for the whole session — not just at login.</p></div>
+        <div class="feature-card"><span class="tag">AI Assistant</span><h3>Ask Claude Desktop or Cursor, not just the dashboard</h3><p>An MCP server exposes read-only tools — strategy status, positions, P&amp;L, reconciliation health, recent logs — to your AI assistant over local stdio, authenticated with your dashboard password. Nothing new leaves your machine.</p></div>
       </div>
     </div>
   </section>
@@ -703,7 +705,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.28.6</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.30.1</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>
