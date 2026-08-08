@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Regenerate docs/*.html on the ThetaPrime marketing site from the app's docs/*.md.
 
-Run after every release, pointed at the app repo's docs/ folder:
+Run after every release:
 
-    python scripts/build_docs.py "C:\\path\\to\\Kiteconnect\\docs"
+    python scripts/build_docs.py <extracted-docs-src-dir> <app-repo-dir> <version>
+
+<extracted-docs-src-dir> is a plain folder of the app's docs/ tree (e.g. from
+`git archive origin/main docs`). <app-repo-dir> is a real git checkout of that
+same app repo (with origin/main fetched) -- used only to look up each source
+file's last-commit date for the per-page "last updated" footer. <version> is
+the app version each page describes (e.g. "0.30.1").
 
 Reads the site's own index.html for its header/footer/CSS chrome so generated
 pages stay visually identical to the homepage (same theme, same mobile nav)
@@ -15,7 +21,9 @@ never in PAGES below -- do not add them without checking they're meant to be
 public.
 """
 import re
+import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 import markdown as md
@@ -79,6 +87,7 @@ DOC_CSS = """
 .doc-toc a{color:var(--text-muted);text-decoration:none;}
 .doc-toc a:hover{color:var(--accent-ink);}
 .doc-toc ul ul a{font-size:0.85em;}
+.doc-meta{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
 """
 
 TOC_MIN_HEADINGS = 4  # below this, a page's short enough that a TOC just adds noise
@@ -93,6 +102,21 @@ def load_chrome():
     header = re.search(r"(<header class=\"nav\">.*?</header>)", html, re.S).group(1)
     footer = re.search(r"(<footer>.*?</html>)", html, re.S).group(1)
     return style, header, footer
+
+
+def last_updated(app_repo_dir, src_rel):
+    """Git commit date (origin/main) of docs/<src_rel> in the app repo -- the real
+    content date, not "today", so the footer stays accurate even on a run where
+    a given page's source didn't actually change."""
+    result = subprocess.run(
+        ["git", "-C", str(app_repo_dir), "log", "-1", "--follow", "--format=%ad",
+         "--date=short", "origin/main", "--", f"docs/{src_rel}"],
+        capture_output=True, text=True, check=True,
+    )
+    out = result.stdout.strip()
+    if not out:
+        raise RuntimeError(f"no git history found for docs/{src_rel} on origin/main")
+    return out
 
 
 def rewrite_chrome_links(block, root):
@@ -139,11 +163,12 @@ def convert(md_text, image_root):
     return html
 
 
-def render_page(title, body_html, root, out_rel):
+def render_page(title, body_html, root, out_rel, version, updated):
     style, header, footer = CHROME
     header = rewrite_chrome_links(header, root)
     footer = rewrite_chrome_links(footer, root)
     crumb = title if out_rel == "index.html" else f'<a href="{root}docs/index.html">Docs</a> / {title}'
+    meta = f'<p class="doc-meta">Applies to ThetaPrime v{version} · Page last updated {updated}</p>'
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -165,16 +190,19 @@ def render_page(title, body_html, root, out_rel):
 <div class="doc-body">
 {body_html}
 </div>
+{meta}
 </main>
 {footer}
 """
 
 
 def build():
-    if len(sys.argv) != 2:
-        print("usage: build_docs.py <path-to-app-docs-folder>")
+    if len(sys.argv) != 4:
+        print("usage: build_docs.py <extracted-docs-src-dir> <app-repo-dir> <version>")
         sys.exit(1)
     src = Path(sys.argv[1])
+    app_repo_dir = Path(sys.argv[2])
+    version = sys.argv[3]
     global CHROME
     CHROME = load_chrome()
 
@@ -200,7 +228,7 @@ def build():
             elif ".html#" in href:
                 target, anchor = href.split("#", 1)
                 cross_anchors.append((src_rel, out_rel, target, anchor))
-        page = render_page(title, body_html, chrome_root, out_rel)
+        page = render_page(title, body_html, chrome_root, out_rel, version, last_updated(app_repo_dir, src_rel))
         out_path = DOCS_OUT / out_rel
         out_path.write_text(page, encoding="utf-8")
         generated.append((out_rel, title, group))
@@ -219,7 +247,7 @@ def build():
         for out_rel, title in groups[group]:
             hub_body.append(f'<a href="{out_rel}">{title}</a>')
         hub_body.append("</div></div>")
-    hub_html = render_page("Docs", "\n".join(hub_body), "../", "index.html")
+    hub_html = render_page("Docs", "\n".join(hub_body), "../", "index.html", version, date.today().isoformat())
     (DOCS_OUT / "index.html").write_text(hub_html, encoding="utf-8")
     print("wrote docs/index.html")
 
