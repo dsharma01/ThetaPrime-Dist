@@ -7,6 +7,7 @@
 //
 // Exits non-zero if any check fails.
 const { chromium } = require('playwright');
+const fs = require('fs');
 const path = require('path');
 
 const SITE_ROOT = path.resolve(__dirname, '..');
@@ -32,6 +33,14 @@ function check(desc, cond) {
     });
     check('desktop nav links do not overlap the "Request a license" CTA', nav.innerRight < nav.ctaLeft);
     check('desktop CTA is visible', nav.ctaVisible);
+
+    // Read the raw source, not page.content() -- comments inside <head> round-trip through
+    // Playwright's DOM serialization inconsistently, and this is source-level bookkeeping anyway.
+    const rawHtml = fs.readFileSync(path.join(SITE_ROOT, 'index.html'), 'utf-8');
+    const markerVersion = (rawHtml.match(/content-synced-through:\s*v([\d.]+)/) || [])[1];
+    const footerVersion = (rawHtml.match(/id="site-app-version">ThetaPrime v([\d.]+)</) || [])[1];
+    check('footer shows an app version', !!footerVersion);
+    check('footer version matches the content-synced-through marker (both updated together)', !!markerVersion && markerVersion === footerVersion);
 
     await page.click('.nav-links a[href="docs/index.html"]');
     await page.waitForLoadState();
