@@ -120,9 +120,11 @@ def last_updated(app_repo_dir, src_rel):
 
 
 def rewrite_chrome_links(block, root):
-    """Point in-page anchors (#how etc.) and the brand logo back at the homepage."""
-    block = re.sub(r'href="#(top|how|composer|safety|monitoring|pricing|faq)"',
+    """Point in-page anchors (#how etc.), the standalone pricing page, and the
+    brand logo back at the homepage/site root."""
+    block = re.sub(r'href="#(top|how|composer|safety|monitoring|faq)"',
                     lambda m: f'href="{root}index.html#{m.group(1)}"', block)
+    block = block.replace('href="pricing.html"', f'href="{root}pricing.html"')
     # Highlight "Docs" as current section on doc pages.
     block = block.replace('href="docs/index.html">Docs</a>',
                            f'href="{root}docs/index.html" style="color:var(--text)">Docs</a>')
