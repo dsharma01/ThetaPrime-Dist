@@ -1,7 +1,7 @@
 {
-  "version": "0.32.1",
+  "version": "0.32.2",
   "released": "2026-08-10",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.32.1/ThetaPrime-0.32.1-setup.exe",
-  "release_notes": "`live_candles`'s `_leg_candles()` swallowed exceptions from the Kite instrument-token lookup (`quote()`) with no log line, unlike the sibling `_fetch()` helper and the matching pattern in `sim_availability.py`/`sim_ltp.py`. A leg whose candle chart silently came up empty (e.g. \"No candle data today for LP\") left no trace of why. Now logged.",
-  "min_supported": "0.32.1"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.32.2/ThetaPrime-0.32.2-setup.exe",
+  "release_notes": "`_leg_candles()` now falls back to the cached NFO instrument-token dump when `quote()` misses a token \u2014 same fallback chain as `option_history_api` (confirmed 2026-08-10: Option History resolved a token `live_candles` reported as missing). Manual square-off now records the closed position into `state['_closed']`, closing a gap where `engine.run_entry()`'s \"already closed today\" guard didn't fire \u2014 a manual square-off could be followed by an unwanted second entry the same day (confirmed in prod 2026-08-07). `broker/regime.py`: NIFTY/VIX series are now aligned by date before the volatility vote walk (an unmatched bar from either ticker was silently shifting indices out of sync). A \"medium\" hold that outlives `_STALE_CAP` sessions with no reconfirmation now decays to a plurality read instead of riding a stale label indefinitely.",
+  "min_supported": "0.32.2"
 }
