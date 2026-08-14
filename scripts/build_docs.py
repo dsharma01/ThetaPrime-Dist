@@ -34,8 +34,8 @@ DOCS_OUT = SITE_ROOT / "docs"
 
 # (source .md relative to --src, output .html relative to docs/, title, group)
 PAGES = [
-    ("setup.md", "setup.html", "Setup Guide", "Getting Started"),
     ("installation.md", "installation.html", "Installation Guide", "Getting Started"),
+    ("setup.md", "setup.html", "Setup Guide", "Getting Started"),
     ("obtaining-credentials.md", "obtaining-credentials.html", "Obtaining API Credentials", "Getting Started"),
     ("brokers/kite.md", "brokers/kite.html", "Kite (Zerodha) Setup", "Brokers"),
     ("brokers/breeze.md", "brokers/breeze.html", "Breeze (ICICI Direct) Setup", "Brokers"),
