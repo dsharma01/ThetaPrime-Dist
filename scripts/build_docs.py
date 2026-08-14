@@ -82,7 +82,7 @@ DOC_CSS = """
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
 /* Sticky right rail (see .docs-layout below), not inline -- the body starts
    right under the title instead of being pushed down by this box. */
-.doc-toc{position:sticky;top:1.5rem;width:190px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.2rem;}
+.doc-toc{position:sticky;top:1.5rem;width:190px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.2rem;max-height:calc(100vh - 3rem);overflow-y:auto;}
 .doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
 .doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.86rem;}
 .doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
@@ -96,7 +96,7 @@ DOC_CSS = """
 /* ── Persistent docs sidebar + search (every doc detail page) ──────────── */
 .docs-layout{display:flex;align-items:flex-start;gap:2.5rem;}
 .docs-layout .doc-page{flex:1;min-width:0;padding-block:clamp(2.5rem,5vw,4rem);}
-.docs-sidebar{position:sticky;top:1.5rem;width:210px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);}
+.docs-sidebar{position:sticky;top:1.5rem;width:210px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);max-height:calc(100vh - 3rem);overflow-y:auto;}
 .docs-sidebar-mobile{display:none;margin-top:1.5rem;}
 .docs-nav-block{display:flex;flex-direction:column;gap:0.2rem;}
 .doc-search-input{width:100%;box-sizing:border-box;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;padding:0.5rem 0.7rem;margin-bottom:0.9rem;}

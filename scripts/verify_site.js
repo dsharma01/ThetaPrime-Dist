@@ -67,6 +67,24 @@ function check(desc, cond) {
     check('desktop sidebar highlights the current page', doc.activeLink === 'Strategy Composer Guide');
     check('desktop sidebar has a search box', doc.hasSearchInput);
     check('doc page has prev/next navigation', doc.hasPrevNext);
+
+    // Sticky rails (sidebar, TOC) must scroll internally when their own content is
+    // taller than the viewport -- position:sticky alone doesn't provide that, and a
+    // rail with no overflow-y traps its own bottom entries out of reach. Regression
+    // check for the 2026-08-16 bug: both rails had no max-height/overflow-y at all.
+    const railScroll = await page.evaluate(() => {
+      const check = (sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return null;
+        const style = getComputedStyle(el);
+        return { overflowY: style.overflowY, hasMaxHeight: style.maxHeight !== 'none' };
+      };
+      return { sidebar: check('.docs-sidebar'), toc: check('.doc-toc') };
+    });
+    check('desktop sidebar can scroll internally when taller than the viewport',
+      railScroll.sidebar.overflowY === 'auto' && railScroll.sidebar.hasMaxHeight);
+    check('right-rail TOC can scroll internally when taller than the viewport',
+      railScroll.toc.overflowY === 'auto' && railScroll.toc.hasMaxHeight);
     // Search's fetch(search-index.json) can't be exercised under file:// (opaque-origin
     // fetch is blocked) -- it's covered by a manual HTTP-served check when build_docs.py's
     // search logic changes, not by this script. See update-website SKILL.md.
