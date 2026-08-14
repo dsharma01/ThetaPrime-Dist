@@ -80,14 +80,17 @@ DOC_CSS = """
 .doc-hub-list{display:flex;flex-direction:column;gap:0.5rem;}
 .doc-hub-list a{display:block;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.94rem;}
 .doc-hub-list a:hover{border-color:var(--accent-ink);}
-.doc-toc{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.3rem;margin-bottom:2rem;}
+/* Sticky right rail (see .docs-layout below), not inline -- the body starts
+   right under the title instead of being pushed down by this box. */
+.doc-toc{position:sticky;top:1.5rem;width:190px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:1rem 1.2rem;}
 .doc-toc-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.6rem;}
-.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.88rem;}
+.doc-toc ul{list-style:none;padding-left:0;margin:0;font-size:0.86rem;}
 .doc-toc ul ul{padding-left:1.1rem;margin-top:0.3rem;}
 .doc-toc li{margin-bottom:0.4rem;}
 .doc-toc a{color:var(--text-muted);text-decoration:none;}
 .doc-toc a:hover{color:var(--accent-ink);}
 .doc-toc ul ul a{font-size:0.85em;}
+@media (max-width:1149.98px){.doc-toc{display:none;}}
 .doc-meta{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
 
 /* ── Persistent docs sidebar + search (every doc detail page) ──────────── */
@@ -212,8 +215,11 @@ def count_headings(tokens):
 
 
 def convert(md_text, image_root):
-    """Markdown -> HTML fragment, with .md links rewritten to .html, image paths fixed,
-    and an auto-generated table of contents inserted after the title on longer pages."""
+    """Markdown -> HTML fragment, with .md links rewritten to .html, image paths fixed.
+    Returns (body_html, toc_html) -- the TOC (when the page is long enough to earn one)
+    is returned separately rather than inserted inline, so the caller can place it in
+    the sticky right rail instead of pushing the body down. toc_html is "" when the
+    page doesn't clear TOC_MIN_HEADINGS."""
     md_text = md_text.replace("/docs/images/", f"{image_root}images/")
     # obtaining-credentials.md / setup.md link into brokers/*.md as "brokers/foo.md"; brokers/*.md
     # link to siblings as "foo.md" and back up via "obtaining-credentials.md" etc. Both patterns
@@ -227,10 +233,10 @@ def convert(md_text, image_root):
     # drop that h1 wrapper itself, a TOC linking a page to its own title is pointless.
     toc_tokens = converter.toc_tokens
     headings = toc_tokens[0]["children"] if len(toc_tokens) == 1 and toc_tokens[0]["level"] == 1 else toc_tokens
+    toc_html = ""
     if count_headings(headings) >= TOC_MIN_HEADINGS:
         toc_html = f'<nav class="doc-toc"><span class="doc-toc-label">On this page</span>{render_toc_ul(headings)}</nav>'
-        html = re.sub(r"</h1>", lambda m: m.group(0) + toc_html, html, count=1)
-    return html
+    return html, toc_html
 
 
 def _nav_root(depth):
@@ -286,7 +292,7 @@ def render_prev_next(page_idx, depth):
     return f'<div class="doc-prev-next">{prev_html}{next_html}</div>'
 
 
-def render_page(title, body_html, root, out_rel, version, updated, sidebar_html="", prev_next_html=""):
+def render_page(title, body_html, root, out_rel, version, updated, sidebar_html="", prev_next_html="", toc_html=""):
     style, favicons, header, footer = CHROME
     header = rewrite_chrome_links(header, root)
     footer = rewrite_chrome_links(footer, root)
@@ -302,7 +308,9 @@ def render_page(title, body_html, root, out_rel, version, updated, sidebar_html=
 {prev_next_html}
 {meta}
 </div>"""
-    main_inner = f'<div class="docs-layout">{sidebar_html}{doc_page}</div>' if sidebar_html else doc_page
+    # Left: all-docs sidebar. Middle: this doc. Right: this doc's own section TOC --
+    # a sticky rail, not inline, so the body starts immediately under the title.
+    main_inner = f'<div class="docs-layout">{sidebar_html}{doc_page}{toc_html}</div>' if sidebar_html else doc_page
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -354,8 +362,10 @@ def build():
         chrome_root = "../" * depth  # site root, for header/footer link rewriting
         image_root = "../" * (depth - 1)  # docs/images/, sibling of docs/foo.html
         md_text = (src / src_rel).read_text(encoding="utf-8")
-        body_html = convert(md_text, image_root)
-        for m in re.finditer(r'href="([^"]*)"', body_html):
+        body_html, toc_html = convert(md_text, image_root)
+        # toc_html's own #anchor links point at heading ids inside body_html -- scan both
+        # together so moving the TOC out of the body doesn't drop that verification.
+        for m in re.finditer(r'href="([^"]*)"', body_html + toc_html):
             href = m.group(1)
             if href.startswith("#"):
                 same_page_anchors.append((src_rel, out_rel, href[1:]))
@@ -365,7 +375,7 @@ def build():
         sidebar_html = render_sidebar(groups, out_rel, depth)
         prev_next_html = render_prev_next(page_idx, depth)
         page = render_page(title, body_html, chrome_root, out_rel, version,
-                            last_updated(app_repo_dir, src_rel), sidebar_html, prev_next_html)
+                            last_updated(app_repo_dir, src_rel), sidebar_html, prev_next_html, toc_html)
         out_path = DOCS_OUT / out_rel
         out_path.write_text(page, encoding="utf-8")
         generated.append((out_rel, title, group))
