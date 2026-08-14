@@ -453,29 +453,6 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <h1 id="strategy-composer-guide">Strategy Composer Guide</h1>
 <p>The <strong>Strategy Composer</strong> (<code>/strategy-composer</code>) lets you build a fully working options strategy by clicking blocks together — no coding required. Once saved, it runs on its own schedule, tracks its own performance, and sends its own notifications, right from the dashboard.</p>
 <p>This guide is hands-on: two worked walkthroughs first, reference catalog at the end. For ready-to-build recipes of every strategy shape (straddles, strangles, iron condor/butterfly, diagonal), see <strong><a href="composer-strategy-examples.html">Composer Strategy Examples</a></strong>.</p>
-<h2 id="contents">Contents</h2>
-<ul>
-<li><a href="strategy-composer.html#open-it">Open it</a></li>
-<li><a href="strategy-composer.html#walkthrough-1">Walkthrough 1: Tune the seeded strangle and save it</a></li>
-<li><a href="strategy-composer.html#walkthrough-2">Walkthrough 2: Build a different strategy from scratch</a></li>
-<li><a href="strategy-composer.html#what-valid-needs">What "Valid" needs</a></li>
-<li><a href="strategy-composer.html#block-catalog">Block catalog (reference)</a></li>
-<li><a href="strategy-composer.html#filters">Filters</a></li>
-<li><a href="strategy-composer.html#regime-skip-filter">Regime skip filter</a></li>
-<li><a href="strategy-composer.html#expiry">Expiry</a></li>
-<li><a href="strategy-composer.html#leg-selectors">Leg selectors</a></li>
-<li><a href="strategy-composer.html#structures">Structures</a></li>
-<li><a href="strategy-composer.html#exits">Exits</a></li>
-<li><a href="strategy-composer.html#sizing">Sizing</a></li>
-<li><a href="strategy-composer.html#re-entry">Re-entry</a></li>
-<li><a href="strategy-composer.html#adjustment">Adjustment</a></li>
-<li><a href="strategy-composer.html#what-gets-created">What gets created, and what runs</a></li>
-<li><a href="strategy-composer.html#build-with-ai">Build one with AI first</a></li>
-<li><a href="strategy-composer.html#importing-a-spec">Importing a spec (upload or hand-written)</a></li>
-<li><a href="strategy-composer.html#exporting-and-advanced-editing">Exporting and advanced (hand-)editing</a></li>
-<li><a href="strategy-composer.html#editing-existing">Editing an existing strategy</a></li>
-<li><a href="strategy-composer.html#limitations">Current limitations (v1)</a></li>
-</ul>
 <hr />
 <p><a id="open-it"></a></p>
 <h2 id="open-it">Open it</h2>
@@ -1033,8 +1010,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </ul>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="brokers/dhan.html">← <span>Dhan Setup</span></a><a class="doc-prev-next-link next" href="composer-strategy-examples.html"><span>Composer Strategy Examples</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-14</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#contents">Contents</a></li><li><a href="#open-it">Open it</a></li><li><a href="#walkthrough-1-tune-the-seeded-strangle-and-save-it">Walkthrough 1: Tune the seeded strangle and save it</a></li><li><a href="#walkthrough-2-build-a-different-strategy-from-scratch">Walkthrough 2: Build a different strategy from scratch</a></li><li><a href="#what-valid-needs">What "Valid" needs</a></li><li><a href="#block-catalog-reference">Block catalog (reference)</a><ul><li><a href="#filters">Filters</a></li><li><a href="#regime-skip-filter">Regime skip filter</a></li><li><a href="#expiry">Expiry</a></li><li><a href="#leg-selectors">Leg selectors</a></li><li><a href="#structures">Structures</a></li><li><a href="#exits">Exits</a></li><li><a href="#sizing">Sizing</a></li><li><a href="#re-entry">Re-entry</a></li><li><a href="#adjustment">Adjustment</a></li></ul></li><li><a href="#what-gets-created-and-what-runs">What gets created, and what runs</a></li><li><a href="#build-one-with-ai-first">Build one with AI first</a></li><li><a href="#importing-a-spec-upload-or-hand-written">Importing a spec (upload or hand-written)</a></li><li><a href="#exporting-and-advanced-hand-editing">Exporting and advanced (hand-)editing</a></li><li><a href="#editing-an-existing-strategy">Editing an existing strategy</a></li><li><a href="#current-limitations-v1">Current limitations (v1)</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-14</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#open-it">Open it</a></li><li><a href="#walkthrough-1-tune-the-seeded-strangle-and-save-it">Walkthrough 1: Tune the seeded strangle and save it</a></li><li><a href="#walkthrough-2-build-a-different-strategy-from-scratch">Walkthrough 2: Build a different strategy from scratch</a></li><li><a href="#what-valid-needs">What "Valid" needs</a></li><li><a href="#block-catalog-reference">Block catalog (reference)</a><ul><li><a href="#filters">Filters</a></li><li><a href="#regime-skip-filter">Regime skip filter</a></li><li><a href="#expiry">Expiry</a></li><li><a href="#leg-selectors">Leg selectors</a></li><li><a href="#structures">Structures</a></li><li><a href="#exits">Exits</a></li><li><a href="#sizing">Sizing</a></li><li><a href="#re-entry">Re-entry</a></li><li><a href="#adjustment">Adjustment</a></li></ul></li><li><a href="#what-gets-created-and-what-runs">What gets created, and what runs</a></li><li><a href="#build-one-with-ai-first">Build one with AI first</a></li><li><a href="#importing-a-spec-upload-or-hand-written">Importing a spec (upload or hand-written)</a></li><li><a href="#exporting-and-advanced-hand-editing">Exporting and advanced (hand-)editing</a></li><li><a href="#editing-an-existing-strategy">Editing an existing strategy</a></li><li><a href="#current-limitations-v1">Current limitations (v1)</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.32.10 (2026-08-14) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.32.12 (2026-08-14) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -525,7 +525,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Bookkeeping</span><h3>Fix state, never place an order</h3><p>Manual Entry and Edit Trade State correct ThetaPrime's own record when a fill happened outside automation — never a backdoor for placing or closing a position, and every edit is checked against the broker and logged.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
         <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite, Breeze, or Dhan token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
-        <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — closing whatever filled, cancelling what's still open — instead of leaving a silent, unhedged position.</p></div>
+        <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — but only after cross-checking the broker's actual positions first, so a leg mis-reported as rejected during a fill-confirmation race isn't unwound by accident.</p></div>
       </div>
     </div>
   </section>
@@ -708,7 +708,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

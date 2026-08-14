@@ -454,41 +454,39 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <p>Ready-to-build recipes for every strategy shape the <a href="strategy-composer.html">Strategy Composer</a> can express today. Each recipe is written the way the composer shows it: one row per <strong>socket</strong>, listing the blocks to click from the palette and the values to set in <strong>Block settings</strong>. Anything not mentioned keeps its default. Examples 1-18 run on NIFTY (50-pt strikes; 1-16 weekly, 17-18 monthly — see the grouping below); examples 19-24 are F&amp;O <strong>stock</strong> shapes (RELIANCE, monthly-only expiry) that only became possible once the composer could target a stock underlying — read <a href="strategy-composer.html#open-it">the underlying field's stock caveats</a> (physical settlement, VIX filters being market-wide) before running any of them for real.</p>
 <p>To try one: build it in the composer, <strong>Validate</strong>, <strong>Save</strong>, then enable it from the Strategies list on a <strong>paper/simulation</strong> account first. Every example uses a conservative 1 lot.</p>
 <p>If you already have the spec as JSON — from a backup, from someone else, or written by hand — <strong>Import spec…</strong> in the action bar loads it straight into the sockets instead, ready to edit. See <a href="strategy-composer.html#importing-a-spec">Importing a spec</a>.</p>
-<h2 id="contents">Contents</h2>
+<h2 id="example-groups">Example Groups</h2>
 <p>The composer's instrument dump draws exactly one hard line: <strong>NIFTY has weekly contracts, nothing else does</strong> — every other index (BankNifty, FinNifty, MidcpNifty) and every F&amp;O stock is monthly-only (<code>strategies/instruments.py</code>'s <code>WEEKLY_CAPABLE_INSTRUMENTS</code>). That line is what actually separates the groups below — not "index vs. stock" on its own, since the two index examples in the second group are structurally no different from a stock trade once expiry goes monthly.</p>
 <p><strong>Index — NIFTY (weekly)</strong> — every one of these uses <code>next_weekly</code> somewhere in its expiry, so none of them run on anything but NIFTY:
-- <a href="#1-920-atm-short-straddle-intraday">1. 9:20 ATM short straddle (intraday)</a>
-- <a href="#2-weekly-premium-target-short-strangle">2. Weekly premium-target short strangle</a>
-- <a href="#3-expiry-day-0dte-strangle">3. Expiry-day (0DTE) strangle</a>
-- <a href="#4-vix-regime-straddle-with-trailing-stop">4. VIX-regime straddle with trailing stop</a>
-- <a href="#5-iron-condor-defined-risk-strangle">5. Iron condor (defined-risk strangle)</a>
-- <a href="#6-iron-butterfly">6. Iron butterfly</a>
-- <a href="#7-diagonal-iron-butterfly-weekly-vs-monthly">7. Diagonal iron butterfly (weekly vs monthly)</a>
-- <a href="#8-bull-put-spread-defined-risk-directional-credit">8. Bull put spread (defined-risk directional credit)</a>
-- <a href="#9-bull-call-spread-debit-directional">9. Bull call spread (debit, directional)</a>
-- <a href="#10-naked-short-put-income-leg">10. Naked short put (income leg)</a>
-- <a href="#11-call-calendar-same-strike-two-expiries">11. Call calendar (same strike, two expiries)</a>
-- <a href="#12-weekly-strangle-with-adjustment-roll-the-untested-side">12. Weekly strangle with adjustment (roll the untested side)</a>
-- <a href="#13-rent-collector-condor-weekly-carried-to-expiry">13. Rent Collector Condor (weekly, carried to expiry)</a>
-- <a href="#14-gamma-fenced-daily-condor-0dte-without-the-blowup">14. Gamma-Fenced Daily Condor ("0DTE without the blowup")</a>
-- <a href="#15-put-calendar-skew-harvester">15. Put Calendar Skew Harvester</a>
-- <a href="#16-self-centering-condor-roll-both-sides">16. Self-Centering Condor (roll both sides)</a></p>
+- 1. 9:20 ATM short straddle (intraday)
+- 2. Weekly premium-target short strangle
+- 3. Expiry-day (0DTE) strangle
+- 4. VIX-regime straddle with trailing stop
+- 5. Iron condor (defined-risk strangle)
+- 6. Iron butterfly
+- 7. Diagonal iron butterfly (weekly vs monthly)
+- 8. Bull put spread (defined-risk directional credit)
+- 9. Bull call spread (debit, directional)
+- 10. Naked short put (income leg)
+- 11. Call calendar (same strike, two expiries)
+- 12. Weekly strangle with adjustment (roll the untested side)
+- 13. Rent Collector Condor (weekly, carried to expiry)
+- 14. Gamma-Fenced Daily Condor ("0DTE without the blowup")
+- 15. Put Calendar Skew Harvester
+- 16. Self-Centering Condor (roll both sides)</p>
 <p><strong>Index — any monthly-only underlying</strong> — Monthly expiry only, nothing NIFTY-weekly-specific in the shape itself. Shown calibrated to NIFTY's spot level (strikes, wing widths); the numbers need resizing to run on BankNifty/FinNifty/MidcpNifty or a stock, but the shape carries over unchanged:
-- <a href="#17-monthly-fd-plus-condor-fixed-deposit-plus">17. Monthly FD-Plus Condor ("Fixed Deposit Plus")</a>
-- <a href="#18-positional-bear-put-spread-one-shot-directional-view">18. Positional bear put spread (one-shot directional view)</a></p>
+- 17. Monthly FD-Plus Condor ("Fixed Deposit Plus")
+- 18. Positional bear put spread (one-shot directional view)</p>
 <p><strong>Stock — F&amp;O stocks (monthly-only)</strong> — shapes that only make sense, or only became possible, once the composer could target a single name: physical settlement, assignment, earnings.
-- <a href="#19-cash-secured-put-fo-stock-income">19. Cash-secured put (F&amp;O stock, income)</a>
-- <a href="#20-covered-call-fo-stock-income">20. Covered call (F&amp;O stock, income)</a>
-- <a href="#21-stock-bull-put-spread-one-shot-directional-view">21. Stock bull put spread (one-shot directional view)</a>
-- <a href="#22-pre-earnings-long-straddle-event-volatility">22. Pre-earnings long straddle (event volatility)</a>
-- <a href="#23-post-earnings-iv-crush-short-strangle">23. Post-earnings IV-crush short strangle</a>
-- <a href="#24-stock-premium-target-short-strangle-clone-per-name">24. Stock premium-target short strangle (clone per name)</a>
-- <a href="#25-covered-strangle-fo-stock-income">25. Covered strangle (F&amp;O stock, income)</a></p>
+- 19. Cash-secured put (F&amp;O stock, income)
+- 20. Covered call (F&amp;O stock, income)
+- 21. Stock bull put spread (one-shot directional view)
+- 22. Pre-earnings long straddle (event volatility)
+- 23. Post-earnings IV-crush short strangle
+- 24. Stock premium-target short strangle (clone per name)
+- 25. Covered strangle (F&amp;O stock, income)</p>
 <p><strong>Cross-underlying (portfolios of specs, not one spec):</strong>
-- <a href="#dispersion-and-sector-pairs-multi-spec-patterns">Dispersion and sector pairs (multi-spec patterns)</a></p>
-<ul>
-<li><a href="#not-yet-expressible-roadmap">Not yet expressible (roadmap)</a></li>
-</ul>
+- Dispersion and sector pairs (multi-spec patterns)
+- Not yet expressible (roadmap)</p>
 <p>The same three-way split (<strong>Index — NIFTY (weekly)</strong> / <strong>Index — any monthly-only underlying</strong> / <strong>Stock — F&amp;O stocks</strong>) groups the composer's own <strong>Load template…</strong> dropdown as <code>&lt;optgroup&gt;</code>s, in this order.</p>
 <hr />
 <p><em>Index — NIFTY (weekly). Examples 1-16.</em></p>
@@ -1395,8 +1393,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </ul>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="strategy-composer.html">← <span>Strategy Composer Guide</span></a><a class="doc-prev-next-link next" href="strategy-usage.html"><span>Strategy Configuration & Usage</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-07</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#contents">Contents</a></li><li><a href="#1-920-atm-short-straddle-intraday">1. 9:20 ATM short straddle (intraday)</a></li><li><a href="#2-weekly-premium-target-short-strangle">2. Weekly premium-target short strangle</a></li><li><a href="#3-expiry-day-0dte-strangle">3. Expiry-day (0DTE) strangle</a></li><li><a href="#4-vix-regime-straddle-with-trailing-stop">4. VIX-regime straddle with trailing stop</a></li><li><a href="#5-iron-condor-defined-risk-strangle">5. Iron condor (defined-risk strangle)</a></li><li><a href="#6-iron-butterfly">6. Iron butterfly</a></li><li><a href="#7-diagonal-iron-butterfly-weekly-vs-monthly">7. Diagonal iron butterfly (weekly vs monthly)</a></li><li><a href="#8-bull-put-spread-defined-risk-directional-credit">8. Bull put spread (defined-risk directional credit)</a></li><li><a href="#9-bull-call-spread-debit-directional">9. Bull call spread (debit, directional)</a></li><li><a href="#10-naked-short-put-income-leg">10. Naked short put (income leg)</a></li><li><a href="#11-call-calendar-same-strike-two-expiries">11. Call calendar (same strike, two expiries)</a></li><li><a href="#12-weekly-strangle-with-adjustment-roll-the-untested-side">12. Weekly strangle with adjustment (roll the untested side)</a></li><li><a href="#13-rent-collector-condor-weekly-carried-to-expiry">13. Rent Collector Condor (weekly, carried to expiry)</a></li><li><a href="#14-gamma-fenced-daily-condor-0dte-without-the-blowup">14. Gamma-Fenced Daily Condor ("0DTE without the blowup")</a></li><li><a href="#15-put-calendar-skew-harvester">15. Put Calendar Skew Harvester</a></li><li><a href="#16-self-centering-condor-roll-both-sides">16. Self-Centering Condor (roll both sides)</a></li><li><a href="#17-monthly-fd-plus-condor-fixed-deposit-plus">17. Monthly FD-Plus Condor ("Fixed Deposit Plus")</a></li><li><a href="#18-positional-bear-put-spread-one-shot-directional-view">18. Positional bear put spread (one-shot directional view)</a></li><li><a href="#19-cash-secured-put-fo-stock-income">19. Cash-secured put (F&amp;O stock, income)</a></li><li><a href="#20-covered-call-fo-stock-income">20. Covered call (F&amp;O stock, income)</a></li><li><a href="#21-stock-bull-put-spread-one-shot-directional-view">21. Stock bull put spread (one-shot directional view)</a></li><li><a href="#22-pre-earnings-long-straddle-event-volatility">22. Pre-earnings long straddle (event volatility)</a></li><li><a href="#23-post-earnings-iv-crush-short-strangle">23. Post-earnings IV-crush short strangle</a></li><li><a href="#24-stock-premium-target-short-strangle-clone-per-name">24. Stock premium-target short strangle (clone per name)</a></li><li><a href="#25-covered-strangle-fo-stock-income">25. Covered strangle (F&amp;O stock, income)</a></li><li><a href="#dispersion-and-sector-pairs-multi-spec-patterns">Dispersion and sector pairs (multi-spec patterns)</a></li><li><a href="#not-yet-expressible-roadmap">Not yet expressible (roadmap)</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-14</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#example-groups">Example Groups</a></li><li><a href="#1-920-atm-short-straddle-intraday">1. 9:20 ATM short straddle (intraday)</a></li><li><a href="#2-weekly-premium-target-short-strangle">2. Weekly premium-target short strangle</a></li><li><a href="#3-expiry-day-0dte-strangle">3. Expiry-day (0DTE) strangle</a></li><li><a href="#4-vix-regime-straddle-with-trailing-stop">4. VIX-regime straddle with trailing stop</a></li><li><a href="#5-iron-condor-defined-risk-strangle">5. Iron condor (defined-risk strangle)</a></li><li><a href="#6-iron-butterfly">6. Iron butterfly</a></li><li><a href="#7-diagonal-iron-butterfly-weekly-vs-monthly">7. Diagonal iron butterfly (weekly vs monthly)</a></li><li><a href="#8-bull-put-spread-defined-risk-directional-credit">8. Bull put spread (defined-risk directional credit)</a></li><li><a href="#9-bull-call-spread-debit-directional">9. Bull call spread (debit, directional)</a></li><li><a href="#10-naked-short-put-income-leg">10. Naked short put (income leg)</a></li><li><a href="#11-call-calendar-same-strike-two-expiries">11. Call calendar (same strike, two expiries)</a></li><li><a href="#12-weekly-strangle-with-adjustment-roll-the-untested-side">12. Weekly strangle with adjustment (roll the untested side)</a></li><li><a href="#13-rent-collector-condor-weekly-carried-to-expiry">13. Rent Collector Condor (weekly, carried to expiry)</a></li><li><a href="#14-gamma-fenced-daily-condor-0dte-without-the-blowup">14. Gamma-Fenced Daily Condor ("0DTE without the blowup")</a></li><li><a href="#15-put-calendar-skew-harvester">15. Put Calendar Skew Harvester</a></li><li><a href="#16-self-centering-condor-roll-both-sides">16. Self-Centering Condor (roll both sides)</a></li><li><a href="#17-monthly-fd-plus-condor-fixed-deposit-plus">17. Monthly FD-Plus Condor ("Fixed Deposit Plus")</a></li><li><a href="#18-positional-bear-put-spread-one-shot-directional-view">18. Positional bear put spread (one-shot directional view)</a></li><li><a href="#19-cash-secured-put-fo-stock-income">19. Cash-secured put (F&amp;O stock, income)</a></li><li><a href="#20-covered-call-fo-stock-income">20. Covered call (F&amp;O stock, income)</a></li><li><a href="#21-stock-bull-put-spread-one-shot-directional-view">21. Stock bull put spread (one-shot directional view)</a></li><li><a href="#22-pre-earnings-long-straddle-event-volatility">22. Pre-earnings long straddle (event volatility)</a></li><li><a href="#23-post-earnings-iv-crush-short-strangle">23. Post-earnings IV-crush short strangle</a></li><li><a href="#24-stock-premium-target-short-strangle-clone-per-name">24. Stock premium-target short strangle (clone per name)</a></li><li><a href="#25-covered-strangle-fo-stock-income">25. Covered strangle (F&amp;O stock, income)</a></li><li><a href="#dispersion-and-sector-pairs-multi-spec-patterns">Dispersion and sector pairs (multi-spec patterns)</a></li><li><a href="#not-yet-expressible-roadmap">Not yet expressible (roadmap)</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">

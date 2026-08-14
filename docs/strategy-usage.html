@@ -456,36 +456,6 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <strong><a href="strategy-composer.html">Strategy Composer</a></strong> (<code>/strategy-composer</code>) — no code required.</p>
 </blockquote>
 <hr />
-<h2 id="contents">Contents</h2>
-<ul>
-<li><a href="#dashboard-overview">Dashboard Overview</a></li>
-<li><a href="#managing-strategies">Managing Strategies</a></li>
-<li><a href="#edit-a-strategy">Edit a Strategy</a></li>
-<li><a href="#clone-a-strategy">Clone a Strategy</a></li>
-<li><a href="#archive-a-strategy">Archive a Strategy</a></li>
-<li><a href="#delete-a-strategy">Delete a Strategy</a></li>
-<li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a></li>
-<li><a href="#automation-switch">Automation Switch</a></li>
-<li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li>
-<li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li>
-<li><a href="#running-a-strategy">Running a Strategy</a></li>
-<li><a href="#trade-status">Trade Status</a></li>
-<li><a href="#manual-run">Manual Run</a></li>
-<li><a href="#simulate">Simulate</a></li>
-<li><a href="#scheduling">Scheduling</a></li>
-<li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li>
-<li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li>
-<li><a href="#reports-page">Reports Page</a></li>
-<li><a href="#filters">Filters</a></li>
-<li><a href="#summary-cards">Summary Cards</a></li>
-<li><a href="#charts">Charts</a></li>
-<li><a href="#trade-log-table">Trade Log Table</a></li>
-<li><a href="#performance-page">Performance Page</a></li>
-<li><a href="#summary-cards_1">Summary Cards</a></li>
-<li><a href="#trade-events">Trade Events</a></li>
-<li><a href="#run-logs">Run Logs</a></li>
-</ul>
-<hr />
 <h2 id="dashboard-overview">Dashboard Overview</h2>
 <p>The Dashboard (<code>/</code>) is the main control panel. It lists every runnable strategy and provides controls for each. Archived strategies (see below) are hidden from this list; they live in the collapsed <strong>Archived</strong> panel underneath it.</p>
 <p>Two filters sit to the right of the <strong>Strategies</strong> heading: a <strong>Mode</strong> dropdown (All / Paper / Real) and an <strong>Auto on only</strong> switch that hides every strategy whose Automation switch is off. They combine — Mode <code>Real</code> + Auto on only shows just the strategies that will actually place live orders today. Both remember your choice in the browser across reloads.</p>
@@ -549,7 +519,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td><strong>Real</strong></td>
-<td>Confirms today's P&amp;L, then arms the strategy and places live market orders via the Kite API at market price (NRML product) on every subsequent run — manual or scheduled.</td>
+<td>Confirms today's P&amp;L, then arms the strategy and places live market orders at market price (NRML product) via that strategy's configured broker (Kite, Breeze, or Dhan — see the broker dropdown on the card) on every subsequent run — manual or scheduled.</td>
 </tr>
 </tbody>
 </table>
@@ -722,7 +692,7 @@ under the <strong>⋮ More</strong> menu:</p>
 </tr>
 <tr>
 <td>Edit Trade State…</td>
-<td>Correct a mistake in the recorded trade — wrong price, symbol, or strike.</td>
+<td>Correct a mistake in the recorded trade — wrong price, symbol, or strike. If the trade shows <strong>ENTRY REJECTED — rolled back</strong> but the broker actually has the legs open (a rare fill-confirmation race), a <strong>Confirm Active (broker-verified)</strong> button appears — it re-checks broker.positions() for every rejected leg itself before changing anything, and changes nothing if any leg doesn't match.</td>
 </tr>
 <tr>
 <td>⚠ Reset Live State / ⚠ Reset Sim State</td>
@@ -1063,8 +1033,8 @@ under the <strong>⋮ More</strong> menu:</p>
 <p><strong>Delete</strong> — click <strong>✕</strong> on any row. <strong>Clear</strong> — click <strong>🗑 Clear</strong> in the card header.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="composer-strategy-examples.html">← <span>Composer Strategy Examples</span></a><a class="doc-prev-next-link next" href="data-management.html"><span>Data Management</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-12</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#contents">Contents</a></li><li><a href="#dashboard-overview">Dashboard Overview</a></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-14</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
