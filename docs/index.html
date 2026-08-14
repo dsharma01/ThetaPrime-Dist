@@ -343,7 +343,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 }
 
 
-.doc-page{padding-block:clamp(2.5rem,5vw,4rem);max-width:52rem;}
+.doc-page{padding-block:clamp(2.5rem,5vw,4rem);max-width:52rem;margin-inline:auto;}
 .doc-crumb{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;}
 .doc-crumb a{color:var(--text-muted);}
 .doc-crumb a:hover{color:var(--accent-ink);}
@@ -381,6 +381,36 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 .doc-toc ul ul a{font-size:0.85em;}
 .doc-meta{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
 
+/* ── Persistent docs sidebar + search (every doc detail page) ──────────── */
+.docs-layout{display:flex;align-items:flex-start;gap:2.5rem;}
+.docs-layout .doc-page{flex:1;min-width:0;padding-block:clamp(2.5rem,5vw,4rem);}
+.docs-sidebar{position:sticky;top:1.5rem;width:210px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);}
+.docs-sidebar-mobile{display:none;margin-top:1.5rem;}
+.docs-nav-block{display:flex;flex-direction:column;gap:0.2rem;}
+.doc-search-input{width:100%;box-sizing:border-box;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;padding:0.5rem 0.7rem;margin-bottom:0.9rem;}
+.doc-search-input:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px;}
+.doc-search-empty{font-size:0.8rem;color:var(--text-muted);margin:0 0 0.9rem;}
+.docs-nav-group{margin-bottom:1.1rem;}
+.docs-nav-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.4rem;}
+.docs-nav-block .doc-link{display:block;padding:0.35rem 0.5rem;margin-inline:-0.5rem;border-radius:6px;color:var(--text-muted);text-decoration:none;font-size:0.86rem;}
+.docs-nav-block .doc-link:hover{background:var(--bg-elevated);color:var(--text);}
+.docs-nav-block .doc-link.active{background:var(--bg-elevated);color:var(--accent-ink);font-weight:600;}
+.docs-sidebar-mobile summary{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);padding:0.75rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);}
+.docs-sidebar-mobile[open] summary{border-radius:9px 9px 0 0;margin-bottom:0;}
+.docs-sidebar-mobile .docs-nav-block{border:1px solid var(--border);border-top:none;border-radius:0 0 9px 9px;padding:1rem;background:var(--bg-inset);}
+@media (max-width:900px){
+  .docs-layout{flex-direction:column;}
+  .docs-sidebar{display:none;}
+  .docs-sidebar-mobile{display:block;}
+  .docs-layout .doc-page{padding-block:1.5rem clamp(2.5rem,5vw,4rem);width:100%;}
+}
+
+/* ── Prev/Next doc footer ─────────────────────────────────────────────── */
+.doc-prev-next{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+.doc-prev-next-link{display:flex;flex-direction:column;gap:0.15rem;max-width:48%;padding:0.6rem 0.8rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.86rem;font-weight:600;}
+.doc-prev-next-link.next{text-align:right;margin-left:auto;}
+.doc-prev-next-link:hover{border-color:var(--accent-ink);color:var(--accent-ink);}
+
 </style>
 </head>
 <body>
@@ -413,7 +443,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     <button class="nav-toggle" id="nav-toggle-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation menu" onclick="toggleNav()">☰</button>
   </div>
 </header>
-<main class="wrap doc-page">
+<main class="wrap">
+<div class="doc-page">
 <div class="doc-crumb">Docs</div>
 <div class="doc-body">
 <h1>ThetaPrime Docs</h1>
@@ -442,7 +473,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <a href="licensing.html">License & Activation</a>
 </div></div>
 </div>
+
 <p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-14</p>
+</div>
 </main>
 <footer>
   <div class="wrap">

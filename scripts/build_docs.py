@@ -20,6 +20,7 @@ Internal docs (docs/dev/*) and dead ones (docs/archive/*) are deliberately
 never in PAGES below -- do not add them without checking they're meant to be
 public.
 """
+import json
 import re
 import subprocess
 import sys
@@ -51,7 +52,7 @@ PAGES = [
 IMAGES = ["images/strategy-composer-layout.svg", "images/strategy-composer-save.svg"]
 
 DOC_CSS = """
-.doc-page{padding-block:clamp(2.5rem,5vw,4rem);max-width:52rem;}
+.doc-page{padding-block:clamp(2.5rem,5vw,4rem);max-width:52rem;margin-inline:auto;}
 .doc-crumb{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;}
 .doc-crumb a{color:var(--text-muted);}
 .doc-crumb a:hover{color:var(--accent-ink);}
@@ -88,6 +89,72 @@ DOC_CSS = """
 .doc-toc a:hover{color:var(--accent-ink);}
 .doc-toc ul ul a{font-size:0.85em;}
 .doc-meta{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
+
+/* ── Persistent docs sidebar + search (every doc detail page) ──────────── */
+.docs-layout{display:flex;align-items:flex-start;gap:2.5rem;}
+.docs-layout .doc-page{flex:1;min-width:0;padding-block:clamp(2.5rem,5vw,4rem);}
+.docs-sidebar{position:sticky;top:1.5rem;width:210px;flex-shrink:0;margin-top:clamp(2.5rem,5vw,4rem);}
+.docs-sidebar-mobile{display:none;margin-top:1.5rem;}
+.docs-nav-block{display:flex;flex-direction:column;gap:0.2rem;}
+.doc-search-input{width:100%;box-sizing:border-box;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;padding:0.5rem 0.7rem;margin-bottom:0.9rem;}
+.doc-search-input:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px;}
+.doc-search-empty{font-size:0.8rem;color:var(--text-muted);margin:0 0 0.9rem;}
+.docs-nav-group{margin-bottom:1.1rem;}
+.docs-nav-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.4rem;}
+.docs-nav-block .doc-link{display:block;padding:0.35rem 0.5rem;margin-inline:-0.5rem;border-radius:6px;color:var(--text-muted);text-decoration:none;font-size:0.86rem;}
+.docs-nav-block .doc-link:hover{background:var(--bg-elevated);color:var(--text);}
+.docs-nav-block .doc-link.active{background:var(--bg-elevated);color:var(--accent-ink);font-weight:600;}
+.docs-sidebar-mobile summary{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);padding:0.75rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);}
+.docs-sidebar-mobile[open] summary{border-radius:9px 9px 0 0;margin-bottom:0;}
+.docs-sidebar-mobile .docs-nav-block{border:1px solid var(--border);border-top:none;border-radius:0 0 9px 9px;padding:1rem;background:var(--bg-inset);}
+@media (max-width:900px){
+  .docs-layout{flex-direction:column;}
+  .docs-sidebar{display:none;}
+  .docs-sidebar-mobile{display:block;}
+  .docs-layout .doc-page{padding-block:1.5rem clamp(2.5rem,5vw,4rem);width:100%;}
+}
+
+/* ── Prev/Next doc footer ─────────────────────────────────────────────── */
+.doc-prev-next{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+.doc-prev-next-link{display:flex;flex-direction:column;gap:0.15rem;max-width:48%;padding:0.6rem 0.8rem;border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);color:var(--text);text-decoration:none;font-size:0.86rem;font-weight:600;}
+.doc-prev-next-link.next{text-align:right;margin-left:auto;}
+.doc-prev-next-link:hover{border-color:var(--accent-ink);color:var(--accent-ink);}
+"""
+
+DOC_JS = """
+<script>
+document.querySelectorAll('.docs-nav-block').forEach(function(block){
+  var input = block.querySelector('.doc-search-input');
+  var empty = block.querySelector('.doc-search-empty');
+  var groups = Array.from(block.querySelectorAll('.docs-nav-group'));
+  var indexUrl = block.getAttribute('data-search-index');
+  var indexData = null, indexPromise = null;
+  function ensureIndex(){
+    if (!indexPromise) indexPromise = fetch(indexUrl).then(function(r){ return r.json(); }).then(function(d){ indexData = d; });
+    return indexPromise;
+  }
+  function apply(term){
+    var anyVisible = false;
+    groups.forEach(function(g){
+      var groupHasMatch = false;
+      g.querySelectorAll('.doc-link').forEach(function(a){
+        var url = a.getAttribute('data-url');
+        var entry = indexData && indexData.find(function(e){ return e.url === url; });
+        var match = !term || a.textContent.toLowerCase().includes(term) || (entry && entry.text.includes(term));
+        a.hidden = !match;
+        if (match) { groupHasMatch = true; anyVisible = true; }
+      });
+      g.hidden = !groupHasMatch;
+    });
+    empty.hidden = anyVisible || !term;
+  }
+  input.addEventListener('input', function(e){
+    var term = e.target.value.trim().toLowerCase();
+    apply(term);
+    if (term) ensureIndex().then(function(){ if (input.value.trim().toLowerCase() === term) apply(term); });
+  });
+});
+</script>
 """
 
 TOC_MIN_HEADINGS = 4  # below this, a page's short enough that a TOC just adds noise
@@ -166,12 +233,76 @@ def convert(md_text, image_root):
     return html
 
 
-def render_page(title, body_html, root, out_rel, version, updated):
+def _nav_root(depth):
+    """Path prefix from a page at this depth back to docs/ root -- same formula
+    as image_root, reused here because sidebar/prev-next hrefs are also
+    docs/-root-relative."""
+    return "../" * (depth - 1)
+
+
+def group_pages():
+    """PAGES grouped in their declared order: {group: [(out_rel, title), ...]}."""
+    groups = {}
+    for _src_rel, out_rel, title, group in PAGES:
+        groups.setdefault(group, []).append((out_rel, title))
+    return groups
+
+
+def render_nav_block(groups, current_out_rel, depth, search_index_url):
+    root = _nav_root(depth)
+    parts = [f'<div class="docs-nav-block" data-search-index="{search_index_url}">',
+             '<input type="search" class="doc-search-input" placeholder="Search docs…" aria-label="Search docs">',
+             '<p class="doc-search-empty" hidden>No docs match.</p>']
+    for group, pages in groups.items():
+        parts.append(f'<div class="docs-nav-group"><span class="docs-nav-label">{group}</span>')
+        for out_rel, title in pages:
+            cls = "doc-link active" if out_rel == current_out_rel else "doc-link"
+            parts.append(f'<a href="{root}{out_rel}" class="{cls}" data-url="{out_rel}">{title}</a>')
+        parts.append('</div>')
+    parts.append('</div>')
+    return "".join(parts)
+
+
+def render_sidebar(groups, current_out_rel, depth):
+    root = _nav_root(depth)
+    search_index_url = f"{root}search-index.json"
+    nav_block = render_nav_block(groups, current_out_rel, depth, search_index_url)
+    desktop = f'<nav class="docs-sidebar" aria-label="Docs navigation">{nav_block}</nav>'
+    mobile_block = render_nav_block(groups, current_out_rel, depth, search_index_url)
+    mobile = f'<details class="docs-sidebar-mobile"><summary>Browse docs</summary>{mobile_block}</details>'
+    return desktop + mobile
+
+
+def render_prev_next(page_idx, depth):
+    root = _nav_root(depth)
+    prev_page = PAGES[page_idx - 1] if page_idx > 0 else None
+    next_page = PAGES[page_idx + 1] if page_idx < len(PAGES) - 1 else None
+    if not prev_page and not next_page:
+        return ""
+    prev_html = (f'<a class="doc-prev-next-link prev" href="{root}{prev_page[1]}">← <span>{prev_page[2]}</span></a>'
+                 if prev_page else '<span></span>')
+    next_html = (f'<a class="doc-prev-next-link next" href="{root}{next_page[1]}"><span>{next_page[2]}</span> →</a>'
+                 if next_page else '')
+    return f'<div class="doc-prev-next">{prev_html}{next_html}</div>'
+
+
+def render_page(title, body_html, root, out_rel, version, updated, sidebar_html="", prev_next_html=""):
     style, favicons, header, footer = CHROME
     header = rewrite_chrome_links(header, root)
     footer = rewrite_chrome_links(footer, root)
+    if sidebar_html:
+        footer = footer.replace("</html>", DOC_JS + "\n</html>")
     crumb = title if out_rel == "index.html" else f'<a href="{root}docs/index.html">Docs</a> / {title}'
     meta = f'<p class="doc-meta">Applies to ThetaPrime v{version} · Page last updated {updated}</p>'
+    doc_page = f"""<div class="doc-page">
+<div class="doc-crumb">{crumb}</div>
+<div class="doc-body">
+{body_html}
+</div>
+{prev_next_html}
+{meta}
+</div>"""
+    main_inner = f'<div class="docs-layout">{sidebar_html}{doc_page}</div>' if sidebar_html else doc_page
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -189,12 +320,8 @@ def render_page(title, body_html, root, out_rel, version, updated):
 <div class="bg-grid"></div>
 <div class="bg-field"></div>
 {header}
-<main class="wrap doc-page">
-<div class="doc-crumb">{crumb}</div>
-<div class="doc-body">
-{body_html}
-</div>
-{meta}
+<main class="wrap">
+{main_inner}
 </main>
 {footer}
 """
@@ -216,10 +343,13 @@ def build():
     for img in IMAGES:
         (DOCS_OUT / img).write_bytes((src / img).read_bytes())
 
+    groups = group_pages()  # also feeds the sidebar on every detail page below
+
     generated = []
     cross_anchors = []  # (src_rel, out_rel_of_page, href, anchor) for post-build verification
     same_page_anchors = []  # (src_rel, out_rel, anchor)
-    for src_rel, out_rel, title, group in PAGES:
+    search_entries = []
+    for page_idx, (src_rel, out_rel, title, group) in enumerate(PAGES):
         depth = out_rel.count("/") + 1  # docs/foo.html = depth 1, docs/brokers/foo.html = depth 2
         chrome_root = "../" * depth  # site root, for header/footer link rewriting
         image_root = "../" * (depth - 1)  # docs/images/, sibling of docs/foo.html
@@ -232,16 +362,21 @@ def build():
             elif ".html#" in href:
                 target, anchor = href.split("#", 1)
                 cross_anchors.append((src_rel, out_rel, target, anchor))
-        page = render_page(title, body_html, chrome_root, out_rel, version, last_updated(app_repo_dir, src_rel))
+        sidebar_html = render_sidebar(groups, out_rel, depth)
+        prev_next_html = render_prev_next(page_idx, depth)
+        page = render_page(title, body_html, chrome_root, out_rel, version,
+                            last_updated(app_repo_dir, src_rel), sidebar_html, prev_next_html)
         out_path = DOCS_OUT / out_rel
         out_path.write_text(page, encoding="utf-8")
         generated.append((out_rel, title, group))
+        text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body_html)).strip().lower()
+        search_entries.append({"title": title, "url": out_rel, "group": group, "text": text})
         print(f"wrote docs/{out_rel}")
 
+    (DOCS_OUT / "search-index.json").write_text(json.dumps(search_entries), encoding="utf-8")
+    print("wrote docs/search-index.json")
+
     # Hub page
-    groups = {}
-    for out_rel, title, group in generated:
-        groups.setdefault(group, []).append((out_rel, title))
     hub_body = ["<h1>ThetaPrime Docs</h1>",
                 '<p style="color:var(--text-muted);margin-bottom:2rem;max-width:42rem;">Guides for installing ThetaPrime, connecting a broker, building strategies in the Composer, and running it day to day.</p>']
     for group in ["Getting Started", "Brokers", "Building Strategies", "Operations", "Security & Licensing"]:

@@ -55,10 +55,21 @@ function check(desc, cond) {
       h1: document.querySelector('.doc-body h1')?.textContent || '',
       hasToc: !!document.querySelector('.doc-toc'),
       overflow: document.body.scrollWidth > window.innerWidth,
+      sidebarLinks: document.querySelectorAll('.docs-sidebar .doc-link').length,
+      activeLink: document.querySelector('.docs-sidebar .doc-link.active')?.textContent || '',
+      hasSearchInput: !!document.querySelector('.docs-sidebar .doc-search-input'),
+      hasPrevNext: !!document.querySelector('.doc-prev-next'),
     }));
     check('doc page renders its title', doc.h1 === 'Strategy Composer Guide');
     check('long doc page has a table of contents', doc.hasToc);
     check('doc page has no horizontal overflow at 1280px', !doc.overflow);
+    check('desktop sidebar lists every doc', doc.sidebarLinks >= 10);
+    check('desktop sidebar highlights the current page', doc.activeLink === 'Strategy Composer Guide');
+    check('desktop sidebar has a search box', doc.hasSearchInput);
+    check('doc page has prev/next navigation', doc.hasPrevNext);
+    // Search's fetch(search-index.json) can't be exercised under file:// (opaque-origin
+    // fetch is blocked) -- it's covered by a manual HTTP-served check when build_docs.py's
+    // search logic changes, not by this script. See update-website SKILL.md.
 
     await page.close();
   }
@@ -85,6 +96,22 @@ function check(desc, cond) {
     await page.goto(base + '/docs/obtaining-credentials.html');
     const hasToc = await page.evaluate(() => !!document.querySelector('.doc-toc'));
     check('short doc page correctly has no table of contents', !hasToc);
+
+    await page.goto(base + '/docs/strategy-composer.html');
+    const mobileNav = await page.evaluate(() => ({
+      desktopSidebarHidden: getComputedStyle(document.querySelector('.docs-sidebar')).display === 'none',
+      mobileDetailsVisible: getComputedStyle(document.querySelector('.docs-sidebar-mobile')).display !== 'none',
+      collapsedByDefault: !document.querySelector('.docs-sidebar-mobile').open,
+    }));
+    check('desktop sidebar is hidden on mobile', mobileNav.desktopSidebarHidden);
+    check('mobile docs nav (collapsible) is visible', mobileNav.mobileDetailsVisible);
+    check('mobile docs nav is collapsed by default', mobileNav.collapsedByDefault);
+    await page.click('.docs-sidebar-mobile summary');
+    const opened = await page.evaluate(() =>
+      document.querySelectorAll('.docs-sidebar-mobile .doc-link').length >= 10);
+    check('mobile docs nav expands to list every doc', opened);
+    const overflowAfterOpen = await page.evaluate(() => document.body.scrollWidth > window.innerWidth);
+    check('expanded mobile docs nav has no horizontal overflow', !overflowAfterOpen);
 
     await page.close();
   }
