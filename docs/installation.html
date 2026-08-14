@@ -556,10 +556,12 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </ol>
 <h3 id="step-2-accept-the-eula">Step 2 — Accept the EULA</h3>
 <p>Read the End-User License Agreement carefully, then click <strong>I accept the agreement</strong> and <strong>Next</strong>.</p>
-<p>Key points in the EULA:
-- Your license key is tied to this machine (one key per machine).
-- You are responsible for SEBI compliance and your Kite Connect subscription.
-- Past simulation results do not guarantee future live trading performance.</p>
+<p>Key points in the EULA:</p>
+<ul>
+<li>Your license key is tied to this machine (one key per machine).</li>
+<li>You are responsible for SEBI compliance and your Kite Connect subscription.</li>
+<li>Past simulation results do not guarantee future live trading performance.</li>
+</ul>
 <h3 id="step-3-choose-an-install-location">Step 3 — Choose an install location</h3>
 <p>The default location is:</p>
 <pre><code>C:\Program Files\ThetaPrime
@@ -568,10 +570,12 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <h3 id="step-4-start-menu-shortcuts">Step 4 — Start Menu shortcuts</h3>
 <p>Leave "Create Start Menu shortcuts" checked so you can open the dashboard from the Start Menu. Click <strong>Next</strong>, then <strong>Install</strong>.</p>
 <h3 id="step-5-service-registration">Step 5 — Service registration</h3>
-<p>The installer silently registers <code>ThetaPrimeDashboard</code> as a Windows service using NSSM. The service:
-- Starts automatically when Windows boots.
-- Runs as <code>Local System</code> (no user login required).
-- Logs output to <code>C:\Program Files\ThetaPrime\logs\</code>.</p>
+<p>The installer silently registers <code>ThetaPrimeDashboard</code> as a Windows service using NSSM. The service:</p>
+<ul>
+<li>Starts automatically when Windows boots.</li>
+<li>Runs as <code>Local System</code> (no user login required).</li>
+<li>Logs output to <code>C:\Program Files\ThetaPrime\logs\</code>.</li>
+</ul>
 <p>You will see a progress bar during this step — it typically takes 5–15 seconds.</p>
 <h3 id="step-6-finish">Step 6 — Finish</h3>
 <p>Click <strong>Finish</strong>. The installer offers to open the dashboard in your browser. You can also open it any time from the Start Menu shortcut <strong>ThetaPrime Dashboard</strong>, or by navigating to <code>http://localhost:5000</code>.</p>
@@ -690,10 +694,12 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
 <li>Check <code>C:\Program Files\ThetaPrime\logs\service_stderr.log</code> for the specific error.</li>
 </ul>
 <h3 id="strategy-exits-with-non-zero-return-code">Strategy exits with non-zero return code</h3>
-<p>Open <strong>Dashboard → Recent Runs</strong> and click the failed run to see the full output and stderr. Common causes:
-- Stale access token (see above).
-- Market holiday (the strategy skips automatically on NSE holidays — this is normal).
-- Network error reaching the Kite API.</p>
+<p>Open <strong>Dashboard → Recent Runs</strong> and click the failed run to see the full output and stderr. Common causes:</p>
+<ul>
+<li>Stale access token (see above).</li>
+<li>Market holiday (the strategy skips automatically on NSE holidays — this is normal).</li>
+<li>Network error reaching the Kite API.</li>
+</ul>
 <h3 id="license-not-accepted-invalid-key">License not accepted — "Invalid key"</h3>
 <ul>
 <li>Ensure you copied the entire key including the expiry date and the <code>|</code> separator.</li>
@@ -742,7 +748,7 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
 </table>
 </div>
 <div class="doc-prev-next"><span></span><a class="doc-prev-next-link next" href="setup.html"><span>Setup Guide</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-14</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-14</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#system-requirements">System Requirements</a><ul><li><a href="#ports-used">Ports used</a></li><li><a href="#windows-credential-manager">Windows Credential Manager</a></li></ul></li><li><a href="#prerequisites-before-you-install">Prerequisites — Before You Install</a><ul><li><a href="#1-zerodha-kite-connect-api-subscription">1. Zerodha Kite Connect API subscription</a></li><li><a href="#2-nssm-windows-service-manager">2. NSSM (Windows service manager)</a></li><li><a href="#3-a-static-ip-address-sebi-requirement">3. A static IP address (SEBI requirement)</a></li></ul></li><li><a href="#installation">Installation</a><ul><li><a href="#step-1-run-the-installer">Step 1 — Run the installer</a></li><li><a href="#step-2-accept-the-eula">Step 2 — Accept the EULA</a></li><li><a href="#step-3-choose-an-install-location">Step 3 — Choose an install location</a></li><li><a href="#step-4-start-menu-shortcuts">Step 4 — Start Menu shortcuts</a></li><li><a href="#step-5-service-registration">Step 5 — Service registration</a></li><li><a href="#step-6-finish">Step 6 — Finish</a></li></ul></li><li><a href="#license-activation-optional-at-first-launch">License Activation (Optional at First Launch)</a><ul><li><a href="#step-1-copy-your-machine-fingerprint">Step 1 — Copy your machine fingerprint</a></li><li><a href="#step-2-send-the-fingerprint-to-us">Step 2 — Send the fingerprint to us</a></li><li><a href="#step-3-paste-your-license-key">Step 3 — Paste your license key</a></li></ul></li><li><a href="#first-time-setup">First-Time Setup</a><ul><li><a href="#step-1-set-a-dashboard-password">Step 1 — Set a dashboard password</a></li><li><a href="#step-2-enter-your-kite-api-credentials">Step 2 — Enter your Kite API credentials</a></li><li><a href="#step-3-complete-kite-oauth-login">Step 3 — Complete Kite OAuth login</a></li></ul></li><li><a href="#daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</a></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#manual-run-paper-mode">Manual run (paper mode)</a></li><li><a href="#scheduling-a-strategy">Scheduling a strategy</a></li></ul></li><li><a href="#verifying-the-service-is-running">Verifying the Service is Running</a></li><li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li><li><a href="#troubleshooting">Troubleshooting</a><ul><li><a href="#dashboard-wont-open-at-httplocalhost5000">Dashboard won't open at http://localhost:5000</a></li><li><a href="#forgot-dashboard-password">Forgot dashboard password</a></li><li><a href="#token-is-stale-error-in-strategy-logs">"Token is stale" error in strategy logs</a></li><li><a href="#email-test-fails">Email test fails</a></li><li><a href="#strategy-exits-with-non-zero-return-code">Strategy exits with non-zero return code</a></li><li><a href="#license-not-accepted-invalid-key">License not accepted — "Invalid key"</a></li></ul></li><li><a href="#uninstalling">Uninstalling</a></li><li><a href="#data-privacy">Data &amp; Privacy</a></li><li><a href="#getting-help">Getting Help</a></li></ul></nav></div>
 </main>
 <footer>
@@ -762,7 +768,7 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

@@ -562,9 +562,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 </tbody>
 </table>
-<p><strong>Monitor Interval</strong> — how frequently the monitor runs, in minutes. Applies to both:
-- <strong>Fullday simulation</strong> — controls the number of ticks replayed between 10:00 and 15:20
-- <strong>Real-time scheduled jobs</strong> — sets the cron frequency of the monitor job</p>
+<p><strong>Monitor Interval</strong> — how frequently the monitor runs, in minutes. Applies to both:</p>
+<ul>
+<li><strong>Fullday simulation</strong> — controls the number of ticks replayed between 10:00 and 15:20</li>
+<li><strong>Real-time scheduled jobs</strong> — sets the cron frequency of the monitor job</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -627,11 +629,13 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 </tbody>
 </table>
-<p>Click <strong>Details</strong> on the status line to open the Trade Status modal, which shows:
-- Full leg table (symbol, entry price, delta, IV)
-- ATM, net debit, profit target level, stop-loss level
-- Exit type and P&amp;L (if applicable)
-- <strong>Live Chart</strong> — today's 1-minute candles for the open position (see below)</p>
+<p>Click <strong>Details</strong> on the status line to open the Trade Status modal, which shows:</p>
+<ul>
+<li>Full leg table (symbol, entry price, delta, IV)</li>
+<li>ATM, net debit, profit target level, stop-loss level</li>
+<li>Exit type and P&amp;L (if applicable)</li>
+<li><strong>Live Chart</strong> — today's 1-minute candles for the open position (see below)</li>
+</ul>
 <h4 id="live-chart">Live Chart</h4>
 <p>The Trade Status modal shows a live intraday chart, refreshed with the rest of
 the modal every 30 seconds. It appears only while the strategy has an open
@@ -640,11 +644,15 @@ only for the strategy whose modal is open, so having many strategies on the
 dashboard costs nothing extra.</p>
 <p>Use the dropdown to switch between:</p>
 <ul>
-<li><strong>Combined P&amp;L (pts)</strong> — the signed sum across all open legs, drawn as a line
+<li>
+<p><strong>Combined P&amp;L (pts)</strong> — the signed sum across all open legs, drawn as a line
   against a dashed zero baseline. It is deliberately <em>not</em> a candle: the legs'
   highs don't occur at the same instant, so a summed high/low would be a price
-  the position never actually printed.</li>
-<li><strong>One leg</strong> — real open/high/low/close candles for that option contract.</li>
+  the position never actually printed.</p>
+</li>
+<li>
+<p><strong>One leg</strong> — real open/high/low/close candles for that option contract.</p>
+</li>
 </ul>
 <p><strong>Illiquid legs.</strong> A deep-ITM or thinly traded strike doesn't print a candle
 every minute. Within the day that's handled by carrying the leg's last price
@@ -708,8 +716,36 @@ under the <strong>⋮ More</strong> menu:</p>
 <p>Click <strong>Run</strong>. The strategy executes immediately as a subprocess using the current mode and configured lots. A popup shows the return code, stdout, and stderr when it finishes.</p>
 <p>Useful for on-demand testing or triggering a monitor check manually.</p>
 <h3 id="simulate">Simulate</h3>
-<p>Click <strong>Simulate</strong> to open the simulation modal. Simulations always run in paper mode regardless of the mode setting — no real orders are placed. Historical candle data is fetched from Kite for the selected date.</p>
+<p>Click <strong>Simulate</strong> to open the simulation modal. Simulations always run in paper mode regardless of the mode setting — no real orders are placed. Historical candle data is fetched from the broker selected in the modal's <strong>Broker</strong> dropdown (defaults to the strategy's own configured broker).</p>
 <p><strong>Date</strong> — any past trading day (Monday–Friday, market open). Click <strong>+ End date</strong> to sweep a range instead of a single day.</p>
+<h4 id="choosing-a-broker-for-simulations">Choosing a broker for simulations</h4>
+<p>All three brokers give the same thing here — real OHLC + volume candles — nothing more. None of them return implied volatility, open interest, Greeks, or bid/ask history through this app's simulation path, whatever their raw APIs otherwise advertise.</p>
+<table>
+<thead>
+<tr>
+<th>Broker</th>
+<th>What you actually get</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Breeze</strong></td>
+<td>Real candles for the exact strike/expiry, retained well beyond a week — <a href="brokers/breeze.html#known-strengths">details</a></td>
+<td>Older/multi-day sims. Default for Multi-Day Sim.</td>
+</tr>
+<tr>
+<td><strong>Kite</strong></td>
+<td>Real candles, but only while the exact contract is still in Kite's instruments master (~7 days after expiry) — <a href="brokers/kite.html#known-limitations">details</a></td>
+<td>Recent sims (current or last week's expiry).</td>
+</tr>
+<tr>
+<td><strong>Dhan</strong></td>
+<td>Real candles while listed; for anything expired, a spot-relative synthetic series (ATM±N, re-resolved per day) — an approximation, not that strike's real price history. Needs a separate Data API subscription.</td>
+<td>Quick checks when Breeze/Kite have nothing, with the approximation kept in mind.</td>
+</tr>
+</tbody>
+</table>
 <h4 id="data-availability-check">Data availability check</h4>
 <p>Whenever the date, broker, or end date changes — and once as soon as the modal opens — the selected broker is probed for the data the run will actually need, and one of three verdicts appears before you commit to the run. This applies to single-day and date-range simulations alike; a single day is just a range where both ends are the same date.</p>
 <table>
@@ -1033,8 +1069,8 @@ under the <strong>⋮ More</strong> menu:</p>
 <p><strong>Delete</strong> — click <strong>✕</strong> on any row. <strong>Clear</strong> — click <strong>🗑 Clear</strong> in the card header.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="composer-strategy-examples.html">← <span>Composer Strategy Examples</span></a><a class="doc-prev-next-link next" href="data-management.html"><span>Data Management</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-14</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-15</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#choosing-a-broker-for-simulations">Choosing a broker for simulations</a></li><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
@@ -1053,7 +1089,7 @@ under the <strong>⋮ More</strong> menu:</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

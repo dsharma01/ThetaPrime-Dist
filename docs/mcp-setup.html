@@ -460,17 +460,23 @@ own machine; it talks to your already-running ThetaPrime over <code>localhost</c
 or closed through it.</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li>ThetaPrime must be running — the tools read from it live, they don't work
-  standalone.</li>
-<li>A separate Python install to run <code>mcp_server.py</code> under, with the <code>mcp</code> and
+<li>
+<p>ThetaPrime must be running — the tools read from it live, they don't work
+  standalone.</p>
+</li>
+<li>
+<p>A separate Python install to run <code>mcp_server.py</code> under, with the <code>mcp</code> and
   <code>requests</code> packages — ThetaPrime's own bundled runtime isn't a
   general-purpose interpreter and can't run other scripts. Any recent Python 3
   from <a href="https://www.python.org/downloads/">python.org</a> works; this is
-  unrelated to and doesn't affect your ThetaPrime install.</li>
+  unrelated to and doesn't affect your ThetaPrime install.</p>
+</li>
 </ul>
 <p><code>powershell
-  pip install mcp requests</code>
-- Your dashboard password (Settings → the same one you log in with).</p>
+  pip install mcp requests</code></p>
+<ul>
+<li>Your dashboard password (Settings → the same one you log in with).</li>
+</ul>
 <h2 id="configure-claude-desktop">Configure Claude Desktop</h2>
 <p><code>mcp_server.py</code> ships in your install directory alongside <code>app.exe</code> (default
 <code>C:\Program Files\ThetaPrime\mcp_server.py</code> — check your Start Menu shortcut's
@@ -533,7 +539,7 @@ the dashboard. There's no raw order-placement tool either way; ThetaPrime's
 unit is a configured strategy, not a manual order.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="data-management.html">← <span>Data Management</span></a><a class="doc-prev-next-link next" href="security.html"><span>Security</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-06</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-14</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#requirements">Requirements</a></li><li><a href="#configure-claude-desktop">Configure Claude Desktop</a></li><li><a href="#tools">Tools</a></li><li><a href="#not-included">Not included</a></li></ul></nav></div>
 </main>
 <footer>
@@ -553,7 +559,7 @@ unit is a configured strategy, not a manual order.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

@@ -457,15 +457,21 @@ an API Key, or a manual copy-paste for a quick start / fallback.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>A Dhan trading account.</li>
-<li>API access enabled on that account (Dhan enables this by default for most
+<li>
+<p>API access enabled on that account (Dhan enables this by default for most
   accounts — check <strong>My Profile → Access DhanHQ APIs</strong> on web.dhan.co if
-  you don't see a token option).</li>
-<li>Your <strong>Client ID</strong> (shown on your Dhan profile) — needed for both flows
-  below.</li>
-<li><strong>A Data API subscription on your Dhan account</strong> — see the warning below.
+  you don't see a token option).</p>
+</li>
+<li>
+<p>Your <strong>Client ID</strong> (shown on your Dhan profile) — needed for both flows
+  below.</p>
+</li>
+<li>
+<p><strong>A Data API subscription on your Dhan account</strong> — see the warning below.
   Without it, login itself still works, but every quote/historical-data
   call fails, which blocks sim runs and live strategies entirely (Trading
-  API calls like margins/positions/orders are unaffected).</li>
+  API calls like margins/positions/orders are unaffected).</p>
+</li>
 </ul>
 <p><strong>Reference:</strong> DhanHQ API v2 documentation — <a href="https://dhanhq.co/docs/v2/">https://dhanhq.co/docs/v2/</a></p>
 <h2 id="data-api-subscription-required-separate-from-trading-api-access">⚠️ Data API Subscription Required (separate from Trading API access)</h2>
@@ -567,18 +573,22 @@ to work around), so a fresh login before your first order of the day behaves
 normally.</p>
 <h2 id="known-limitations">Known Limitations</h2>
 <ul>
-<li><strong>Only current, spec-based strategies (built via Strategy Builder/Composer)
+<li>
+<p><strong>Only current, spec-based strategies (built via Strategy Builder/Composer)
   support Dhan</strong> — those go through the app's shared simulation data path,
   which handles Dhan's string-based security IDs correctly. The older
   family of hand-written strategy scripts special-case Kite/Breeze directly
-  and aren't offered to users, so this isn't a practical limitation.</li>
-<li><strong>Option Scanner doesn't support Dhan</strong> — it reads instruments directly
+  and aren't offered to users, so this isn't a practical limitation.</p>
+</li>
+<li>
+<p><strong>Option Scanner doesn't support Dhan</strong> — it reads instruments directly
   from Kite; Breeze and Dhan aren't wired into that page beyond what's noted
-  above.</li>
+  above.</p>
+</li>
 </ul>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="../brokers/breeze.html">← <span>Breeze (ICICI Direct) Setup</span></a><a class="doc-prev-next-link next" href="../strategy-composer.html"><span>Strategy Composer Guide</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-03</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-14</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#data-api-subscription-required-separate-from-trading-api-access">⚠️ Data API Subscription Required (separate from Trading API access)</a></li><li><a href="#option-a-automatic-login-api-key-recommended">Option A: Automatic Login (API Key) — recommended</a><ul><li><a href="#one-time-setup">One-time setup</a></li><li><a href="#one-time-credential-save-then-daily-login">One-time credential save, then daily login</a></li></ul></li><li><a href="#option-b-manual-access-token-paste-fallback">Option B: Manual Access Token Paste — fallback</a><ul><li><a href="#active-vs-stale">Active vs Stale</a></li></ul></li><li><a href="#static-ip-requirement-mandatory-not-optional">⚠️ Static IP Requirement (mandatory, not optional)</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#known-limitations">Known Limitations</a></li></ul></nav></div>
 </main>
 <footer>
@@ -598,7 +608,7 @@ normally.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

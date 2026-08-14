@@ -456,11 +456,17 @@ This is where you back up your data, restore it, and clear out files that
 build up over time from simulations and caching.</p>
 <h2 id="whats-on-the-page">What's on the page</h2>
 <ul>
-<li><strong>Disk usage</strong> — a quick breakdown of how much space your strategies,
-  simulation files, logs, and databases are using.</li>
-<li><strong>Backup &amp; Restore</strong> — download a full copy of your data, or replace your
-  current data with a previously downloaded backup.</li>
-<li><strong>Simulation Cleanup</strong> — clears out simulation trade files and history.</li>
+<li>
+<p><strong>Disk usage</strong> — a quick breakdown of how much space your strategies,
+  simulation files, logs, and databases are using.</p>
+</li>
+<li>
+<p><strong>Backup &amp; Restore</strong> — download a full copy of your data, or replace your
+  current data with a previously downloaded backup.</p>
+</li>
+<li>
+<p><strong>Simulation Cleanup</strong> — clears out simulation trade files and history.</p>
+</li>
 <li><strong>Temp Files Cleanup</strong> — clears cached files that rebuild automatically.</li>
 </ul>
 <hr />
@@ -482,12 +488,18 @@ to the cloud in plaintext. Your strategy files and settings are not encrypted
 in the backup — they don't contain trade data or credentials.</p>
 <h3 id="when-to-back-up">When to back up</h3>
 <ul>
-<li><strong>Before restoring</strong> a different backup — see the safety net below, but
-  it's good practice regardless.</li>
-<li><strong>Before upgrading or reinstalling</strong> the app, or moving it to a new
-  computer.</li>
-<li><strong>Periodically</strong>, especially after building or tuning a strategy you don't
-  want to lose.</li>
+<li>
+<p><strong>Before restoring</strong> a different backup — see the safety net below, but
+  it's good practice regardless.</p>
+</li>
+<li>
+<p><strong>Before upgrading or reinstalling</strong> the app, or moving it to a new
+  computer.</p>
+</li>
+<li>
+<p><strong>Periodically</strong>, especially after building or tuning a strategy you don't
+  want to lose.</p>
+</li>
 </ul>
 <hr />
 <h2 id="restoring-from-a-backup">Restoring from a Backup</h2>
@@ -516,7 +528,8 @@ that way).</p>
 that runs the same backup automatically, on a timer, with no browser tab
 needed.</p>
 <ul>
-<li><strong>Destination folder</strong> — any folder path on this machine. Click
+<li>
+<p><strong>Destination folder</strong> — any folder path on this machine. Click
   <strong>Browse…</strong> to pick it from a native Windows folder dialog (only works
   when you're running the app on the same PC you're browsing from and it's
   not running headless as a background service — in that case, type the path
@@ -524,11 +537,18 @@ needed.</p>
   Drive's desktop app to get an automatic offsite/cloud copy — the app
   doesn't talk to any cloud service directly, the sync client does that
   part. It cannot be a folder inside the app's own data folder (that would
-  make every future backup include all prior ones).</li>
-<li><strong>Time</strong> — the daily time (IST) the backup runs.</li>
-<li><strong>Keep</strong> — how many recent backups to retain in that folder; older ones are
-  deleted automatically as new ones are made.</li>
-<li><strong>Enabled</strong> — turn the schedule on or off.</li>
+  make every future backup include all prior ones).</p>
+</li>
+<li>
+<p><strong>Time</strong> — the daily time (IST) the backup runs.</p>
+</li>
+<li>
+<p><strong>Keep</strong> — how many recent backups to retain in that folder; older ones are
+  deleted automatically as new ones are made.</p>
+</li>
+<li>
+<p><strong>Enabled</strong> — turn the schedule on or off.</p>
+</li>
 </ul>
 <p>Click <strong>Save</strong> to apply — it takes effect immediately, no restart needed. The
 status line below the form shows the timestamp of the last scheduled run (or
@@ -573,7 +593,7 @@ it to see at a glance what's taking up space before deciding what to clean up
 or back up.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="strategy-usage.html">← <span>Strategy Configuration & Usage</span></a><a class="doc-prev-next-link next" href="mcp-setup.html"><span>MCP Setup (AI Assistant Tools)</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-11</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-14</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#whats-on-the-page">What's on the page</a></li><li><a href="#creating-a-backup">Creating a Backup</a><ul><li><a href="#when-to-back-up">When to back up</a></li></ul></li><li><a href="#restoring-from-a-backup">Restoring from a Backup</a></li><li><a href="#scheduled-backups">Scheduled Backups</a><ul><li><a href="#moving-to-a-new-computer">Moving to a new computer</a></li></ul></li><li><a href="#simulation-cleanup">Simulation Cleanup</a></li><li><a href="#temp-files-cleanup">Temp Files Cleanup</a></li><li><a href="#reading-the-disk-usage-numbers">Reading the disk usage numbers</a></li></ul></nav></div>
 </main>
 <footer>
@@ -593,7 +613,7 @@ or back up.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

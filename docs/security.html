@@ -575,9 +575,11 @@ have.</p>
 <h2 id="orphan-position-detection">Orphan Position Detection</h2>
 <p>If a crash, manual square-off at the broker, or a missed exit ever leaves your broker holdings and ThetaPrime's records out of sync, ThetaPrime checks for it automatically — at startup, and then periodically in the background for as long as the server runs.</p>
 <p><strong>How it works:</strong> Every time the server starts, and every 5 minutes after that (while any strategy has an open trade recorded), ThetaPrime compares its <strong>real-mode</strong> trade state files against the actual open positions reported by your broker — Kite, Breeze, or Dhan. Paper-mode trades are never sent to the broker, so they're excluded from the comparison entirely — an active paper strategy is expected, not a mismatch.</p>
-<p><strong>What it flags:</strong>
-- <strong>Broker-only</strong> — the broker shows an open position that no real-mode strategy's state file accounts for.
-- <strong>State file active, broker empty</strong> — a real-mode strategy's state file says a trade is open, but the broker shows nothing (or the wrong side).</p>
+<p><strong>What it flags:</strong></p>
+<ul>
+<li><strong>Broker-only</strong> — the broker shows an open position that no real-mode strategy's state file accounts for.</li>
+<li><strong>State file active, broker empty</strong> — a real-mode strategy's state file says a trade is open, but the broker shows nothing (or the wrong side).</li>
+</ul>
 <p><strong>Where you see it:</strong> A small <strong>Reconcile</strong> badge sits next to the <strong>Strategies</strong> heading on the dashboard — gray "not checked", green "clean", or red "N mismatch". On a mismatch, the affected symbols appear directly beneath the badge, split into broker-only vs state-only. Click the badge any time to force an immediate check. It also refreshes automatically every minute, so it reflects the periodic background check even if you never click it.</p>
 <p><strong>What happens when a mismatch is found:</strong> The badge turns red and you get a notification. Nothing is closed automatically — ThetaPrime only surfaces the mismatch; you decide what to do via your broker's own terminal. Click the badge again once you've squared things up — it turns green if everything now matches.</p>
 <p><strong>State file active, broker empty — reconciling ThetaPrime's own records:</strong> If you closed a position directly at the broker (e.g. a missed automated exit), the broker side is already correct, but ThetaPrime's trade state still shows it open. Open that strategy's <strong>Trade Status</strong> modal (dashboard → <strong>Details</strong>) and click <strong>Mark Exited (Manual)</strong>. It shows one row per open leg with an inline exit-price field — no more one-at-a-time prompts — and a <strong>Validate vs Broker</strong> button that checks each symbol is still tradable and flags a price that's far from the live LTP before you confirm. Recording the exit never places an order, so it's safe to use after the fact. This is different from <strong>Sq Off</strong>, which places a real closing order and should only be used when the position is still genuinely open at the broker.</p>
@@ -596,7 +598,7 @@ have.</p>
 <p>This check requires a fresh broker login; it's skipped (not flagged as an error) if your token has expired.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="mcp-setup.html">← <span>MCP Setup (AI Assistant Tools)</span></a><a class="doc-prev-next-link next" href="licensing.html"><span>License & Activation</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.12 · Page last updated 2026-08-11</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.13 · Page last updated 2026-08-14</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#trade-data-encryption">Trade Data Encryption</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a></li></ul></nav></div>
 </main>
 <footer>
@@ -616,7 +618,7 @@ have.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.12</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>
