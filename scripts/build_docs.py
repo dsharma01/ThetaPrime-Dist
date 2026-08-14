@@ -96,12 +96,13 @@ MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists", "toc"]
 
 
 def load_chrome():
-    """Pull <style>, header, and footer+script chrome out of index.html."""
+    """Pull <style>, favicon links, header, and footer+script chrome out of index.html."""
     html = INDEX_HTML.read_text(encoding="utf-8")
     style = re.search(r"<style>(.*?)</style>", html, re.S).group(1)
+    favicons = "\n".join(re.findall(r'<link rel="icon"[^>]*>', html))
     header = re.search(r"(<header class=\"nav\">.*?</header>)", html, re.S).group(1)
     footer = re.search(r"(<footer>.*?</html>)", html, re.S).group(1)
-    return style, header, footer
+    return style, favicons, header, footer
 
 
 def last_updated(app_repo_dir, src_rel):
@@ -166,7 +167,7 @@ def convert(md_text, image_root):
 
 
 def render_page(title, body_html, root, out_rel, version, updated):
-    style, header, footer = CHROME
+    style, favicons, header, footer = CHROME
     header = rewrite_chrome_links(header, root)
     footer = rewrite_chrome_links(footer, root)
     crumb = title if out_rel == "index.html" else f'<a href="{root}docs/index.html">Docs</a> / {title}'
@@ -179,6 +180,7 @@ def render_page(title, body_html, root, out_rel, version, updated):
 <title>{title} — ThetaPrime Docs</title>
 <meta name="description" content="{title} — ThetaPrime documentation.">
 <link rel="canonical" href="https://thetaprime.in/docs/{'' if out_rel == 'index.html' else out_rel}">
+{favicons}
 <style>{style}
 {DOC_CSS}
 </style>
