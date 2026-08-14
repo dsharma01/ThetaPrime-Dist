@@ -414,7 +414,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Data Management</div>
 <div class="doc-body">
-<h1 id="data-management">Data Management</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#whats-on-the-page">What's on the page</a></li><li><a href="#creating-a-backup">Creating a Backup</a><ul><li><a href="#when-to-back-up">When to back up</a></li></ul></li><li><a href="#restoring-from-a-backup">Restoring from a Backup</a><ul><li><a href="#moving-to-a-new-computer">Moving to a new computer</a></li></ul></li><li><a href="#simulation-cleanup">Simulation Cleanup</a></li><li><a href="#temp-files-cleanup">Temp Files Cleanup</a></li><li><a href="#reading-the-disk-usage-numbers">Reading the disk usage numbers</a></li></ul></nav>
+<h1 id="data-management">Data Management</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#whats-on-the-page">What's on the page</a></li><li><a href="#creating-a-backup">Creating a Backup</a><ul><li><a href="#when-to-back-up">When to back up</a></li></ul></li><li><a href="#restoring-from-a-backup">Restoring from a Backup</a></li><li><a href="#scheduled-backups">Scheduled Backups</a><ul><li><a href="#moving-to-a-new-computer">Moving to a new computer</a></li></ul></li><li><a href="#simulation-cleanup">Simulation Cleanup</a></li><li><a href="#temp-files-cleanup">Temp Files Cleanup</a></li><li><a href="#reading-the-disk-usage-numbers">Reading the disk usage numbers</a></li></ul></nav>
 <p>Click <strong>Data</strong> in the top navigation bar to open the Data Management page.
 This is where you back up your data, restore it, and clear out files that
 build up over time from simulations and caching.</p>
@@ -438,6 +438,12 @@ settings, and your saved API credentials and login tokens.</p>
 broker accounts through this app. Store it somewhere private (an encrypted
 drive, a password manager's file storage, etc.), not in a shared folder or
 inbox.</p>
+<p>Your trade history (<code>run_history.db</code>, <code>performance.db</code>) is encrypted inside
+the zip — it's only readable by this app on this computer, same protection as
+when the app isn't running. This applies to scheduled backups too, so pointing
+one at a OneDrive/Dropbox/Google Drive folder doesn't push your trade history
+to the cloud in plaintext. Your strategy files and settings are not encrypted
+in the backup — they don't contain trade data or credentials.</p>
 <h3 id="when-to-back-up">When to back up</h3>
 <ul>
 <li><strong>Before restoring</strong> a different backup — see the safety net below, but
@@ -468,6 +474,29 @@ fully take effect until you stop and restart it (<code>Ctrl+C</code>, then
 that way).</p>
 <p>If you pick a file that isn't a ThetaPrime backup, you'll see an error
 ("This does not look like a ThetaPrime backup") and nothing is changed.</p>
+<hr />
+<h2 id="scheduled-backups">Scheduled Backups</h2>
+<p>Below the manual Backup &amp; Restore controls is a <strong>Scheduled backups</strong> section
+that runs the same backup automatically, on a timer, with no browser tab
+needed.</p>
+<ul>
+<li><strong>Destination folder</strong> — any folder path on this machine. Click
+  <strong>Browse…</strong> to pick it from a native Windows folder dialog (only works
+  when you're running the app on the same PC you're browsing from and it's
+  not running headless as a background service — in that case, type the path
+  directly). Point it at a folder synced by OneDrive, Dropbox, or Google
+  Drive's desktop app to get an automatic offsite/cloud copy — the app
+  doesn't talk to any cloud service directly, the sync client does that
+  part. It cannot be a folder inside the app's own data folder (that would
+  make every future backup include all prior ones).</li>
+<li><strong>Time</strong> — the daily time (IST) the backup runs.</li>
+<li><strong>Keep</strong> — how many recent backups to retain in that folder; older ones are
+  deleted automatically as new ones are made.</li>
+<li><strong>Enabled</strong> — turn the schedule on or off.</li>
+</ul>
+<p>Click <strong>Save</strong> to apply — it takes effect immediately, no restart needed. The
+status line below the form shows the timestamp of the last scheduled run (or
+failure).</p>
 <h3 id="moving-to-a-new-computer">Moving to a new computer</h3>
 <ol>
 <li>On the old machine, click <strong>Download Backup</strong>.</li>
@@ -507,7 +536,7 @@ of the three databases (performance, run history, simulation sessions). Use
 it to see at a glance what's taking up space before deciding what to clean up
 or back up.</p>
 </div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.0 · Page last updated 2026-07-04</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-11</p>
 </main>
 <footer>
   <div class="wrap">

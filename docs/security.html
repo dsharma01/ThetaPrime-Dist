@@ -414,7 +414,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <main class="wrap doc-page">
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Security</div>
 <div class="doc-body">
-<h1 id="security">Security</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a></li></ul></nav>
+<h1 id="security">Security</h1><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#trade-data-encryption">Trade Data Encryption</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a></li></ul></nav>
 <p>ThetaPrime is designed for personal use on your own computer. These protections keep your broker credentials safe and guard against accidental live trades.</p>
 <hr />
 <h2 id="dashboard-password">Dashboard Password</h2>
@@ -460,22 +460,47 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <tr>
 <td>Trade history &amp; P&amp;L</td>
 <td>Database files on your hard drive (<code>run_history.db</code>, <code>performance.db</code>)</td>
-<td><strong>No</strong> — not encrypted; anyone with access to the files can open them with free tools</td>
+<td><strong>Yes</strong> — encrypted at rest (AES-256-GCM); see <a href="#trade-data-encryption">Trade Data Encryption</a> below</td>
 </tr>
 <tr>
 <td>Trade journal</td>
 <td>CSV file (<code>strategies/lib_v1_paper_trade_journal.csv</code>)</td>
-<td><strong>No</strong> — opens directly in Excel</td>
+<td><strong>No</strong> — opens directly in Excel (planned for a future release)</td>
 </tr>
 </tbody>
 </table>
 <p><strong>What this means in practice:</strong></p>
 <ul>
-<li>The dashboard password is a <strong>web UI gate</strong> — it stops someone using a browser to access ThetaPrime, but it does not encrypt your files.</li>
-<li>If your Windows account is password-protected and only you log in, your trade data is protected at the Windows level.</li>
-<li>If your computer is shared or left unlocked, someone could copy and read your trade history without ever touching the ThetaPrime password.</li>
-<li>Your <strong>broker credentials are safer</strong> — they live in the Windows secure vault, not in the files, so copying the folder won't expose them.</li>
+<li>The dashboard password is a <strong>web UI gate</strong> — it stops someone using a browser to access ThetaPrime. It's a separate lock from the encryption below.</li>
+<li>Trade history and P&amp;L are encrypted on disk whenever the app isn't running — copying <code>run_history.db</code>/<code>performance.db</code> off this machine gets you unreadable bytes, not a SQLite file you can open in a free tool.</li>
+<li>While ThetaPrime is running, those files are held decrypted (needed to trade) — same "protected while off, not while on" model Windows itself uses for a locked screen vs. a running session.</li>
+<li>The trade journal CSV isn't encrypted yet — that's next on the list, not covered by this release.</li>
 </ul>
+<hr />
+<h2 id="trade-data-encryption">Trade Data Encryption</h2>
+<p><code>run_history.db</code> and <code>performance.db</code> are encrypted whenever ThetaPrime isn't running. The
+encryption key isn't tied to your dashboard password — it's held in the same Windows Credential
+Manager vault as your broker tokens, so scheduled/automated trading keeps working unattended after
+a reboot without anyone needing to log in first.</p>
+<p><strong>Recovery code:</strong> the first time this feature runs (a fresh install, or your first restart after
+updating to a version that has it), the <strong>Auth</strong> page shows a one-time recovery code. Save it
+somewhere safe — it's the only way to recover your trade data if this computer's Credential Manager
+is ever lost or corrupted (e.g. a Windows reinstall, or migrating to a new PC). ThetaPrime cannot
+show it to you again after you dismiss it, but you can generate a fresh one any time from the same
+<strong>Data Encryption</strong> card on the Auth page — doing so invalidates the old code.</p>
+<p><strong>Recommended: turn on BitLocker (or Device Encryption).</strong> ThetaPrime's encryption protects
+<code>run_history.db</code>/<code>performance.db</code> only while the app isn't running — while it's actively trading,
+those files are held decrypted on disk, the same way any running program needs its data unlocked to
+use it. That gap is closed at the Windows level, not the app level: turning on <strong>BitLocker</strong>
+(Windows 10/11 Pro) or <strong>Device Encryption</strong> (the built-in equivalent on Home editions with
+supported hardware — check <strong>Settings → Privacy &amp; Security → Device encryption</strong>) encrypts your
+entire hard drive. If the machine is off, locked, or the drive is removed and read on another
+computer, everything on it — including a plaintext <code>run_history.db</code> mid-session — is unreadable
+without your Windows login. This is on top of ThetaPrime's own encryption, not instead of it: it
+covers "computer off or stolen," ThetaPrime's covers "a copy of just these files." Neither one, nor
+any other app, can protect your data from someone who is already logged into this Windows account
+while ThetaPrime is running — at that point the app needs the same access to your files that they'd
+have.</p>
 <hr />
 <h2 id="your-credentials-are-stored-securely">Your Credentials Are Stored Securely</h2>
 <p>Your broker API keys and access tokens are saved in your operating system's secure credential store (the same place Windows stores your saved passwords). They are never written to a plain text file unless the secure store is unavailable, in which case a warning banner appears on the <strong>Auth</strong> page.</p>
@@ -534,7 +559,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <p><strong>Turning it off:</strong> The periodic background check is a <strong>Safety Settings</strong> toggle on the <strong>Auth</strong> page ("Automatic orphan-position reconciliation"), on by default. Turning it off stops the every-5-minutes background check and the startup check; the dashboard badge still works on demand regardless.</p>
 <p>This check requires a fresh broker login; it's skipped (not flagged as an error) if your token has expired.</p>
 </div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.0 · Page last updated 2026-08-08</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-11</p>
 </main>
 <footer>
   <div class="wrap">

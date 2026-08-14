@@ -610,6 +610,10 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <p>Add more than one Regime skip block to veto several regimes at once (e.g. one blocking Bear Turbulent, another blocking Bear Drifting).</p>
 <p>The classifier pulls NIFTY, VIX, USD-INR, and Crude prices from Yahoo Finance's date-windowed chart endpoint — independent of your broker (Kite/Breeze/Dhan), since not every broker can quote every regime input, and accurate for any historical <code>as_of</code> date (unlike the retired FII/DII source above). India VIX futures term structure (contango/backwardation) was considered as a fourth risk-appetite input but dropped — no free public source exists for the NSE India VIX futures curve. If any input is unavailable, the filter fails open (allows entry) rather than blocking trades.</p>
 <p>Multi-day simulations (<code>/multi-sim-results</code>) tag each simulated day with its regime at that day's <code>as_of</code> date, shown in the "Regime" column of the daily breakdown table — useful for spotting whether a strategy's backtest coverage is concentrated in one or two regimes rather than spread across the full range it'll see live.</p>
+<p><strong>Reading the sim's Regime column against the navbar/live regime</strong>: don't expect them to agree on the same calendar day — they're calibrated on different windows by design (see "Two calibration files" above), so it's normal for a day to show <code>Bull Quiet</code> in a sim run and <code>Bull Volatile</code> on the navbar at the same time. The date isn't what causes the split (classifying today under both calibration files gives the same trend, and usually the same vol vote unless today's realized vol happens to sit between the two files' <code>rv_high</code> cutoffs); the calibration file is. The backtest file's window (2018–2022 by default) includes the COVID vol spike, so its <code>rv_high</code>/<code>rv_low</code> cutoffs sit wider than the live file's more recent, generally calmer window — the same realized-vol reading can clear the live file's bar for "high" without clearing the backtest file's higher bar, landing the same market in <code>low</code> under one file and <code>high</code> under the other. Practical takeaways:
+- Use the navbar/live regime to answer "what's the market doing right now" — never the sim's Regime column, even for the most recent sim date.
+- Trust the sim's Regime column for day-over-day comparisons <em>within</em> one sim run — every day in a session uses the same calibration file, so those reads are internally consistent.
+- For a <code>regime_skip</code>-gated strategy, expect live to filter out entries somewhat more readily than the backtest suggested, since the live file's high-vol bar is easier to trip — a gap between backtested and live entry frequency here isn't a strategy bug.</p>
 <p><a id="expiry"></a></p>
 <h3 id="expiry">Expiry</h3>
 <p>Which expiry the legs trade.</p>
@@ -675,6 +679,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <td>Gamma target</td>
 <td><code>target_gamma</code>, <code>min_otm_pct</code>/<code>max_otm_pct</code>/<code>step_pct</code></td>
 <td>OTM strike, scanned across a range, whose Black-Scholes gamma is closest to a target — picks up the highest rate-of-change-of-delta strike within the band.</td>
+</tr>
+<tr>
+<td>Delta OTM</td>
+<td><code>target_delta</code>, <code>min_otm_pct</code>/<code>max_otm_pct</code>/<code>step_pct</code></td>
+<td>OTM strike, scanned across a range, whose Black-Scholes |delta| is closest to a target — unlike Delta target, stays out-of-the-money and has no time-value constraint.</td>
 </tr>
 </tbody>
 </table>
@@ -762,18 +771,18 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Call calendar</td>
-<td>SC (sell CE, near expiry), LC (buy CE, far expiry)</td>
-<td>Same strike, two expiries — pure time-decay play.</td>
+<td>SC (sell CE, near expiry), LC (buy CE, far expiry), <code>roll_short_legs</code></td>
+<td>Same strike, two expiries — pure time-decay play. <code>roll_short_legs</code> (default on) re-sells SC each time it closes while LC stays held; turn off to close once and hold the long leg alone until its own exit.</td>
 </tr>
 <tr>
 <td>Put calendar</td>
-<td>SP (sell PE, near expiry), LP (buy PE, far expiry)</td>
-<td>Same strike, two expiries — pure time-decay play.</td>
+<td>SP (sell PE, near expiry), LP (buy PE, far expiry), <code>roll_short_legs</code></td>
+<td>Same strike, two expiries — pure time-decay play. Same <code>roll_short_legs</code> toggle as call calendar.</td>
 </tr>
 <tr>
 <td>Diagonal</td>
-<td>LC, LP, SC, SP</td>
-<td>Deep-ITM longs on the monthly, ATM shorts on the weekly (own expiries).</td>
+<td>LC, LP, SC, SP, <code>roll_short_legs</code></td>
+<td>Deep-ITM longs on the monthly, ATM shorts on the weekly (own expiries). <code>roll_short_legs</code> (default on) re-sells SC/SP each time they close while LC/LP stay held; turn off to close the shorts once and hold the longs alone until their own long-leg exit.</td>
 </tr>
 </tbody>
 </table>
@@ -803,6 +812,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <td>Stop loss</td>
 <td><code>pts</code></td>
 <td>Exit when combined P&amp;L falls to −N points.</td>
+</tr>
+<tr>
+<td>Stop loss (% of premium)</td>
+<td><code>pct</code></td>
+<td>Exit when combined P&amp;L falls to −N% of the premium at entry — the net credit for a short structure, the net debit for a long one. Adapts across volatility regimes better than a fixed points stop.</td>
 </tr>
 <tr>
 <td>Time-locked profit</td>
@@ -882,7 +896,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </table>
 <p><a id="re-entry"></a></p>
 <h3 id="re-entry">Re-entry</h3>
-<p>Optional; one per strategy.</p>
+<p>Optional; one per strategy. This is unrelated to Diagonal/Calendar's <code>roll_short_legs</code> (see <a href="#structures">Structures</a>) — this block re-enters the <em>whole position</em> same-day after a stop-loss; <code>roll_short_legs</code> re-sells just the short legs of a diagonal/calendar while its long legs stay held, and runs regardless of whether this block is configured at all.</p>
 <table>
 <thead>
 <tr>
@@ -913,7 +927,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <tbody>
 <tr>
 <td>Roll a leg</td>
-<td><code>side</code>, <code>trigger_pct</code>, <code>trigger_mult</code>, <code>max_rolls</code>, <code>until</code></td>
+<td><code>side</code>, <code>trigger_pct</code>, <code>trigger_mult</code>, <code>max_rolls</code>, <code>until</code>, <code>roll_long_legs</code>, <code>long_target_delta</code>, <code>long_delta_band</code></td>
 <td>Closes a short leg and re-sells it at a fresh strike once it qualifies. Exits are always checked first, so a stop/target firing the same tick wins. See below for how the trigger and modes work.</td>
 </tr>
 </tbody>
@@ -925,7 +939,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <li><strong><code>both</code></strong> — checks both conditions on both legs every tick; if both qualify, both can roll in the same tick (spending up to two of <code>max_rolls</code> at once). <code>untested</code>/<code>tested</code> only roll one leg per check, whichever qualifies first.</li>
 </ul>
 <p><strong>What a roll does:</strong> ① close the old leg at today's price, ② open a fresh leg via the same selector the entry used, anchored to current spot, ③ recalculate the profit target and stop-loss around the new combined position.</p>
-<p><strong>Guardrails:</strong> no rolls after <code>until</code> (14:30 IST by default); at most <code>max_rolls</code> per trade (2 by default) — beyond that, exits handle any further move; a roll is skipped outright if the new strike would cross the other leg's strike. Only applies to plain two-short-leg positions (strangle/straddle) — an iron condor's wings or a diagonal's long legs mean this never triggers.</p>
+<p><strong>Guardrails:</strong> no rolls after <code>until</code> (14:30 IST by default); at most <code>max_rolls</code> per re-entry cycle (2 by default, resets on each new short re-entry) — beyond that, exits handle any further move; a roll is skipped outright if the new strike would cross the other leg's strike. Only ever acts on a live SC/SP pair — an iron condor's wings are left untouched. On a diagonal/calendar it rolls SC/SP in every short-leg cycle, including re-entries after <code>roll_short_legs</code> re-sells them; the parked long legs (LC/LP) aren't touched by this part of the block and don't block it.</p>
+<p><strong>Rolling long legs (LC/LP) too — <code>roll_long_legs</code>.</strong> Off by default. A long hedge leg has no decay/pressure framing — it's not sold for credit — so it uses a different trigger: live delta (Black-Scholes, off VIX) has drifted more than <code>long_delta_band</code> away from <code>long_target_delta</code> (0.5 / 0.15 by default). That's the same signal the leg was originally struck on (<code>delta_otm</code>/<code>delta_target</code> selectors), so a roll re-centers it rather than reacting to premium. Same <code>until</code>/<code>max_rolls</code> cutoffs as the short side, same crossing guard (a rolled LC/LP can't cross its paired SC/SP strike), same one-legged-if-it-fails-mid-roll behavior. Checked independently of the short-leg roll — either, both, or neither can happen on a given tick.</p>
 <p>If a roll can't complete cleanly (no price found, or the close doesn't confirm), the engine stops rather than risk making it worse — worst case the position is temporarily left one-legged, still watched by the normal exit rules until it's resolved.</p>
 <hr />
 <p><a id="what-gets-created"></a></p>
@@ -981,7 +996,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <li><strong>Save fails</strong> if the name collides with an existing strategy name; the dialog shows the error.</li>
 </ul>
 </div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.0 · Page last updated 2026-08-08</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-14</p>
 </main>
 <footer>
   <div class="wrap">

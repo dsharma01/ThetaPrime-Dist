@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.32.0 (2026-08-09) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.32.10 (2026-08-14) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -468,14 +468,16 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
             <li><b>Payoff diagram + Ask AI</b> — see max profit/loss, breakevens, probability of profit, net Delta/Gamma/Theta/Vega, and a P&amp;L what-if at spot ±1/2/3%, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
+            <li><b>Reorder blocks</b> — move any block up or down within its slot without rebuilding the strategy.</li>
             <li><b>Runs on NIFTY, BankNifty, FinNifty, or any F&amp;O stock</b> — strike ladders and lot sizes resolve from the exchange's live instrument list, not a hardcoded table that goes stale.</li>
+            <li><b>Diagonal/Calendar legs roll independently</b> — the short leg re-sells itself each time it closes, and the long hedge leg can roll on its own delta-drift trigger, so one side parking doesn't leave the other sitting idle.</li>
           </ul>
         </div>
         <div class="block-panel">
           <div class="block-group"><h4>Structures</h4><div class="chip-row"><span class="chip">Short strangle</span><span class="chip">Short straddle</span><span class="chip">Long strangle</span><span class="chip">Long straddle</span><span class="chip">Iron condor</span><span class="chip">Iron butterfly</span><span class="chip">Diagonal</span><span class="chip">Vertical spread</span><span class="chip">Calendar spread</span><span class="chip">Single-leg</span></div></div>
-          <div class="block-group"><h4>Leg selectors</h4><div class="chip-row"><span class="chip">OTM %</span><span class="chip">ATM</span><span class="chip">Premium target</span><span class="chip">Delta target</span></div></div>
+          <div class="block-group"><h4>Leg selectors</h4><div class="chip-row"><span class="chip">OTM %</span><span class="chip">ATM</span><span class="chip">Premium target</span><span class="chip">Delta target</span><span class="chip">Delta OTM</span></div></div>
           <div class="block-group"><h4>Expiry</h4><div class="chip-row"><span class="chip">Next weekly</span><span class="chip">Monthly</span></div></div>
-          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Profit target (% premium)</span><span class="chip">Stop loss</span><span class="chip">Delta stop</span><span class="chip">Volatility stop</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">Per-leg price stop</span><span class="chip">Time-locked profit</span><span class="chip">Soft exit</span><span class="chip">Carry position</span><span class="chip">Long leg exit</span><span class="chip">EOD</span></div></div>
+          <div class="block-group"><h4>Exits</h4><div class="chip-row"><span class="chip">Profit target</span><span class="chip">Profit target (% premium)</span><span class="chip">Stop loss</span><span class="chip">Stop loss (% premium)</span><span class="chip">Delta stop</span><span class="chip">Volatility stop</span><span class="chip">Trailing stop</span><span class="chip">Per-leg stop</span><span class="chip">Per-leg price stop</span><span class="chip">Time-locked profit</span><span class="chip">Soft exit</span><span class="chip">Carry position</span><span class="chip">Long leg exit</span><span class="chip">EOD</span></div></div>
           <div class="block-group"><h4>Adjustments</h4><div class="chip-row"><span class="chip">Roll a leg</span></div></div>
           <div class="block-group"><h4>Filters</h4><div class="chip-row"><span class="chip">Time window</span><span class="chip">VIX skip</span><span class="chip">VIX floor</span><span class="chip">VIX + gap skip</span><span class="chip">Gap skip</span></div></div>
           <div class="block-group"><h4>Sizing</h4><div class="chip-row"><span class="chip">Fixed lots</span><span class="chip">Capital %</span></div></div>
@@ -611,8 +613,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <ul class="check-list">
             <li><b>No ThetaPrime cloud.</b> The app installs and runs entirely on your PC as a background Windows service.</li>
             <li><b>Windows Credential Manager for secrets.</b> API keys, access tokens, dashboard password, and license key live in the same vault Windows uses for its own saved passwords.</li>
+            <li><b>Trade data encrypted at rest.</b> Your trade history and P&amp;L database are AES-256-GCM encrypted whenever ThetaPrime isn't running, keyed from the same Credential Manager vault. A one-time recovery code is issued on first run, so scheduled trading survives a reboot unattended without you re-entering anything.</li>
             <li><b>Two things leave your machine:</b> HTTPS calls to your broker's API, and one silent version check against GitHub, once a day. Nothing else.</li>
-            <li><b>One-click backup.</b> A single zip of strategies, trade history, and credentials — restoring first snapshots your current data automatically, so a bad restore is one click to undo.</li>
+            <li><b>One-click backup, or scheduled.</b> A single zip of strategies, trade history, and credentials — trade data encrypted inside it — restoring first snapshots your current data automatically, so a bad restore is one click to undo. Set it to run daily to any local folder, including one synced by OneDrive, Dropbox, or Google Drive, with configurable retention.</li>
           </ul>
         </div>
       </div>
@@ -705,7 +708,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.32.10</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span>

@@ -584,12 +584,20 @@ market opens, instead of a strategy discovering it mid-run.</p>
 <td>The <strong>Notifications</strong> toggle at the top of the card is off — turn it on, no channel is even attempted while it's off.</td>
 </tr>
 <tr>
-<td>Test reports success but no message arrives</td>
+<td>Telegram's own <strong>Send Test</strong> fails with a 404 from <code>api.telegram.org</code></td>
+<td>The <strong>Bot Token</strong> field has a literal <code>bot</code> pasted in front of the token (e.g. <code>bot123456:AAF...</code> instead of <code>123456:AAF...</code>) — the app already adds that prefix when calling the API, so a token that includes it gets sent twice. Re-paste just the token BotFather gave you, nothing before the digits.</td>
+</tr>
+<tr>
+<td>Telegram's own <strong>Send Test</strong> fails, no message arrives</td>
 <td>You haven't messaged your bot yet (step 2 above) — bots can't initiate a chat. Message the bot, then Send Test again.</td>
 </tr>
 <tr>
 <td>Still nothing after messaging the bot</td>
 <td>Double-check the chat ID is <em>your</em> ID from @userinfobot, not the bot's own ID, and that the bot token was pasted in full.</td>
+</tr>
+<tr>
+<td>Telegram fails but <strong>Send Test</strong> on it still shows ✓</td>
+<td>Fixed 2026-08-12 — each channel's <strong>Send Test</strong> now checks only that channel, so a working webhook/email no longer masks a broken Telegram token.</td>
 </tr>
 </tbody>
 </table>
@@ -620,7 +628,7 @@ ThetaPrime needs a live connection to your broker for as long as a position is o
 Yes — see <a href="#first-time-api-credentials">First-Time API Credentials</a> above. SEBI's API trading rules require a fixed IP for order placement, registered with your broker. Ask your ISP for a static IP add-on before setting up any broker's API app. Dhan enforces this server-side — a stale IP silently blocks order placement while quotes/margins keep working, so it's the easiest one to miss.</p>
 <hr />
 </div>
-<p class="doc-meta">Applies to ThetaPrime v0.32.0 · Page last updated 2026-08-07</p>
+<p class="doc-meta">Applies to ThetaPrime v0.32.10 · Page last updated 2026-08-12</p>
 </main>
 <footer>
   <div class="wrap">
