@@ -1,7 +1,7 @@
 {
-  "version": "0.32.12",
-  "released": "2026-08-14",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.32.12/ThetaPrime-0.32.12-setup.exe",
-  "release_notes": "Entry rejection handling could unwind live positions that were never actually rejected: an async accept-then-reject race in Kite's RMS could leave an order reading REJECTED in the order book while the position had actually filled. `_cancel_and_rollback` now cross-checks `broker.positions()` before trusting a REJECTED verdict, and no longer auto-closes long legs (LC/LP) when only short siblings are rejected \u2014 those are parked into `_long_active` instead. `edit_trade_state`: `confirm_active` \u2014 manual, broker-verified escape hatch to move a `PARTIAL_ENTRY_FAILED` trade's rejected legs into `ACTIVE`, for state predating the fix above.",
-  "min_supported": "0.32.12"
+  "version": "0.32.15",
+  "released": "2026-08-18",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.32.15/ThetaPrime-0.32.15-setup.exe",
+  "release_notes": "`long_eod` exit: `hold_below_pts` skips the pre-expiry long-leg close when P&L is already worse than the expiry-guaranteed floor. Left at 0, a bracket long-combo (long call struck below a long put) auto-derives that floor from strikes/entry prices; any other leg shape just honors the DTE trigger as before. `long_eod` ctx now prices the long legs live instead of using the `0.0` `pnl_pts` default \u2014 needed for `hold_below_pts` (and any leg-scoped PT/SL) to evaluate correctly.",
+  "min_supported": "0.32.15"
 }
