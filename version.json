@@ -1,7 +1,7 @@
 {
-  "version": "0.34.2",
-  "released": "2026-08-22",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.34.2/ThetaPrime-0.34.2-setup.exe",
-  "release_notes": "`docs/option-scanner.md` \u2014 scan modes, results columns, Flow (OI Analysis) buildup categorization, and the Ask AI handoff, cross-linked from `docs/strategy-usage.md`. Option Scanner page description said \"Instruments & spot always from Kite\" \u2014 stale since the broker-parity work made every field (instruments/spot/OI/LTPs) come from whichever broker is selected. 4 markdown tables in `docs/strategy-composer.md`'s regime-skip filter section were rendering as raw pipe-delimited text instead of tables (missing blank line before the table, same bug class as the list-gluing fix in v0.32.13). `marketing/features.md`'s Option Scanner entry updated for Flow (OI Analysis), multi-broker support, and Ask AI \u2014 was still describing only the original premium%/IV/delta scan. `README.md` rewritten \u2014 was still describing the pre-multi-broker prototype (wrong product name, in-memory token storage, a PyInstaller build script that no longer exists).",
-  "min_supported": "0.34.2"
+  "version": "0.35.3",
+  "released": "2026-08-23",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.3/ThetaPrime-0.35.3-setup.exe",
+  "release_notes": "Installer upgrades could fail with `DeleteFile failed; code 5 (Access is denied)` on a bundled `.pyd` file \u2014 `ThetaPrimeShell.exe` hides to the tray on window close rather than exiting, so it's almost always still running (with its own DLLs loaded) during an upgrade, and the installer only ever stopped the NSSM service. `setup.iss` now also `taskkill /F /IM ThetaPrimeShell.exe` (best-effort) before file replacement.",
+  "min_supported": "0.35.3"
 }
