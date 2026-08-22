@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.32.13 (2026-08-15) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.34.1 (2026-08-22) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -464,7 +464,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <h2 style="margin-top:0.7rem;">Build a strangle by clicking, not scripting.</h2>
           <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Every saved strategy runs on the same engine, dashboard, and P&amp;L reports — there's no separate code path to fall back to.</p>
           <ul class="check-list">
-            <li><b>Build with AI</b> — describe what you want in plain English and ThetaPrime hands your own chat AI a prompt pre-loaded with the live block catalog, a worked example, and the guardrails it can't infer on its own (expiry rules, DTE floors, covered-leg scope); paste the reply back in and it imports as a spec.</li>
+            <li><b>Build with AI</b> — describe what you want in plain English. With an AI provider configured it's an in-app chat, each reply validated server-side against the composer's own rules before you can apply it, with one automatic retry if a reply comes back invalid. No provider configured falls back to a copy/paste prompt handoff instead.</li>
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
             <li><b>Payoff diagram + Ask AI</b> — see max profit/loss, breakevens, probability of profit, net Delta/Gamma/Theta/Vega, and a P&amp;L what-if at spot ±1/2/3%, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
@@ -507,6 +507,38 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
   </section>
 
+  <section class="section" id="scanner">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <span class="eyebrow">Option Scanner</span>
+          <h2 style="margin-top:0.7rem;">Read the option chain's own footprints, not just the price.</h2>
+          <p class="lede" style="margin-top:1rem;">Three scan modes, no strategy required: a specific underlying's full chain, a Top F&amp;O Stocks sweep, or Flow — per-strike OI buildup and PCR, live off whichever broker you pick.</p>
+          <ul class="check-list">
+            <li><b>Flow (OI Analysis)</b> — every strike tagged Long Buildup, Short Buildup, Short Covering, or Long Unwinding from price + OI direction combined, plus PCR (OI) for the whole chain.</li>
+            <li><b>Unusual-volume flag</b> — a strike is flagged the instant today's volume reaches 50% of its open interest.</li>
+            <li><b>Any connected broker</b> — Kite, Breeze, or Dhan, switchable mid-scan; instruments, spot, OI, and LTPs all come from the one you pick.</li>
+            <li><b>Ask AI</b> — hand the scan straight to your own ChatGPT, Claude, Perplexity, Gemini, or Copilot for a second read on notable strikes. No API key stored.</li>
+            <li><b>Auto-refresh + CSV export</b> — Flow mode can poll on an interval for a live view, or export any scan straight to CSV.</li>
+          </ul>
+        </div>
+        <div class="device">
+          <div class="device-bar"><div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div><span>option-scanner — Flow (OI Analysis)</span></div>
+          <div class="device-body">
+            <div class="reconcile-line" style="margin-bottom:0.4rem;">
+              <span class="mono">NIFTY 28-AUG</span>
+              <span class="push-end mono">PCR (OI) 1.18</span>
+            </div>
+            <div class="evt-row"><span class="evt-time">24700 CE</span><span class="evt-cat"><span class="dot" style="background:var(--red)"></span>Short Buildup</span><span class="pill pill-red" style="animation:none;">bearish</span></div>
+            <div class="evt-row"><span class="evt-time">24900 PE</span><span class="evt-cat"><span class="dot" style="background:var(--accent-ink)"></span>Long Buildup</span><span class="pill pill-green" style="animation:none;">bullish</span></div>
+            <div class="evt-row"><span class="evt-time">25000 CE</span><span class="evt-cat"><span class="dot" style="background:var(--amber)"></span>Short Covering</span><span class="pill pill-amber" style="animation:none;">unwind</span></div>
+            <div class="evt-row"><span class="evt-time">25100 PE</span><span class="evt-cat"><span class="dot" style="background:var(--text-muted)"></span>Long Unwinding</span><span class="pill pill-neutral" style="animation:none;">fading</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="safety">
     <div class="wrap">
       <div class="section-head">
@@ -525,7 +557,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Bookkeeping</span><h3>Fix state, never place an order</h3><p>Manual Entry and Edit Trade State correct ThetaPrime's own record when a fill happened outside automation — never a backdoor for placing or closing a position, and every edit is checked against the broker and logged.</p></div>
         <div class="feature-card"><span class="tag">Auth</span><h3>Expired login, no live orders</h3><p>No fresh broker token, no live trading — full stop. Paper trading and backtests keep running regardless, so a stale login degrades gracefully instead of silently.</p></div>
         <div class="feature-card"><span class="tag">Login check</span><h3>Broker API validated on login</h3><p>Every Kite, Breeze, or Dhan token is checked against the exact read-only endpoints strategies depend on, the moment you log in. A broken or changed broker API fails at Auth, not mid-strategy at 9:20am.</p></div>
-        <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — but only after cross-checking the broker's actual positions first, so a leg mis-reported as rejected during a fill-confirmation race isn't unwound by accident.</p></div>
+        <div class="feature-card"><span class="tag">Execution</span><h3>Fill confirmation, not assumption</h3><p>A real order isn't done until the broker confirms the fill. An unconfirmed or partial entry rolls back — but only after cross-checking the broker's actual positions first, so a leg mis-reported as rejected during a fill-confirmation race isn't unwound by accident. A close order that never confirms behaves the same way in reverse: the leg is flagged, blocks new entries and re-entries, and surfaces to reconciliation, until you confirm it by hand.</p></div>
+        <div class="feature-card"><span class="tag">Manual takeover</span><h3>Close one leg, autopilot handles the rest</h3><p>Close a single leg outside automation and ThetaPrime pauses just that strategy — a ✋ MANUAL badge marks it and every automated entry, exit, and adjustment stands down until you close what's left. No re-enable step: the moment every leg is closed, autopilot resumes on its own.</p></div>
       </div>
     </div>
   </section>
@@ -708,7 +741,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.32.13</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.34.1</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

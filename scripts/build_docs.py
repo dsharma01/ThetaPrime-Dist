@@ -44,6 +44,7 @@ PAGES = [
     ("strategy-composer.md", "strategy-composer.html", "Strategy Composer Guide", "Building Strategies"),
     ("composer-strategy-examples.md", "composer-strategy-examples.html", "Composer Strategy Examples", "Building Strategies"),
     ("strategy-usage.md", "strategy-usage.html", "Strategy Configuration & Usage", "Operations"),
+    ("data-sources.md", "data-sources.html", "Data Sources", "Operations"),
     ("data-management.md", "data-management.html", "Data Management", "Operations"),
     ("mcp-setup.md", "mcp-setup.html", "MCP Setup (AI Assistant Tools)", "Operations"),
     ("security.md", "security.html", "Security", "Security & Licensing"),
