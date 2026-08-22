@@ -1,7 +1,7 @@
 {
-  "version": "0.33.2",
-  "released": "2026-08-19",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.33.2/ThetaPrime-0.33.2-setup.exe",
-  "release_notes": "Trade journal CSV (`lib_v1_paper_trade_journal.csv`) is now encrypted at rest and in backups, same path as `run_history.db`/`performance.db` (issue #370). Cheap RSS/thread-count snapshot logged every reconcile cycle, piggybacked on the existing broker round-trip \u2014 no documented CPU/RAM footprint for the always-on service previously (issue #375). Installer's Finished page now checks whether the NSSM Windows service actually registered instead of assuming success, and reports clearly if it didn't. `docs/setup.md` documents the broker read-call retry/backoff behavior (2 retries, 0.5s/1.5s delay, 5 consecutive failures raise a \"broker degraded\" alert).",
-  "min_supported": "0.33.2"
+  "version": "0.34.1",
+  "released": "2026-08-22",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.34.1/ThetaPrime-0.34.1-setup.exe",
+  "release_notes": "`tests/test_broker_conformance.py` \u2014 structural conformance suite that checks every broker adapter (Kite, Breeze, Dhan) implements the full `BrokerClient` contract and constants. `docs/brokers/adding-a-new-broker.md` \u2014 checklist for wiring in a 4th broker adapter. Broker adapters (Kite/Breeze/Dhan) and `scanner.py`/`app.py` brought into parity per the new conformance checklist.",
+  "min_supported": "0.34.1"
 }
