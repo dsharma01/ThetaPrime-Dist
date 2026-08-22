@@ -1,7 +1,7 @@
 {
-  "version": "0.34.1",
+  "version": "0.34.2",
   "released": "2026-08-22",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.34.1/ThetaPrime-0.34.1-setup.exe",
-  "release_notes": "`tests/test_broker_conformance.py` \u2014 structural conformance suite that checks every broker adapter (Kite, Breeze, Dhan) implements the full `BrokerClient` contract and constants. `docs/brokers/adding-a-new-broker.md` \u2014 checklist for wiring in a 4th broker adapter. Broker adapters (Kite/Breeze/Dhan) and `scanner.py`/`app.py` brought into parity per the new conformance checklist.",
-  "min_supported": "0.34.1"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.34.2/ThetaPrime-0.34.2-setup.exe",
+  "release_notes": "`docs/option-scanner.md` \u2014 scan modes, results columns, Flow (OI Analysis) buildup categorization, and the Ask AI handoff, cross-linked from `docs/strategy-usage.md`. Option Scanner page description said \"Instruments & spot always from Kite\" \u2014 stale since the broker-parity work made every field (instruments/spot/OI/LTPs) come from whichever broker is selected. 4 markdown tables in `docs/strategy-composer.md`'s regime-skip filter section were rendering as raw pipe-delimited text instead of tables (missing blank line before the table, same bug class as the list-gluing fix in v0.32.13). `marketing/features.md`'s Option Scanner entry updated for Flow (OI Analysis), multi-broker support, and Ask AI \u2014 was still describing only the original premium%/IV/delta scan. `README.md` rewritten \u2014 was still describing the pre-multi-broker prototype (wrong product name, in-memory token storage, a PyInstaller build script that no longer exists).",
+  "min_supported": "0.34.2"
 }
