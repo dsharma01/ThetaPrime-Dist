@@ -1,7 +1,7 @@
 {
-  "version": "0.35.3",
+  "version": "0.35.4",
   "released": "2026-08-23",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.3/ThetaPrime-0.35.3-setup.exe",
-  "release_notes": "Installer upgrades could fail with `DeleteFile failed; code 5 (Access is denied)` on a bundled `.pyd` file \u2014 `ThetaPrimeShell.exe` hides to the tray on window close rather than exiting, so it's almost always still running (with its own DLLs loaded) during an upgrade, and the installer only ever stopped the NSSM service. `setup.iss` now also `taskkill /F /IM ThetaPrimeShell.exe` (best-effort) before file replacement.",
-  "min_supported": "0.35.3"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.4/ThetaPrime-0.35.4-setup.exe",
+  "release_notes": "Install docs (`docs/installation.md`, `docs/setup.md`, `docs/security.md`, `docs/dev/installation.md`) rewritten for the pywebview app-window/tray-icon flow, replacing stale browser-tab instructions; documents the license request flow and the NSSM service-registration failure mode. `tools/create_coupon.py`, `tools/generate_license.py`, `tools/process_license_requests.py` now share a `tools/_wrangler.py` `d1_execute()` helper instead of each calling `subprocess.run()` directly. `installer/build_installation_pdf.py` regenerates the installation guide PDF.",
+  "min_supported": "0.35.4"
 }
