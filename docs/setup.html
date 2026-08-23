@@ -451,12 +451,15 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Setup Guide</div>
 <div class="doc-body">
 <h1 id="setup-guide">Setup Guide</h1>
-<p>Open <code>http://127.0.0.1:5000</code> in your browser. The server starts the scheduler automatically on launch.</p>
+<p>ThetaPrime opens as its own app window (Start Menu shortcut, or the tray icon
+once it's already running) — not a browser tab. The backend service starts
+the scheduler automatically on launch, so it's running even if the window
+itself is closed to the tray.</p>
 <hr />
 <h2 id="dashboard-login">Dashboard Login</h2>
 <p>The dashboard is protected by a password on first run.</p>
 <ol>
-<li>Open <code>http://127.0.0.1:5000</code> in your browser.</li>
+<li>Open ThetaPrime.</li>
 <li>You will be prompted to <strong>Set Dashboard Password</strong> — choose a password of at least 8 characters and click <strong>Set Password</strong>. This is stored securely in the OS keychain.</li>
 <li>On subsequent visits, enter your password at the login prompt.</li>
 </ol>
@@ -670,7 +673,7 @@ Yes — see <a href="#first-time-api-credentials">First-Time API Credentials</a>
 <hr />
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="installation.html">← <span>Installation Guide</span></a><a class="doc-prev-next-link next" href="obtaining-credentials.html"><span>Obtaining API Credentials</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.34.2 · Page last updated 2026-08-19</p>
+<p class="doc-meta">Applies to ThetaPrime v0.35.4 · Page last updated 2026-08-23</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-login">Dashboard Login</a></li><li><a href="#first-run-setup-wizard">First-Run Setup Wizard</a></li><li><a href="#first-time-api-credentials">First-Time API Credentials</a></li><li><a href="#enablingdisabling-a-broker">Enabling/Disabling a Broker</a></li><li><a href="#daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</a></li><li><a href="#verifying-the-connection">Verifying the Connection</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#notification-setup-optional">Notification Setup (Optional)</a><ul><li><a href="#gmail-users-app-password-required">Gmail users — App Password required</a></li><li><a href="#telegram">Telegram</a></li><li><a href="#custom-notification-webhook-advanced">Custom notification webhook (advanced)</a></li><li><a href="#what-triggers-a-notification">What triggers a notification</a></li></ul></li><li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li></ul></nav></div>
 </main>
 <footer>

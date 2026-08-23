@@ -532,16 +532,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <blockquote>
 <p>The Kite Connect API subscription has a monthly fee charged by Zerodha directly. ThetaPrime is a separate product and does not charge any API fees.</p>
 </blockquote>
-<h3 id="2-nssm-windows-service-manager">2. NSSM (Windows service manager)</h3>
-<p>ThetaPrime runs as a background Windows service via NSSM. The installer needs <code>nssm.exe</code> to register the service.</p>
-<ol>
-<li>Download NSSM 2.24 from <a href="https://nssm.cc/download">nssm.cc/download</a>.</li>
-<li>Extract the archive and copy <code>win64\nssm.exe</code> into the <code>installer\</code> folder alongside <code>ThetaPrime-x.x.x-setup.exe</code> <strong>before</strong> running the installer.</li>
-</ol>
-<blockquote>
-<p>If <code>nssm.exe</code> is not present, the Windows service will not be registered — the installer's Finished page will show an explicit error instead of the usual success message. You can run the strategy dashboard manually with <code>ThetaPrime.exe</code> from the installation folder, but it will not survive a reboot.</p>
-</blockquote>
-<h3 id="3-a-static-ip-address-sebi-requirement">3. A static IP address (SEBI requirement)</h3>
+<h3 id="2-a-static-ip-address-sebi-requirement">2. A static IP address (SEBI requirement)</h3>
 <p>SEBI's API trading rules require a fixed IP address for order placement. Contact your ISP and ask for a <strong>static IP</strong> add-on for your broadband connection (most ISPs offer this for a small monthly fee), then register that IP with your broker's API portal alongside your redirect URL — Kite Connect and Breeze both ask for it when you create or edit the app. Dhan enforces this server-side on every order regardless of any app-level setting, so it's the easiest one to get caught out by after an IP change.</p>
 <blockquote>
 <p>A dynamic IP that changes on its own will eventually stop matching what's registered with your broker, breaking live order placement until you update it. A static IP avoids that entirely.</p>
@@ -568,7 +559,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </code></pre>
 <p>You can change this, but avoid paths with spaces or special characters. Click <strong>Next</strong>.</p>
 <h3 id="step-4-start-menu-shortcuts">Step 4 — Start Menu shortcuts</h3>
-<p>Leave "Create Start Menu shortcuts" checked so you can open the dashboard from the Start Menu. Click <strong>Next</strong>, then <strong>Install</strong>.</p>
+<p>Leave "Create Start Menu shortcuts" checked so you can open ThetaPrime from the Start Menu. The shortcut launches a native app window, not a browser tab. Click <strong>Next</strong>, then <strong>Install</strong>.</p>
 <h3 id="step-5-service-registration">Step 5 — Service registration</h3>
 <p>The installer silently registers <code>ThetaPrimeDashboard</code> as a Windows service using NSSM. The service:</p>
 <ul>
@@ -578,20 +569,28 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </ul>
 <p>You will see a progress bar during this step — it typically takes 5–15 seconds.</p>
 <h3 id="step-6-finish">Step 6 — Finish</h3>
-<p>Click <strong>Finish</strong>. The installer offers to open the dashboard in your browser. You can also open it any time from the Start Menu shortcut <strong>ThetaPrime Dashboard</strong>, or by navigating to <code>http://localhost:5000</code>.</p>
+<p>Click <strong>Finish</strong>. The installer offers to open ThetaPrime in its own app window right away. After that, open it any time from the Start Menu shortcut <strong>ThetaPrime Dashboard</strong>, or from its icon in the system tray if it's already running.</p>
+<hr />
+<h2 id="the-app-window-tray-icon">The App Window &amp; Tray Icon</h2>
+<p>ThetaPrime runs as a native desktop app (<code>ThetaPrimeShell.exe</code>), not a browser tab — <code>http://localhost:5000</code> still works in a regular browser as a fallback, but the app window is the normal way to use it.</p>
+<ul>
+<li><strong>Closing the window</strong> (the X button) minimizes it to the system tray instead of quitting — the backend service keeps running either way, so scheduled strategies aren't affected by closing the window.</li>
+<li><strong>Tray icon</strong> — click it to reopen the window, or right-click for <strong>Open ThetaPrime</strong> / <strong>Quit</strong>. The icon and its tooltip turn from green ("Live") to red ("Session Dead / Unreachable") if the backend stops responding.</li>
+<li><strong>Desktop toast notifications</strong> — trade alerts (entries, exits, adjustments) you've enabled on the Auth page's Notifications card also pop up as Windows toast notifications while the app window is running, in addition to any email/Telegram/webhook channels configured.</li>
+</ul>
 <hr />
 <h2 id="license-activation-optional-at-first-launch">License Activation (Optional at First Launch)</h2>
 <p>There's no separate activation gate before the dashboard. On first launch you go straight to setting a dashboard password (below) and get a <strong>15-day trial</strong> automatically — simulation/paper strategy runs work fully during the trial; only switching a strategy to Real is blocked. A navbar badge (Trial Nd → Trial Expired → ✓ Licensed) always shows your state and links to the <strong>License</strong> page (<code>/license</code>).</p>
 <p>Once the trial's 15 days run out, all strategy runs are blocked — paper included — until you activate a key. Full details, the revocation check, and the grace period are in <a href="licensing.html">docs/licensing.md</a>; the short version:</p>
-<h3 id="step-1-copy-your-machine-fingerprint">Step 1 — Copy your machine fingerprint</h3>
-<p>Open <code>/license</code> (via the navbar badge). It displays a <strong>Machine Fingerprint</strong> — a short hex string unique to your PC. Click <strong>Copy</strong>.</p>
-<h3 id="step-2-send-the-fingerprint-to-us">Step 2 — Send the fingerprint to us</h3>
-<p>Email the fingerprint to your purchase confirmation address (it was included in your receipt). We will sign and send back your license key within one business day — this is a manual step, not self-serve.</p>
+<h3 id="step-1-open-the-license-page">Step 1 — Open the License page</h3>
+<p>Open <code>/license</code> (via the navbar badge). It shows your <strong>Machine Fingerprint</strong> and includes it automatically in the request below — nothing to copy or paste yet.</p>
+<h3 id="step-2-request-a-key">Step 2 — Request a key</h3>
+<p>Enter your email (and a coupon code if you have one), then click <strong>Request Standard</strong> or <strong>Request Pro</strong>. A valid coupon approves instantly; otherwise your request is queued for review — reload the page any time to check. Once it's ready, your key appears pre-filled in the <strong>License Key</strong> field below.</p>
 <blockquote>
-<p>The fingerprint is derived from your network interface address. It does not contain any personal information.</p>
+<p>No coupon, or no internet access on this machine? Email the fingerprint shown on <code>/license</code> to the address in your purchase confirmation instead — we'll sign and send back a key within one business day.</p>
 </blockquote>
 <h3 id="step-3-paste-your-license-key">Step 3 — Paste your license key</h3>
-<p>Return to <code>/license</code> and paste the key into the <strong>License Key</strong> field. Click <strong>Activate</strong>.</p>
+<p>Confirm the pre-filled key (or paste one you got by email) into the <strong>License Key</strong> field on <code>/license</code> and click <strong>Activate</strong>.</p>
 <p>The key is stored in Windows Credential Manager and never needs to be entered again.</p>
 <p><strong>License validity &amp; grace period:</strong> each key carries an expiry date set when it's issued, with a <strong>7-day grace period</strong> afterward before the app falls back to trial-expired behavior. There's no separate advance-warning banner — check the navbar badge's tooltip for days remaining.</p>
 <p><strong>Moving to a new machine:</strong> Contact us with the new machine's fingerprint. We will issue a replacement key at no charge if you are within your licensed term.</p>
@@ -600,11 +599,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <h3 id="step-1-set-a-dashboard-password">Step 1 — Set a dashboard password</h3>
 <p>The dashboard is protected by a password that you choose. On first access:</p>
 <ol>
-<li>Open <code>http://localhost:5000</code> in your browser.</li>
+<li>Open ThetaPrime from the Start Menu (or click the tray icon if it's already running).</li>
 <li>You are prompted to <strong>Set Dashboard Password</strong>.</li>
 <li>Choose a password of at least 8 characters and click <strong>Set Password</strong>.</li>
 </ol>
-<p>This password is stored in Windows Credential Manager. You will be asked for it on each new browser session. After 3 incorrect attempts, the source IP is locked out for 5 minutes.</p>
+<p>This password is stored in Windows Credential Manager. You will be asked for it each time the app window (re)starts. After 3 incorrect attempts, the source IP is locked out for 5 minutes.</p>
 <p>To reset the password if you forget it, see <a href="#troubleshooting">Troubleshooting</a>.</p>
 <h3 id="step-2-enter-your-kite-api-credentials">Step 2 — Enter your Kite API credentials</h3>
 <ol>
@@ -613,7 +612,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <li>Click <strong>Save &amp; Start Login</strong>.</li>
 </ol>
 <h3 id="step-3-complete-kite-oauth-login">Step 3 — Complete Kite OAuth login</h3>
-<p>After saving your credentials, ThetaPrime opens the Zerodha login page in your browser:</p>
+<p>After saving your credentials, ThetaPrime opens the Zerodha login page inside the same app window:</p>
 <ol>
 <li>Enter your Zerodha <strong>Client ID</strong> and <strong>Password</strong>.</li>
 <li>Complete <strong>TOTP</strong> (6-digit code from your authenticator app) or PIN.</li>
@@ -624,7 +623,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <h2 id="daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</h2>
 <p>The Kite access token expires at midnight every day. You must refresh it each morning <strong>before any scheduled strategies run</strong>.</p>
 <ol>
-<li>Open <code>http://localhost:5000</code> and log in with your dashboard password.</li>
+<li>Open ThetaPrime (Start Menu shortcut, or the tray icon if it's already running) and log in with your dashboard password.</li>
 <li>Click <strong>Auth</strong> in the top navigation bar.</li>
 <li>Click <strong>Start Login</strong> (your API key is already saved — you do not need to re-enter it).</li>
 <li>Complete the Zerodha login as above.</li>
@@ -663,17 +662,20 @@ Yes. ThetaPrime runs as a Windows service on your own PC, not in any cloud — i
 <p><strong>What happens if my internet connection drops?</strong>
 ThetaPrime needs a live connection to your broker for as long as a position is open — entries, monitoring, and exits all depend on it. Brief blips are retried automatically, but a sustained outage means it can't act on your positions until connectivity returns, the same as if you were watching a terminal yourself. A stable, always-on connection is part of the setup, not optional.</p>
 <p><strong>Do I need a static IP address?</strong>
-Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> above. SEBI's API trading rules require a fixed IP for order placement, registered with your broker. Ask your ISP for a static IP add-on before setting up your Kite, Breeze, or Dhan API access.</p>
+Yes — see <a href="#2-a-static-ip-address-sebi-requirement">Prerequisites</a> above. SEBI's API trading rules require a fixed IP for order placement, registered with your broker. Ask your ISP for a static IP add-on before setting up your Kite, Breeze, or Dhan API access.</p>
 <hr />
 <h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="dashboard-wont-open-at-httplocalhost5000">Dashboard won't open at http://localhost:5000</h3>
+<h3 id="installers-finished-page-says-the-windows-service-could-not-be-registered">Installer's Finished page says the Windows service could not be registered</h3>
+<p><code>nssm.exe</code> (the service manager ThetaPrime uses) ships bundled inside the installer — nothing for you to download or place yourself. This error means it went missing from that particular installer build, a packaging defect rather than anything on your end. The install itself still completed; you can run the backend manually with <code>app.exe</code> from the installation folder (the Start Menu shortcut's <code>ThetaPrimeShell.exe</code> only ever <em>starts</em> the service, it can't launch the backend directly), but it won't survive a reboot until re-installed with a fixed build. Contact us with the version number if you hit this.</p>
+<h3 id="app-window-wont-open-or-shows-a-blankerror-page">App window won't open, or shows a blank/error page</h3>
 <ol>
-<li>Check the service is running (<code>Get-Service ThetaPrimeDashboard</code>).</li>
+<li>Check the backend service is running (<code>Get-Service ThetaPrimeDashboard</code>).</li>
 <li>If the service is stopped, start it: <code>Start-Service ThetaPrimeDashboard</code>.</li>
 <li>Check <code>C:\Program Files\ThetaPrime\logs\service_stderr.log</code> for startup errors.</li>
 <li>Confirm port 5000 is not in use by another app:
    <code>powershell
    netstat -ano | findstr :5000</code></li>
+<li>If the window itself never appears, check whether <code>ThetaPrimeShell.exe</code> is already running in the background (Task Manager, or the system tray) — it minimizes to tray on close rather than exiting, so a second launch from the Start Menu just no-ops. Click the tray icon to bring the existing window forward, or right-click it and choose <strong>Quit</strong> before relaunching.</li>
 </ol>
 <h3 id="forgot-dashboard-password">Forgot dashboard password</h3>
 <p>The password is stored in Windows Credential Manager. To reset it:</p>
@@ -682,7 +684,7 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
 <li>Click <strong>Windows Credentials</strong>.</li>
 <li>Find the entry named <code>kite_dashboard</code> / <code>dashboard_password</code> and delete it.</li>
 <li>Restart the ThetaPrime service.</li>
-<li>The next visit to <code>http://localhost:5000</code> prompts you to set a new password.</li>
+<li>The next time you open ThetaPrime, you're prompted to set a new password.</li>
 </ol>
 <h3 id="token-is-stale-error-in-strategy-logs">"Token is stale" error in strategy logs</h3>
 <p>The Kite access token has expired. Refresh it via <strong>Auth → Start Login</strong> as described in <a href="#daily-login-refreshing-the-access-token">Daily Login</a>.</p>
@@ -745,7 +747,7 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
 <tbody>
 <tr>
 <td>Email</td>
-<td>support@thetaprime.in <em>(update with real address before shipping)</em></td>
+<td>support@thetaprime.in</td>
 </tr>
 <tr>
 <td>In-app docs</td>
@@ -759,8 +761,8 @@ Yes — see <a href="#3-a-static-ip-address-sebi-requirement">Prerequisites</a> 
 </table>
 </div>
 <div class="doc-prev-next"><span></span><a class="doc-prev-next-link next" href="setup.html"><span>Setup Guide</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.34.2 · Page last updated 2026-08-19</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#system-requirements">System Requirements</a><ul><li><a href="#ports-used">Ports used</a></li><li><a href="#windows-credential-manager">Windows Credential Manager</a></li></ul></li><li><a href="#prerequisites-before-you-install">Prerequisites — Before You Install</a><ul><li><a href="#1-zerodha-kite-connect-api-subscription">1. Zerodha Kite Connect API subscription</a></li><li><a href="#2-nssm-windows-service-manager">2. NSSM (Windows service manager)</a></li><li><a href="#3-a-static-ip-address-sebi-requirement">3. A static IP address (SEBI requirement)</a></li></ul></li><li><a href="#installation">Installation</a><ul><li><a href="#step-1-run-the-installer">Step 1 — Run the installer</a></li><li><a href="#step-2-accept-the-eula">Step 2 — Accept the EULA</a></li><li><a href="#step-3-choose-an-install-location">Step 3 — Choose an install location</a></li><li><a href="#step-4-start-menu-shortcuts">Step 4 — Start Menu shortcuts</a></li><li><a href="#step-5-service-registration">Step 5 — Service registration</a></li><li><a href="#step-6-finish">Step 6 — Finish</a></li></ul></li><li><a href="#license-activation-optional-at-first-launch">License Activation (Optional at First Launch)</a><ul><li><a href="#step-1-copy-your-machine-fingerprint">Step 1 — Copy your machine fingerprint</a></li><li><a href="#step-2-send-the-fingerprint-to-us">Step 2 — Send the fingerprint to us</a></li><li><a href="#step-3-paste-your-license-key">Step 3 — Paste your license key</a></li></ul></li><li><a href="#first-time-setup">First-Time Setup</a><ul><li><a href="#step-1-set-a-dashboard-password">Step 1 — Set a dashboard password</a></li><li><a href="#step-2-enter-your-kite-api-credentials">Step 2 — Enter your Kite API credentials</a></li><li><a href="#step-3-complete-kite-oauth-login">Step 3 — Complete Kite OAuth login</a></li></ul></li><li><a href="#daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</a></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#manual-run-paper-mode">Manual run (paper mode)</a></li><li><a href="#scheduling-a-strategy">Scheduling a strategy</a></li></ul></li><li><a href="#verifying-the-service-is-running">Verifying the Service is Running</a></li><li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li><li><a href="#troubleshooting">Troubleshooting</a><ul><li><a href="#dashboard-wont-open-at-httplocalhost5000">Dashboard won't open at http://localhost:5000</a></li><li><a href="#forgot-dashboard-password">Forgot dashboard password</a></li><li><a href="#token-is-stale-error-in-strategy-logs">"Token is stale" error in strategy logs</a></li><li><a href="#email-test-fails">Email test fails</a></li><li><a href="#strategy-exits-with-non-zero-return-code">Strategy exits with non-zero return code</a></li><li><a href="#license-not-accepted-invalid-key">License not accepted — "Invalid key"</a></li></ul></li><li><a href="#uninstalling">Uninstalling</a></li><li><a href="#rolling-back-to-a-previous-version">Rolling Back to a Previous Version</a></li><li><a href="#data-privacy">Data &amp; Privacy</a></li><li><a href="#getting-help">Getting Help</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.35.4 · Page last updated 2026-08-23</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#system-requirements">System Requirements</a><ul><li><a href="#ports-used">Ports used</a></li><li><a href="#windows-credential-manager">Windows Credential Manager</a></li></ul></li><li><a href="#prerequisites-before-you-install">Prerequisites — Before You Install</a><ul><li><a href="#1-zerodha-kite-connect-api-subscription">1. Zerodha Kite Connect API subscription</a></li><li><a href="#2-a-static-ip-address-sebi-requirement">2. A static IP address (SEBI requirement)</a></li></ul></li><li><a href="#installation">Installation</a><ul><li><a href="#step-1-run-the-installer">Step 1 — Run the installer</a></li><li><a href="#step-2-accept-the-eula">Step 2 — Accept the EULA</a></li><li><a href="#step-3-choose-an-install-location">Step 3 — Choose an install location</a></li><li><a href="#step-4-start-menu-shortcuts">Step 4 — Start Menu shortcuts</a></li><li><a href="#step-5-service-registration">Step 5 — Service registration</a></li><li><a href="#step-6-finish">Step 6 — Finish</a></li></ul></li><li><a href="#the-app-window-tray-icon">The App Window &amp; Tray Icon</a></li><li><a href="#license-activation-optional-at-first-launch">License Activation (Optional at First Launch)</a><ul><li><a href="#step-1-open-the-license-page">Step 1 — Open the License page</a></li><li><a href="#step-2-request-a-key">Step 2 — Request a key</a></li><li><a href="#step-3-paste-your-license-key">Step 3 — Paste your license key</a></li></ul></li><li><a href="#first-time-setup">First-Time Setup</a><ul><li><a href="#step-1-set-a-dashboard-password">Step 1 — Set a dashboard password</a></li><li><a href="#step-2-enter-your-kite-api-credentials">Step 2 — Enter your Kite API credentials</a></li><li><a href="#step-3-complete-kite-oauth-login">Step 3 — Complete Kite OAuth login</a></li></ul></li><li><a href="#daily-login-refreshing-the-access-token">Daily Login — Refreshing the Access Token</a></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#manual-run-paper-mode">Manual run (paper mode)</a></li><li><a href="#scheduling-a-strategy">Scheduling a strategy</a></li></ul></li><li><a href="#verifying-the-service-is-running">Verifying the Service is Running</a></li><li><a href="#frequently-asked-questions">Frequently Asked Questions</a></li><li><a href="#troubleshooting">Troubleshooting</a><ul><li><a href="#installers-finished-page-says-the-windows-service-could-not-be-registered">Installer's Finished page says the Windows service could not be registered</a></li><li><a href="#app-window-wont-open-or-shows-a-blankerror-page">App window won't open, or shows a blank/error page</a></li><li><a href="#forgot-dashboard-password">Forgot dashboard password</a></li><li><a href="#token-is-stale-error-in-strategy-logs">"Token is stale" error in strategy logs</a></li><li><a href="#email-test-fails">Email test fails</a></li><li><a href="#strategy-exits-with-non-zero-return-code">Strategy exits with non-zero return code</a></li><li><a href="#license-not-accepted-invalid-key">License not accepted — "Invalid key"</a></li></ul></li><li><a href="#uninstalling">Uninstalling</a></li><li><a href="#rolling-back-to-a-previous-version">Rolling Back to a Previous Version</a></li><li><a href="#data-privacy">Data &amp; Privacy</a></li><li><a href="#getting-help">Getting Help</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
