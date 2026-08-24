@@ -1,7 +1,7 @@
 {
-  "version": "0.35.7",
-  "released": "2026-08-24",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.7/ThetaPrime-0.35.7-setup.exe",
-  "release_notes": "A virtually-untraded deep ITM leg's best bid/ask could itself be mispriced \u2014 confirmed live 2026-08-24: NIFTY26AUG25950PE (1 DTE) had its MARKET close rejected (\"no trades in this instrument\") and the depth-based LIMIT fallback crossed into a thin, mispriced bid ~80pts below the leg's own intrinsic value. `_marketable_limit_price` now clamps toward intrinsic (a SELL never goes below it, a BUY never above), threaded through `place_order`/`convert_to_limit` across Kite/Breeze/Dhan adapters and `strategies/engine.py`'s close/retry path. Unconfirmed closes now stash the full leg so the retry can re-place it the same way a fresh close would.",
-  "min_supported": "0.35.7"
+  "version": "0.35.8",
+  "released": "2026-08-25",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.8/ThetaPrime-0.35.8-setup.exe",
+  "release_notes": "`BreezeAdapter.margins()` read `unallocated_balance` (unsegmented cash outside any allocation, confirmed near-empty live), not the F&O segment this adapter actually trades. Now uses `allocated_fno`/`block_by_trade_fno`. `strategy_manager.clone_strategy()` didn't patch `display_name` inside `.spec.json` files \u2014 Composer reads it from the spec itself, so a cloned strategy's name reverted when reopened for editing (#443).",
+  "min_supported": "0.35.8"
 }
