@@ -1,7 +1,7 @@
 {
-  "version": "0.35.8",
+  "version": "0.35.10",
   "released": "2026-08-25",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.8/ThetaPrime-0.35.8-setup.exe",
-  "release_notes": "`BreezeAdapter.margins()` read `unallocated_balance` (unsegmented cash outside any allocation, confirmed near-empty live), not the F&O segment this adapter actually trades. Now uses `allocated_fno`/`block_by_trade_fno`. `strategy_manager.clone_strategy()` didn't patch `display_name` inside `.spec.json` files \u2014 Composer reads it from the spec itself, so a cloned strategy's name reverted when reopened for editing (#443).",
-  "min_supported": "0.35.8"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.10/ThetaPrime-0.35.10-setup.exe",
+  "release_notes": "A Dhan Data API entitlement failure (e.g. the Data API subscription lapsing, surfaced as error 810 \"ClientId is invalid\") was retried with a full HTTP round-trip on every LTP poll (~every 5s) with no alert \u2014 12 days of this starved the server's worker threads and made the UI unresponsive (2026-08-25 incident). After one such failure, Dhan data-path calls now fail fast without HTTP for 10 minutes (a re-login retries immediately; Trading API calls are unaffected), and an alert/notification fires the first time it trips. Every per-request Dhan adapter build re-parsed the ~27MB scrip-master CSV; the parsed map is now a module-level singleton refreshed daily, and the per-request \"session ready\" log line is demoted to debug.",
+  "min_supported": "0.35.10"
 }
