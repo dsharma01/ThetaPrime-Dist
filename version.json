@@ -1,7 +1,7 @@
 {
-  "version": "0.35.17",
-  "released": "2026-08-27",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.17/ThetaPrime-0.35.17-setup.exe",
-  "release_notes": "`/api/desktop_alerts` is now exempt from the prod login gate. Webhook notification config was missing its \"Send Test\" button; added. \"Close Long Legs\" button label corrected to \"@ EOD\" (was stale \"@ 15:20\").",
-  "min_supported": "0.35.17"
+  "version": "0.35.18",
+  "released": "2026-08-28",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.18/ThetaPrime-0.35.18-setup.exe",
+  "release_notes": "India VIX ticker in the navbar, mirroring the existing Nifty ticker (`/api/vix`, Kite\u2192Breeze\u2192Dhan with NSE fallback, 3s cache, 5s poll). Adversarial bug hunt round \u2014 10 findings (RCE, races, key/secret leaks, auth bypass). Path traversal via Windows backslashes (not blocked by Flask's `<name>` converter) could reach arbitrary file execution on `/run_strategy` et al. (`runner.py`) and arbitrary file read/write on ~10 trade-state routes (`app.py`); closed. `manual_entry` no longer trusts an unverified phantom position \u2014 now requires `broker.positions()` confirmation before saving, matching `edit_trade_state`'s `confirm_active` pattern. Legacy `.py` strategies (`lib_v1_trade`, `Lib_v1_1_lot`, `niftyStrgl_AI2`, `nifty_strangle_live`) gain the same `.entrylock` hardening the spec engine already had, closing a double-entry race on a double `/run_strategy` POST. `manual_entry`/`manual_exit`/`edit_trade_state`/`close_long_legs` now take the same `.closelock` the automated close and `square_off` already honor, closing a race against an in-flight close. Backup zip no longer bundles the data-at-rest encryption key material in plaintext (redacted, not excluded \u2014 credentials-in-backup stays documented/intentional); restore no longer clobbers a live `.secrets.json` with the redacted copy. Dev-loopback auth bypass no longer trusts `remote_addr` when a forwarding header is present (a reverse proxy/tunnel on the same host used to make every request look like `127.0.0.1`). Open-redirect guard now strips tab/CR/LF before checking, matching browser behavior before navigating. `notifier.py` no longer logs the Telegram bot token / webhook secret embedded in a `requests` exception's URL. `change-password` / `recovery-code-regenerate` now share `/login`'s brute-force lockout.",
+  "min_supported": "0.35.18"
 }
