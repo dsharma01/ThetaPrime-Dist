@@ -1,7 +1,7 @@
 {
-  "version": "0.35.27",
+  "version": "0.35.28",
   "released": "2026-08-31",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.27/ThetaPrime-0.35.27-setup.exe",
-  "release_notes": "`static/composer.js`: `bootstrap.Modal#hide()` no-ops while the modal is still mid-open-transition (`_isTransitioning`), so a fast save round-trip could leave `#saveModal` stuck open. `hideSaveModal()` now queues the hide for `shown.bs.modal` instead of calling it immediately. `app.py`: `strategy_composer_page()` gained a `?ai_configured=0` override so UI tests can force the not-configured provider-dropdown branch without touching the real BYOK credential store. `tests/ui`: performance dashboard fixture referenced a strategy archived in real `strategies/metadata.json` (the KPI filter is server-rendered, not mockable) \u2014 swapped to an active one; AI-handoff test updated for the `?ai_configured=0` override.",
-  "min_supported": "0.35.27"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.35.28/ThetaPrime-0.35.28-setup.exe",
+  "release_notes": "`reconciliation.py`: `reconcile()` checked every active strategy's legs against a single global broker (`broker.get_broker()`, env-var selected, default kite), so a strategy configured for Breeze/Dhan was silently compared to Kite's `positions()` and its real, correctly-held legs always read as orphan (`state active, broker empty`). Confirmed live 2026-08-31: a genuinely open Breeze diagonal long leg flagged as mismatched purely because reconcile only ever asked Kite. `reconcile()` now takes `{broker_name: (client, error)}` and checks each strategy's legs against its own configured broker; `app.py` builds one client per broker actually in use instead of a single `get_broker()` call, and the token-freshness gates now pass if ANY used broker is fresh rather than one env-selected broker.",
+  "min_supported": "0.35.28"
 }
