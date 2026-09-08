@@ -1,7 +1,7 @@
 {
-  "version": "0.37.6",
-  "released": "2026-09-07",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.37.6/ThetaPrime-0.37.6-setup.exe",
-  "release_notes": "`broker/breeze_ticker.py`: every Breeze WS option tick was silently dropped \u2014 `_parse_tick()` read a `stock_code` field a live `on_ticks` payload doesn't send (only `stock_name`, a display name with no code map), so every option tick raised `KeyError` and only the NIFTY 50 spot tick ever landed in the cache. `ltp()` silently fell back to REST for every option leg since `ws_ticks` shipped in `0.37.5`. `_parse_tick` now matches a tick back to the `subscribe_feeds()` call that requested it, by `(expiry_date, strike_price, right)`, instead of trusting an identity field on the tick. `_check_health()`'s `breeze.ws_ticks_parse_broken` watchdog never fired despite the above \u2014 it was keyed off a global cache-staleness diff that a healthy spot tick kept masking indefinitely. Now driven off a dedicated last-parse-failure timestamp. `BreezeTickerService`'s shared sqlite connection (`check_same_thread=False`) hit `cannot rollback - no transaction is active` under concurrent `on_ticks` dispatch \u2014 writes are now serialized with a lock.",
-  "min_supported": "0.37.6"
+  "version": "0.37.11",
+  "released": "2026-09-08",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.37.11/ThetaPrime-0.37.11-setup.exe",
+  "release_notes": "`reconcile()` classified every active state-file leg against `broker_map` even when that broker's `positions()` call itself failed (rate limit, session dead, ...) \u2014 since `broker_map` ends up empty for that broker, every genuinely-open leg failed the match and was reported as `orphan_state` (\"state active, broker empty\"), even though the broker was never actually asked successfully. Confirmed live 2026-09-08: Breeze's daily-quota exhaustion made `positions()` raise, and the dashboard flagged 4 real open `DIB_07_Jul_2026_v2_Breeze` legs as vanished when the broker held them the whole time. Legs for a broker whose fetch failed are now skipped from classification entirely \u2014 only `error` surfaces the failure. Also fixed the dashboard badge/JS, which would otherwise have rendered that as \"0 mismatch\"/\"clean\" instead of surfacing the error.",
+  "min_supported": "0.37.11"
 }
