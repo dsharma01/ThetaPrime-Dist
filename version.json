@@ -1,7 +1,7 @@
 {
-  "version": "0.37.17",
-  "released": "2026-09-09",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.37.17/ThetaPrime-0.37.17-setup.exe",
-  "release_notes": "Settings page: each broker card (Kite/Breeze/Dhan) now shows a \"N calls today\" badge, resetting at midnight IST \u2014 backed by a new per-broker daily counter in `broker/_rate_gate.py`, wired into each adapter's central retry-wrapper call path.",
-  "min_supported": "0.37.17"
+  "version": "0.38.1",
+  "released": "2026-09-10",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.38.1/ThetaPrime-0.38.1-setup.exe",
+  "release_notes": "`DhanAdapter._note_rate_limit()`'s rolling rate-limit-hit counter was a per-process class attribute \u2014 since every strategy runs as its own OS subprocess, hits spread across concurrent subprocesses never accumulated anywhere. Despite sustained 429s recurring for days, the alert fired exactly once (2026-09-08). Now cross-process via a new `broker/_rate_gate.py::note_rate_limit()`, the same shared-SQLite pattern already used for pacing (`wait_turn()`) and the daily call counter (`record_call()`). `tests/test_dhan_adapter.py`'s isolation fixture mocked `wait_turn()` but not `record_call()`/`note_rate_limit()` \u2014 running that test file wrote real increments into the developer's actual dev `broker_rate_gate_dhan.sqlite`, inflating the real Settings-page \"N calls today\" counter with test noise. Now isolates `_rate_gate._DB_DIR` to a temp path, same as `tests/test_rate_gate.py` already does. `tests/test_broker.py::test_breeze_adapter_margins_returns_available_and_used` asserted the pre-0.37.16 subtraction formula for `BreezeAdapter.margins()` \u2014 that release correctly changed the code to add `block_by_trade_fno` back instead (live-confirmed against ICICI's own dashboard) and added its own new test elsewhere, but never updated this older pre-existing one, which had been quietly failing against the real, correct formula ever since. The code was right; only the test was stale.",
+  "min_supported": "0.38.1"
 }
