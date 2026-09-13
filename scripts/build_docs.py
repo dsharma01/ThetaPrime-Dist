@@ -44,6 +44,8 @@ PAGES = [
     ("strategy-composer.md", "strategy-composer.html", "Strategy Composer Guide", "Building Strategies"),
     ("composer-strategy-examples.md", "composer-strategy-examples.html", "Composer Strategy Examples", "Building Strategies"),
     ("strategy-usage.md", "strategy-usage.html", "Strategy Configuration & Usage", "Operations"),
+    ("order-lifecycle.md", "order-lifecycle.html", "Order Placement & Failure Recovery", "Operations"),
+    ("is-it-running.md", "is-it-running.html", "Is ThetaPrime Running?", "Operations"),
     ("option-scanner.md", "option-scanner.html", "Option Scanner", "Operations"),
     ("data-sources.md", "data-sources.html", "Data Sources", "Operations"),
     ("data-management.md", "data-management.html", "Data Management", "Operations"),

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.35.4 (2026-08-23) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.39.0 (2026-09-13) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -494,8 +494,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <h2 style="margin-top:0.7rem;">Read the option chain's own footprints, not just the price.</h2>
           <p class="lede" style="margin-top:1rem;">Three scan modes, no strategy required: a specific underlying's full chain, a Top F&amp;O Stocks sweep, or Flow — per-strike OI buildup and PCR, live off whichever broker you pick.</p>
           <ul class="check-list">
-            <li><b>Flow (OI Analysis)</b> — every strike tagged Long Buildup, Short Buildup, Short Covering, or Long Unwinding from price + OI direction combined, plus PCR (OI) for the whole chain.</li>
-            <li><b>Unusual-volume flag</b> — a strike is flagged the instant today's volume reaches 50% of its open interest.</li>
+            <li><b>Flow (OI Analysis)</b> — every strike tagged Strong/Moderate Buildup, Short Covering, Long Unwinding, or Weak/Mixed from price + OI direction combined, plus PCR (OI) for the whole chain.</li>
+            <li><b>Unusual Activity score</b> — a 0-100 score from volume turnover, fresh OI, and buildup strength flags strikes EXTREME/HIGH/NOTABLE, plus a same-day flag once volume reaches 50% of open interest.</li>
             <li><b>Any connected broker</b> — Kite, Breeze, or Dhan, switchable mid-scan; instruments, spot, OI, and LTPs all come from the one you pick.</li>
             <li><b>Ask AI</b> — hand the scan straight to your own ChatGPT, Claude, Perplexity, Gemini, or Copilot for a second read on notable strikes. No API key stored.</li>
             <li><b>Auto-refresh + CSV export</b> — Flow mode can poll on an interval for a live view, or export any scan straight to CSV.</li>
@@ -508,8 +508,8 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
               <span class="mono">NIFTY 28-AUG</span>
               <span class="push-end mono">PCR (OI) 1.18</span>
             </div>
-            <div class="evt-row"><span class="evt-time">24700 CE</span><span class="evt-cat"><span class="dot" style="background:var(--red)"></span>Short Buildup</span><span class="pill pill-red" style="animation:none;">bearish</span></div>
-            <div class="evt-row"><span class="evt-time">24900 PE</span><span class="evt-cat"><span class="dot" style="background:var(--accent-ink)"></span>Long Buildup</span><span class="pill pill-green" style="animation:none;">bullish</span></div>
+            <div class="evt-row"><span class="evt-time">24700 CE</span><span class="evt-cat"><span class="dot" style="background:var(--red)"></span>Strong Short Buildup</span><span class="pill pill-red" style="animation:none;">bearish</span></div>
+            <div class="evt-row"><span class="evt-time">24900 PE</span><span class="evt-cat"><span class="dot" style="background:var(--accent-ink)"></span>Strong Long Buildup</span><span class="pill pill-green" style="animation:none;">bullish</span></div>
             <div class="evt-row"><span class="evt-time">25000 CE</span><span class="evt-cat"><span class="dot" style="background:var(--amber)"></span>Short Covering</span><span class="pill pill-amber" style="animation:none;">unwind</span></div>
             <div class="evt-row"><span class="evt-time">25100 PE</span><span class="evt-cat"><span class="dot" style="background:var(--text-muted)"></span>Long Unwinding</span><span class="pill pill-neutral" style="animation:none;">fading</span></div>
           </div>
@@ -589,7 +589,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Alerts</span><h3>Entries, exits, status — off the dashboard</h3><p>Every entry, exit, and adjustment can push straight to WhatsApp, Telegram, email, or a webhook — no bridge process to babysit, useful mid-meeting, mid-commute, anywhere a screen isn't handy. Windows toast notifications too, right from the tray, while the app window's open.</p></div>
         <div class="feature-card"><span class="tag">Event Log</span><h3>Every action, one searchable trail</h3><p>Login, entry, exit, adjustment, error — every action lands in a filterable log (by category and level) with CSV export, so you can reconstruct exactly what happened and when.</p></div>
         <div class="feature-card"><span class="tag">Live status</span><h3>Badges, not a one-time check</h3><p>Broker connection, available margin, and the Nifty LTP sit in the navbar on every page, updating in the background for the whole session — not just at login.</p></div>
-        <div class="feature-card"><span class="tag">AI Assistant</span><h3>Ask Claude Desktop or Cursor, not just the dashboard</h3><p>An MCP server exposes read-only tools — strategy status, positions, P&amp;L, reconciliation health, recent logs — to your AI assistant over local stdio, authenticated with your dashboard password. Nothing new leaves your machine.</p></div>
+        <div class="feature-card"><span class="tag">AI Assistant</span><h3>Ask Claude Desktop or Cursor, not just the dashboard</h3><p>An MCP server exposes read-only tools — strategy status, positions, P&amp;L, reconciliation health, recent logs — to your AI assistant over local stdio, authenticated with your dashboard password. An opt-in Safety Settings toggle lets it arm a strategy or square off positions too, confirming with you first — same live-order risk as clicking the button yourself. Nothing new leaves your machine.</p></div>
       </div>
     </div>
   </section>
@@ -720,7 +720,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.35.4</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>
