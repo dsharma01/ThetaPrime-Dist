@@ -1,7 +1,7 @@
 {
-  "version": "0.39.0",
+  "version": "0.39.1",
   "released": "2026-09-13",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.39.0/ThetaPrime-0.39.0-setup.exe",
-  "release_notes": "Persistent PositionEngine (Phase A of `plan-fast-monitor`) \u2014 a per-position background monitor that replaces the periodic full-scan tick for engines opted in, with an engine-status UI, a config-save confirmation when it would restart a running engine, and hardened archive/delete guards. `exit_confirm_sec` \u2014 per-strategy Config-modal param requiring an exit condition to hold across a confirmation window before firing, filtering tick noise. Enabled `position_engine` for Kite (dev). Profit-taking exits now gate on leg liquidity \u2014 previously a leg with no live quote could still be treated as closed, booking phantom close P&L. Throttled the persistent engine's `monitor` event, which could flood the event log. Breeze rate-limit test pollution and an OS-dependent path-traversal guard in tests. A weak wait in the composer rename E2E test that could flake.",
-  "min_supported": "0.39.0"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.39.1/ThetaPrime-0.39.1-setup.exe",
+  "release_notes": "Settings-page switch (per broker: Kite/Breeze/Dhan) for the persistent PositionEngine opt-in, previously config.json-only. Disabling it now resets any already-running engine for armed real-mode strategies on that broker immediately, instead of waiting for the next arm/disarm/edit.",
+  "min_supported": "0.39.1"
 }
