@@ -1,7 +1,7 @@
 {
-  "version": "0.39.1",
-  "released": "2026-09-13",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.39.1/ThetaPrime-0.39.1-setup.exe",
-  "release_notes": "Settings-page switch (per broker: Kite/Breeze/Dhan) for the persistent PositionEngine opt-in, previously config.json-only. Disabling it now resets any already-running engine for armed real-mode strategies on that broker immediately, instead of waiting for the next arm/disarm/edit.",
-  "min_supported": "0.39.1"
+  "version": "0.39.3",
+  "released": "2026-09-14",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.39.3/ThetaPrime-0.39.3-setup.exe",
+  "release_notes": "Same class of bug as 0.39.2's Dhan fix: Breeze's cross-process rate gate only paced `ltp()`/`quote()` singles \u2014 every other endpoint (`historical_data`, `positions`, `holdings`, order calls, the option-chain quote path) called the API with no pacing, sharing ICICI's same account-wide 100/min budget. All Breeze API calls are now gated centrally in `_call()`.",
+  "min_supported": "0.39.3"
 }
