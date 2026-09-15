@@ -1,7 +1,7 @@
 {
-  "version": "0.39.3",
-  "released": "2026-09-14",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.39.3/ThetaPrime-0.39.3-setup.exe",
-  "release_notes": "Same class of bug as 0.39.2's Dhan fix: Breeze's cross-process rate gate only paced `ltp()`/`quote()` singles \u2014 every other endpoint (`historical_data`, `positions`, `holdings`, order calls, the option-chain quote path) called the API with no pacing, sharing ICICI's same account-wide 100/min budget. All Breeze API calls are now gated centrally in `_call()`.",
-  "min_supported": "0.39.3"
+  "version": "0.40.1",
+  "released": "2026-09-15",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.40.1/ThetaPrime-0.40.1-setup.exe",
+  "release_notes": "**Duplicate stop-loss execution**: turning off a broker's PositionEngine flag while an engine was already running left it orphaned \u2014 the scheduler's monitor cron resumed the old ephemeral spawn-per-tick path alongside the still-polling orphan, and both independently detected the same exit condition and placed their own closing orders. Confirmed live: a stop-loss fired from both the orphaned engine and a freshly-spawned ephemeral monitor 5 seconds apart, buying back a short strangle twice and leaving a real naked long on both legs until manually flattened. The scheduler now stops an orphaned engine the moment the flag goes off, not just while it's on. PositionEngine's 1s poll interval alone saturated Dhan's 1 req/s marketfeed budget: Dhan's WS ticks can't reliably keep illiquid/wide-strike legs fresh within the 1s cache window, so at least one leg in a multi-leg position typically fell back to a real REST call on every tick, leaving no headroom for the dashboard or any other strategy. Poll interval is now broker-keyed (Dhan defaults to 3s), configurable via `config.json`'s `brokers.<broker>.poll_interval_sec`.",
+  "min_supported": "0.40.1"
 }
