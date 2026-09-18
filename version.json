@@ -1,7 +1,7 @@
 {
-  "version": "0.40.4",
+  "version": "0.40.5",
   "released": "2026-09-18",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.40.4/ThetaPrime-0.40.4-setup.exe",
-  "release_notes": "Monitor log-write interval now honors the strategy's \"Monitor Interval (min)\" param instead of a hardcoded 60s, for strategies on the PositionEngine path.",
-  "min_supported": "0.40.4"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.40.5/ThetaPrime-0.40.5-setup.exe",
+  "release_notes": "**Breeze daily API-call quota exhaustion**: PositionEngine's 1s poll interval combined with `ltp()`'s sub-1s WS-cache tolerance meant a multi-leg/multi-expiry position routinely fell back to REST on most ticks \u2014 the same gap already fixed for Dhan on 2026-09-15, never extended to Breeze or Kite. Breeze's daily quota was exhausted live 2026-09-18 (8,102 calls vs. 788\u20132,723 on prior days), hiding the strategy-card P&L bar for hours. Poll interval for Breeze and Kite now defaults to 3s, matching Dhan, and Breeze's `_call_quote()` now fails fast once the daily cap is hit instead of round-tripping to an already-dead quota. **Day-done gate stuck an unconfirmed leg forever**: `_is_day_done()` treated `status=='CLOSED'` as reason to stop calling `run_monitor()` for the rest of the day, even when a leg was left `_exit_unconfirmed` expecting the next 5-min reconciliation cycle (`run_monitor`'s own `_retry_unconfirmed_close()`) to true it up. That cycle never got another chance to run once the gate called the day done, leaving the leg's real fill \u2014 and its performance.db P&L \u2014 stuck on a placeholder with a manual hand-edit as the only way out. Root-caused during the DIB_07_Jul_2026_v2_Breeze reconciliation. Option Scanner results tables were capped inside a 900px-wide column instead of using the full viewport, forcing horizontal scrolling on the 14/19-column results tables. `docs/order-lifecycle.md`: added a warning against hand-editing trade state to fix an unconfirmed exit (Trade Status JSON and the Performance page read from separate stores), plus a quick-reference row for the EXIT UNCONFIRMED badge.",
+  "min_supported": "0.40.5"
 }
