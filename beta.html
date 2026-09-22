@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beta Program — ThetaPrime</title>
+<meta name="description" content="Join the ThetaPrime beta: run the Windows trading app against your own broker account, earn free months for a completed window or a reported bug, and read the full disclaimer and safety instructions before you register.">
+<link rel="canonical" href="https://thetaprime.in/beta.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg:#0a0f0d;
+  --bg-elevated:#111a16;
+  --bg-inset:#0c1512;
+  --border:#1f2f27;
+  --border-strong:#2b3f34;
+  --text:#eaf3ee;
+  --text-muted:#93aa9e;
+  --accent:#39ff8b;
+  --accent-ink:#2fe583;
+  --accent-wash:rgba(57,255,139,0.10);
+  --accent-wash-strong:rgba(57,255,139,0.20);
+  --on-accent:#06120d;
+  --amber:#ffb020;
+  --amber-wash:rgba(255,176,32,0.14);
+  --red:#ff5c5c;
+  --red-wash:rgba(255,92,92,0.14);
+  --shadow:0 1px 0 rgba(0,0,0,0.4);
+  --glow-armed:0 0 0 rgba(255,92,92,0);
+  color-scheme: dark;
+}
+:root[data-theme="dark"]{
+  --bg:#0a0f0d; --bg-elevated:#111a16; --bg-inset:#0c1512; --border:#1f2f27; --border-strong:#2b3f34;
+  --text:#eaf3ee; --text-muted:#93aa9e; --accent:#39ff8b; --accent-ink:#2fe583;
+  --accent-wash:rgba(57,255,139,0.10); --accent-wash-strong:rgba(57,255,139,0.20); --on-accent:#06120d;
+  --amber:#ffb020; --amber-wash:rgba(255,176,32,0.14); --red:#ff5c5c; --red-wash:rgba(255,92,92,0.14);
+  color-scheme: dark;
+}
+:root[data-theme="light"]{
+  --bg:#f5f7f5; --bg-elevated:#ffffff; --bg-inset:#eef2ef; --border:#d8e3dd; --border-strong:#c3d2ca;
+  --text:#101a15; --text-muted:#55695e; --accent:#17a361; --accent-ink:#128a52;
+  --accent-wash:rgba(18,138,82,0.08); --accent-wash-strong:rgba(18,138,82,0.16); --on-accent:#ffffff;
+  --amber:#a3660a; --amber-wash:rgba(163,102,10,0.12); --red:#c23434; --red-wash:rgba(194,52,52,0.12);
+  color-scheme: light;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-wash-strong);color:var(--text);}
+
+a{color:var(--accent-ink);}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px;}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:1.5rem;}
+
+/* ambient backdrop */
+.bg-field{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(700px 480px at 82% -6%, var(--accent-wash), transparent 60%),
+    radial-gradient(520px 420px at -6% 18%, var(--accent-wash), transparent 55%);
+}
+.bg-grid{
+  position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0.5;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 70%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 70%);
+}
+
+/* type */
+h1,h2,h3{font-family:'Big Shoulders Display',system-ui,sans-serif;font-weight:800;line-height:0.96;letter-spacing:0.002em;text-wrap:balance;margin:0;text-transform:uppercase;}
+h2{font-size:clamp(1.9rem,3.6vw,2.9rem);}
+h3{font-size:clamp(1.2rem,1.8vw,1.5rem);letter-spacing:0.01em;}
+p{margin:0;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace; font-size:0.72rem; font-weight:500;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-ink);
+  display:flex; align-items:center; gap:0.6em;
+}
+.eyebrow::before{content:"";width:1.3em;height:1px;background:var(--accent-ink);opacity:0.6;}
+.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;}
+.lede{font-size:1.08rem;color:var(--text-muted);max-width:60ch;}
+
+.section{padding-block:clamp(3.5rem,7vw,6rem);border-top:1px solid var(--border);}
+.section-head{display:flex;flex-direction:column;gap:0.9rem;max-width:46rem;margin-bottom:clamp(2rem,4vw,3rem);}
+
+/* nav */
+header.nav{
+  position:sticky; top:0; z-index:40;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding-block:0.9rem;gap:1rem;}
+.brand{display:flex;align-items:center;gap:0.6rem;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1rem;letter-spacing:0.01em;color:var(--text);text-decoration:none;}
+.brand svg{width:26px;height:26px;flex:none;}
+.brand b{color:var(--accent-ink);font-weight:600;}
+.nav-links{display:flex;align-items:center;font-size:0.88rem;}
+.nav-links-inner{display:flex;align-items:center;gap:1.6rem;}
+.nav-links a{color:var(--text-muted);text-decoration:none;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{display:none;}
+@media(min-width:760px){.nav-cta{display:inline-flex;}}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.5em;
+  font-family:'IBM Plex Mono',monospace;font-size:0.82rem;font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;
+  padding:0.85em 1.4em;border-radius:7px;border:1px solid transparent;
+  cursor:pointer;transition:transform .15s ease, filter .15s ease, background-color .15s ease;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--accent-ink);color:var(--on-accent);}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border-strong);}
+.btn-ghost:hover{border-color:var(--accent-ink);color:var(--accent-ink);}
+
+/* hero */
+.hero{padding-block:clamp(3rem,8vw,5.5rem) clamp(2.5rem,6vw,4rem);}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:clamp(2.5rem,5vw,3.5rem);align-items:center;}
+@media(min-width:980px){.hero-grid{grid-template-columns:1.05fr 0.95fr;}}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);margin-block:0.5rem 1.1rem;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:0.9rem;margin-top:1.8rem;}
+.hero-fine{margin-top:1rem;font-size:0.8rem;color:var(--text-muted);font-family:'IBM Plex Mono',monospace;letter-spacing:0.02em;}
+
+.decay-rule{position:relative;height:1px;background:var(--border-strong);margin-block:1.6rem;overflow:hidden;max-width:32rem;}
+.decay-rule::after{
+  content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation:sweep 5s linear infinite;
+}
+@keyframes sweep{0%{left:-30%;}100%{left:100%;}}
+@media (prefers-reduced-motion: reduce){.decay-rule::after{animation:none;display:none;}}
+
+/* device mock */
+.device{
+  background:var(--bg-elevated); border:1px solid var(--border-strong); border-radius:12px;
+  overflow:hidden; box-shadow:0 20px 60px -30px rgba(0,0,0,0.6);
+}
+.device-bar{display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1rem;border-bottom:1px solid var(--border);background:var(--bg-inset);}
+.device-dot{width:8px;height:8px;border-radius:50%;background:var(--border-strong);}
+.device-bar span{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);margin-left:0.4rem;}
+.device-body{padding:1.25rem;}
+.strategy-card{border:1px solid var(--border);border-radius:9px;padding:1.1rem;background:var(--bg-inset);}
+.sc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;}
+.sc-title{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.92rem;letter-spacing:0.02em;}
+.sc-sub{font-size:0.76rem;color:var(--text-muted);margin-top:0.2rem;font-family:'IBM Plex Mono',monospace;}
+.pill{
+  display:inline-flex;align-items:center;gap:0.4em;font-family:'IBM Plex Mono',monospace;
+  font-size:0.68rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;
+  padding:0.32em 0.6em;border-radius:5px;border:1px solid transparent;white-space:nowrap;
+}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
+.pill-green{background:var(--accent-wash);color:var(--accent-ink);border-color:var(--accent-wash-strong);}
+.pill-red{background:var(--red-wash);color:var(--red);border-color:rgba(255,92,92,0.35);animation:pulse-armed 2.2s ease-in-out infinite;}
+@keyframes pulse-armed{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,92,92,0.35);}
+  50%{box-shadow:0 0 0 6px rgba(255,92,92,0);}
+}
+@media (prefers-reduced-motion: reduce){.pill-red{animation:none;}}
+.pill-neutral{background:var(--bg-elevated);color:var(--text-muted);border-color:var(--border-strong);}
+.sc-badges{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:flex-end;}
+.sc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--border);}
+@media(max-width:420px){.sc-stats{grid-template-columns:repeat(2,1fr);}}
+.stat-label{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;font-family:'IBM Plex Mono',monospace;}
+.stat-value{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.02rem;margin-top:0.25rem;}
+.stat-value.pos{color:var(--accent-ink);}
+.legs{margin-top:1rem;border-top:1px solid var(--border);padding-top:0.9rem;}
+.leg-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:0.78rem;padding-block:0.28rem;color:var(--text-muted);}
+.leg-row b{color:var(--text);font-weight:500;}
+.reconcile-line{display:flex;align-items:center;gap:0.5rem;margin-top:0.9rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
+.pos{color:var(--accent-ink);}
+.neg{color:var(--red);}
+.push-end{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;}
+.pill-amber{background:var(--amber-wash);color:var(--amber);border-color:rgba(255,176,32,0.35);}
+
+/* illustration: payoff preview (composer) */
+.payoff-preview{margin-top:2rem;}
+.payoff-svg{width:100%;height:auto;display:block;}
+.payoff-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.9rem 0.75rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+@media(min-width:480px){.payoff-stats{grid-template-columns:repeat(6,1fr);}}
+
+/* illustration: monitoring device pair */
+.mock-pair{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-bottom:clamp(1.75rem,3.5vw,2.5rem);}
+@media(min-width:860px){.mock-pair{grid-template-columns:1fr 1fr;}}
+@keyframes pulse-live{
+  0%,100%{box-shadow:0 0 0 0 var(--accent-wash-strong);}
+  50%{box-shadow:0 0 0 5px transparent;}
+}
+.ts-refresh{display:flex;align-items:center;gap:0.5rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);margin-top:1rem;}
+.ts-refresh .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-ink);flex:none;animation:pulse-live 2s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){.ts-refresh .dot{animation:none;}}
+.ts-alert-btn{margin-top:1rem;}
+
+/* illustration: events log mock */
+.evt-filters{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.evt-chip{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;padding:0.3em 0.7em;border-radius:999px;border:1px solid var(--border-strong);color:var(--text-muted);}
+.evt-chip.active{background:var(--accent-wash-strong);border-color:var(--accent-ink);color:var(--accent-ink);}
+.evt-row{display:grid;grid-template-columns:4.4rem 1fr auto;gap:0.6rem;align-items:center;padding-block:0.55rem;border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:0.74rem;}
+.evt-row:first-of-type{border-top:none;}
+.evt-time{color:var(--text-muted);}
+.evt-cat{display:inline-flex;align-items:center;gap:0.45em;}
+.evt-cat .dot{width:6px;height:6px;border-radius:50%;flex:none;}
+.evt-cat.auth .dot{background:#7c6fff;}
+.evt-cat.trade .dot{background:var(--accent-ink);}
+.evt-cat.system .dot{background:var(--text-muted);}
+
+/* problem list */
+.problem-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+@media(min-width:760px){.problem-grid{grid-template-columns:1fr 1fr;}}
+.problem-item{background:var(--bg-elevated);padding:1.4rem 1.5rem;}
+.problem-item .k{font-family:'IBM Plex Mono',monospace;color:var(--red);font-size:0.78rem;display:block;margin-bottom:0.5rem;}
+
+/* steps */
+.steps{display:grid;grid-template-columns:1fr;gap:1.5rem;}
+@media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr);}}
+.step{position:relative;padding-top:2.2rem;}
+.step-num{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2.6rem;color:var(--border-strong);position:absolute;top:-0.6rem;left:0;line-height:1;}
+.step h3{margin-bottom:0.6rem;}
+.step p{color:var(--text-muted);font-size:0.95rem;}
+
+/* composer blocks */
+.block-panel{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+@media(min-width:640px){.block-panel{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:980px){.block-panel{grid-template-columns:repeat(3,1fr);}}
+.block-group{background:var(--bg-elevated);padding:1.1rem 1.25rem;}
+.block-group h4{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin:0 0 0.7rem;}
+.chip-row{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:0.74rem;padding:0.32em 0.6em;border-radius:5px;background:var(--bg-inset);border:1px solid var(--border-strong);color:var(--text);}
+
+/* feature grid (safety) */
+.feature-grid{display:grid;grid-template-columns:1fr;gap:1rem;}
+@media(min-width:680px){.feature-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1040px){.feature-grid{grid-template-columns:repeat(3,1fr);}}
+.feature-card{
+  background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;
+  padding:1.4rem;transition:border-color .15s ease, transform .15s ease;
+}
+.feature-card:hover{border-color:var(--accent-ink);transform:translateY(-2px);}
+.feature-card .tag{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-ink);display:block;margin-bottom:0.7rem;}
+.feature-card h3{margin-bottom:0.55rem;font-size:1.08rem;}
+.feature-card p{color:var(--text-muted);font-size:0.9rem;}
+
+/* two col text */
+.split{display:grid;grid-template-columns:1fr;gap:2.5rem;align-items:start;}
+@media(min-width:900px){.split{grid-template-columns:0.9fr 1.1fr;}}
+.check-list{list-style:none;margin:1.2rem 0 0;padding:0;display:flex;flex-direction:column;gap:0.8rem;}
+.check-list li{display:flex;gap:0.7rem;font-size:0.95rem;color:var(--text-muted);}
+.check-list li::before{content:"";width:7px;height:7px;margin-top:0.5em;border-radius:1px;background:var(--accent-ink);flex:none;transform:rotate(45deg);}
+.check-list b{color:var(--text);font-weight:600;}
+
+/* license card */
+.license-card{background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:12px;padding:clamp(1.6rem,3vw,2.4rem);display:grid;grid-template-columns:1fr;gap:1.75rem;}
+@media(min-width:860px){.license-card{grid-template-columns:1.1fr 0.9fr;}}
+.license-terms{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.9rem;}
+.license-terms li{display:flex;justify-content:space-between;gap:1rem;font-size:0.92rem;border-bottom:1px solid var(--border);padding-bottom:0.9rem;}
+.license-terms li:last-child{border-bottom:none;padding-bottom:0;}
+.license-terms .t{color:var(--text-muted);}
+.license-terms .v{font-family:'IBM Plex Mono',monospace;font-weight:600;text-align:right;}
+.license-cta{display:flex;flex-direction:column;justify-content:center;gap:1rem;background:var(--bg-inset);border:1px solid var(--border);border-radius:10px;padding:1.6rem;}
+.license-cta p{color:var(--text-muted);font-size:0.85rem;}
+
+/* faq */
+.faq{max-width:52rem;display:flex;flex-direction:column;gap:0.6rem;}
+.faq details{border:1px solid var(--border);border-radius:9px;background:var(--bg-elevated);padding:0;}
+.faq summary{
+  cursor:pointer;list-style:none;padding:1.05rem 1.3rem;font-weight:600;font-size:0.98rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-family:'IBM Plex Mono',monospace;color:var(--accent-ink);font-size:1.1rem;flex:none;}
+.faq details[open] summary::after{content:"–";}
+.faq .a{padding:0 1.3rem 1.2rem;color:var(--text-muted);font-size:0.92rem;max-width:60ch;}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding-block:2.5rem;}
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem;align-items:center;padding-bottom:1.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.foot-tag{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--text-muted);max-width:34rem;}
+.foot-legal{font-size:0.76rem;color:var(--text-muted);line-height:1.7;max-width:74ch;}
+.foot-meta{display:flex;flex-wrap:wrap;gap:0.5rem 1.3rem;margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--text-muted);}
+
+/* mobile nav */
+.nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border-strong);border-radius:7px;background:transparent;color:var(--text);font-size:1.1rem;line-height:1;cursor:pointer;}
+@media(min-width:760px){.nav-toggle{display:none;}}
+@media(max-width:759.98px){
+  .nav-cta{display:none;}
+  .nav-links{
+    position:absolute;top:100%;left:0;right:0;
+    display:grid;grid-template-rows:0fr;align-items:stretch;
+    background:var(--bg-elevated);border-bottom:1px solid var(--border);
+    transition:grid-template-rows .2s ease;
+  }
+  .nav-links-inner{min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:stretch;padding-inline:1.5rem;}
+  .nav-links a{padding:0.85rem 0;border-bottom:1px solid var(--border);font-size:0.95rem;}
+  .nav-links a:last-child{border-bottom:none;}
+  header.nav[data-open="true"] .nav-links{grid-template-rows:1fr;}
+  header.nav[data-open="true"] .nav-links-inner{overflow-y:auto;max-height:70vh;padding-block:0.5rem 0.75rem;}
+}
+
+
+.tier-grid{display:grid;grid-template-columns:1fr;gap:1.25rem;}
+@media(min-width:720px){.tier-grid{grid-template-columns:1fr 1fr;}}
+.tier-card{background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:12px;padding:clamp(1.6rem,3vw,2.2rem);display:flex;flex-direction:column;gap:1.1rem;}
+.tier-card-pro{border-color:var(--accent-ink);}
+.tier-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:0.75rem;}
+.tier-card-head h3{margin:0;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.04em;font-size:1rem;}
+.tier-badge{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--accent-ink);border:1px solid var(--accent-ink);border-radius:999px;padding:0.15rem 0.6rem;}
+.tier-blurb{color:var(--text-muted);font-size:0.9rem;margin:0;}
+.tier-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.65rem;font-size:0.88rem;flex:1;}
+.tier-list li{padding-left:1.3rem;position:relative;}
+.tier-list li::before{content:"\2713";position:absolute;left:0;color:var(--accent-ink);font-weight:700;}
+</style>
+<style>
+/* beta-page extras */
+.bounty-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:1.5rem;}
+@media(min-width:760px){.bounty-grid{grid-template-columns:repeat(3,1fr);}}
+.bounty-item{background:var(--bg-elevated);padding:1.4rem 1.5rem;}
+.bounty-item .amt{font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:2rem;color:var(--accent-ink);display:block;text-transform:uppercase;line-height:1;margin-bottom:0.5rem;}
+.bounty-item .sev{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:0.6rem;}
+.bounty-item p{color:var(--text-muted);font-size:0.88rem;}
+.disclaimer-card{background:var(--bg-elevated);border:1px solid var(--red);border-radius:12px;padding:clamp(1.6rem,3vw,2.2rem);}
+.disclaimer-card h3{margin-bottom:0.8rem;}
+.disclaimer-card ul{margin:0 0 1.4rem;padding-left:1.3rem;color:var(--text-muted);font-size:0.92rem;display:flex;flex-direction:column;gap:0.55rem;}
+.disclaimer-card ul:last-child{margin-bottom:0;}
+.disclaimer-note{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--amber);margin-bottom:1rem;}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-field"></div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html#top">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <defs><filter id="g" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="b1"/><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/></feMerge></filter></defs>
+        <g filter="url(#g)" opacity="0.95"><line x1="58.4" y1="39.5" x2="78.4" y2="4.9" stroke="var(--accent)" stroke-width="11.5" stroke-linecap="round"/></g>
+        <ellipse cx="44" cy="56" rx="24" ry="30" fill="none" stroke="currentColor" stroke-width="9"/>
+        <line x1="23" y1="56" x2="65" y2="56" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+        <line x1="58.4" y1="39.5" x2="78.4" y2="4.9" stroke="var(--accent)" stroke-width="9.5" stroke-linecap="round"/>
+      </svg>
+      <span>Theta<b>Prime</b></span>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <div class="nav-links-inner">
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#composer">Composer</a>
+        <a href="index.html#safety">Safety</a>
+        <a href="index.html#monitoring">Monitoring</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="docs/index.html" style="color:var(--text)">Docs</a>
+      </div>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#pricing-tiers">Request a license</a>
+    <button class="nav-toggle" id="nav-toggle-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation menu" onclick="toggleNav()">☰</button>
+  </div>
+</header>
+<main id="top">
+
+  <section class="section" id="beta-hero" style="padding-top:clamp(2.5rem,5vw,4rem);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Beta Program</span>
+        <h2>Run ThetaPrime on your own account. Get paid in time, not cash.</h2>
+        <p class="lede">The beta is for a real Windows trading app, connected to your own broker account and trading real capital. In exchange for real usage and honest bug reports, you earn free license time &mdash; see the incentive structure below, then read the disclaimer and safety instructions in full before you register.</p>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" id="cta-register" href="register.html">Register for the beta &rarr;</a>
+        <a class="btn btn-ghost" href="#disclaimer">Read the disclaimer first</a>
+      </div>
+      <p class="hero-fine" id="cohort-note"></p>
+    </div>
+  </section>
+
+  <section class="section" id="what-is-beta">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What you're signing up for</span>
+        <h2>A Windows app, a real broker, real orders.</h2>
+        <p class="lede">ThetaPrime is a desktop trading app for Windows. Beta testers install it, connect it to their own Zerodha Kite, ICICI Breeze, or Dhan account, and run it against real capital during the beta window. There is no paper-trading-only track &mdash; the point of the beta is to see how the app behaves with real orders, real fills, and real money on the line.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="incentives">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Incentives</span>
+        <h2>Free license time for completing the window &mdash; more for finding bugs.</h2>
+        <p class="lede">Complete the beta window with real usage on your account and you get <b style="color:var(--text)">6 free months</b> added to your license, no bug report required. On top of that, every bug you report during the window earns a bounty based on severity.</p>
+      </div>
+      <div class="bounty-grid">
+        <div class="bounty-item">
+          <span class="amt">+1 month</span>
+          <span class="sev">Minor</span>
+          <p>Cosmetic, a display glitch, or anything with no realistic path to affecting an order or your money.</p>
+        </div>
+        <div class="bounty-item">
+          <span class="amt">+2 months</span>
+          <span class="sev">Medium</span>
+          <p>Could plausibly cause a wrong or missed order, a confusing risk state, or bad data reaching a decision &mdash; even if it didn't this time.</p>
+        </div>
+        <div class="bounty-item">
+          <span class="amt">+6 months</span>
+          <span class="sev">Major</span>
+          <p>Could plausibly place an unintended live order, miss a stop-loss, or otherwise put your capital at risk &mdash; even if what actually happened was harmless.</p>
+        </div>
+      </div>
+      <p class="lede" style="margin-top:1.5rem;">Severity is judged on <b style="color:var(--text)">potential</b> impact to money or orders, not just what happened in your one report &mdash; a near-miss that could have gone badly is scored on how badly it could have gone.</p>
+    </div>
+  </section>
+
+  <section class="section" id="reporting">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Reporting a bug</span>
+        <h2>One report, one tracked issue.</h2>
+        <p class="lede">Report anything unexpected from inside the app &mdash; it automatically creates a tracked GitHub issue on your behalf, so nothing you flag gets lost or has to be re-explained later. Include what you were doing, what you expected, and what happened. A near-miss that resolved itself on its own is still worth reporting.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="disclaimer">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Before you register</span>
+        <h2>Disclaimer &amp; safety instructions</h2>
+        <p class="lede">This is the disclaimer you'll be asked to accept on the registration page. It is a draft pending legal review, but the substance of it is exactly what beta participation means: your account, your capital, your risk.</p>
+      </div>
+      <div class="disclaimer-card">
+        <p class="disclaimer-note">Draft — pending legal review</p>
+        <h3>Disclaimer</h3>
+        <ul>
+          <li>Beta software provided as-is; you are trading with your own broker account and real capital, at your own risk.</li>
+          <li>ThetaPrime and its operator are not liable for any trading losses, missed or incorrect orders, or other financial impact arising during the beta period.</li>
+          <li>Nothing in this app or program is investment advice.</li>
+        </ul>
+        <h3>Safety instructions</h3>
+        <ul>
+          <li>Monitor real trades closely, especially for the first few days on each new build &mdash; don't run the app unattended during market hours during the beta window.</li>
+          <li>Start with small size/lots before trusting a strategy at normal size.</li>
+          <li>Periodically verify the app's shown positions against your broker's own terminal &mdash; don't rely solely on the dashboard during beta.</li>
+          <li>Know how to manually square off via your broker's own terminal if the app misbehaves.</li>
+          <li>Don't disable stop-loss/risk guards to "test" without understanding the consequences.</li>
+          <li>Report anything unexpected immediately, even a near-miss that resolved itself.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="beta-cta">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Ready?</span>
+        <h2>Register with your invite link.</h2>
+        <p class="lede">You'll need the cohort invite link you were given to register &mdash; it identifies which beta batch you belong to and its capacity.</p>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" id="cta-register-2" href="register.html">Register for the beta &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+(function(){
+  var cohort = new URLSearchParams(window.location.search).get('cohort');
+  var target = cohort ? ('register.html?cohort=' + encodeURIComponent(cohort)) : 'register.html';
+  document.getElementById('cta-register').setAttribute('href', target);
+  document.getElementById('cta-register-2').setAttribute('href', target);
+  var note = document.getElementById('cohort-note');
+  if (cohort) {
+    note.textContent = 'Invite cohort: ' + cohort;
+  }
+})();
+</script>
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="brand" href="index.html#top">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <g opacity="0.95"><line x1="58.4" y1="39.5" x2="78.4" y2="4.9" stroke="var(--accent)" stroke-width="11.5" stroke-linecap="round"/></g>
+          <ellipse cx="44" cy="56" rx="24" ry="30" fill="none" stroke="currentColor" stroke-width="9"/>
+          <line x1="23" y1="56" x2="65" y2="56" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+          <line x1="58.4" y1="39.5" x2="78.4" y2="4.9" stroke="var(--accent)" stroke-width="9.5" stroke-linecap="round"/>
+        </svg>
+        <span>Theta<b>Prime</b></span>
+      </a>
+      <p class="foot-tag">Theta decays either way. Whether it decays into your account is a matter of process.</p>
+      <a class="btn btn-ghost" href="mailto:license@thetaprime.in">license@thetaprime.in</a>
+    </div>
+    <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
+    <div class="foot-meta">
+      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
+      <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
+      <span>4GB RAM minimum</span><span>·</span>
+      <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>
+      <a href="https://github.com/dsharma01/ThetaPrime-Dist/releases">Previous versions</a><span>·</span>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Static text above is a fallback (no-JS, offline, or GitHub API rate-limited) --
+// this overwrites it with the actual latest release tag once fetched.
+fetch('https://api.github.com/repos/dsharma01/ThetaPrime-Dist/releases/latest')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if (data && data.tag_name) {
+      document.getElementById('site-app-version').textContent = 'ThetaPrime ' + data.tag_name;
+    }
+  })
+  .catch(function(){});
+</script>
+<script>
+function toggleNav(){
+  var nav = document.querySelector('header.nav');
+  var btn = document.getElementById('nav-toggle-btn');
+  var open = nav.getAttribute('data-open') === 'true';
+  nav.setAttribute('data-open', open ? 'false' : 'true');
+  btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+  btn.textContent = open ? '☰' : '✕';
+}
+document.querySelectorAll('.nav-links a').forEach(function(a){
+  a.addEventListener('click', function(){
+    document.querySelector('header.nav').setAttribute('data-open', 'false');
+    var btn = document.getElementById('nav-toggle-btn');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.textContent = '☰';
+  });
+});
+</script>
+</body>
+</html>
