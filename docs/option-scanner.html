@@ -470,6 +470,10 @@ mode</a> below. The common filters below (Option Type, LTP
 </thead>
 <tbody>
 <tr>
+<td>Spot</td>
+<td>Underlying's spot price at scan time</td>
+</tr>
+<tr>
 <td>Strike</td>
 <td>Strike price</td>
 </tr>
@@ -480,6 +484,10 @@ mode</a> below. The common filters below (Option Type, LTP
 <tr>
 <td>LTP</td>
 <td>Last traded price</td>
+</tr>
+<tr>
+<td>Bid / Ask</td>
+<td>Best bid/offer, top of book — <code>—</code> when the broker's depth data wasn't available for that strike</td>
 </tr>
 <tr>
 <td>Premium %</td>
@@ -494,14 +502,31 @@ mode</a> below. The common filters below (Option Type, LTP
 <td>Rate of change in LTP per ₹1 move in the underlying</td>
 </tr>
 <tr>
+<td>Gamma</td>
+<td>Rate of change of Delta per ₹1 move in the underlying</td>
+</tr>
+<tr>
+<td>Theta</td>
+<td>Time decay — LTP change per calendar day</td>
+</tr>
+<tr>
+<td>Vega</td>
+<td>LTP change per 1 percentage point of IV</td>
+</tr>
+<tr>
 <td>OI</td>
 <td>Open interest (outstanding contracts)</td>
 </tr>
 </tbody>
 </table>
+<p>IV/Delta/Gamma/Theta/Vega are all solved from LTP via Black-Scholes — no
+broker exposes native IV/Greeks, so these are model estimates, not
+broker-reported values. Any of them can show <code>—</code> when the LTP falls outside
+the range implied_vol can solve (illiquid/mispriced quote).</p>
 <p>Top F&amp;O Stocks mode adds <strong>Underlying</strong> and <strong>Expiry</strong> columns since results
-span multiple stocks. Click any column header to sort; <strong>Export CSV</strong> saves
-the current table.</p>
+span multiple stocks — Spot then reflects each row's own stock, not one
+shared value. Click any column header to sort; <strong>Export CSV</strong> saves the
+current table (spot/bid/ask/Greeks included, same as what's on screen).</p>
 <h2 id="flow-mode-columns">Flow Mode Columns</h2>
 <table>
 <thead>
@@ -512,12 +537,24 @@ the current table.</p>
 </thead>
 <tbody>
 <tr>
+<td>Spot</td>
+<td>Underlying's spot price at scan time</td>
+</tr>
+<tr>
 <td>Strike / Type</td>
 <td>Same as above</td>
 </tr>
 <tr>
 <td>LTP</td>
 <td>Last traded price</td>
+</tr>
+<tr>
+<td>Bid / Ask</td>
+<td>Best bid/offer, top of book — same caveat as above</td>
+</tr>
+<tr>
+<td>IV % / Delta / Gamma / Theta / Vega</td>
+<td>Same Black-Scholes estimates as Specific/Top mode above</td>
 </tr>
 <tr>
 <td>OI</td>
@@ -739,6 +776,12 @@ response — if it doesn't carry OI the way expected, Flow silently falls
 back to today's first scan as the baseline instead of erroring. A note
 appears next to the summary line whenever this could apply. See <a href="brokers/dhan.html#known-limitations">Dhan
 Known Limitations</a>.</p>
+<p><strong>Bid/Ask reliability</strong>: Kite and Dhan surface best bid/ask from their
+native market-depth response — confirmed present in both APIs' documented
+shape. Breeze's fields (<code>best_bid_price</code>/<code>best_offer_price</code>) are carried
+over from breeze_connect's tick-stream naming and haven't been confirmed
+against a live REST response for the option-chain endpoint specifically —
+if they're absent or misnamed, Bid/Ask just shows <code>—</code> rather than erroring.</p>
 </blockquote>
 <hr />
 <h2 id="ask-ai">Ask AI</h2>
@@ -751,7 +794,7 @@ from ThetaPrime itself — same bring-your-own-AI pattern as the <a href="strate
 Composer</a>'s payoff diagram.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="is-it-running.html">← <span>Is ThetaPrime Running?</span></a><a class="doc-prev-next-link next" href="data-sources.html"><span>Data Sources</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.39.0 · Page last updated 2026-09-07</p>
+<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-17</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#scan-modes">Scan Modes</a><ul><li><a href="#specific-underlying">Specific Underlying</a></li><li><a href="#top-fo-stocks">Top F&amp;O Stocks</a></li><li><a href="#flow-oi-analysis">Flow (OI Analysis)</a></li></ul></li><li><a href="#common-controls-specific-top-modes">Common Controls (Specific / Top modes)</a></li><li><a href="#results-columns-specific-top-modes">Results Columns (Specific / Top modes)</a></li><li><a href="#flow-mode-columns">Flow Mode Columns</a><ul><li><a href="#how-the-unusual-activity-score-works">How the Unusual Activity score works</a></li></ul></li><li><a href="#ask-ai">Ask AI</a></li></ul></nav></div>
 </main>
 <footer>
@@ -771,7 +814,7 @@ Composer</a>'s payoff diagram.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.35.4</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

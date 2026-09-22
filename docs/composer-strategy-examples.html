@@ -543,9 +543,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 </tbody>
 </table>
-<p>Simpler fixed-distance variant: set both legs' selector to <strong>OTM %</strong> instead (<code>1.0</code> on SC, <code>-1.0</code> on SP). Add an <strong>Adjustment</strong> block to roll the untested side instead of riding it flat — see example 12.</p>
+<p>Simpler fixed-distance variant: set both legs' selector to <strong>OTM %</strong> instead (<code>1.0</code> on SC, <code>1.0</code> on SP — <strong>OTM %</strong> is positive for both calls and puts; a negative value moves the strike in-the-money instead). Add an <strong>Adjustment</strong> block to roll the untested side instead of riding it flat — see example 12.</p>
 <blockquote>
-<p>Not the same as an optionstrat-style "sell the 16-delta strangle": the composer's <strong>Delta target</strong> selector (<code>strategies/components/selectors.py</code>) only scans <strong>deep-ITM</strong> strikes — it's built for the diagonal's long legs, not OTM shorts. There's no 0.15–0.20-delta OTM selector today; <strong>Premium target</strong> or <strong>OTM %</strong> above are the closest available proxies.</p>
+<p>For an optionstrat-style "sell the 16-delta strangle", set both legs' selector to <strong>Delta OTM</strong> with <strong>Target |delta|</strong> <code>0.15</code> (the field steps in 0.05, so 0.15 is the nearest to 16): it scans out-of-the-money strikes for the one whose Black-Scholes |delta| is closest to the target. Don't confuse it with <strong>Delta target</strong>, which only scans <strong>deep-ITM</strong> strikes and is built for the diagonal's long legs. <strong>Premium target</strong> and <strong>OTM %</strong> above are the other ways to place the shorts.</p>
 </blockquote>
 <hr />
 <h2 id="3-expiry-day-0dte-strangle">3. Expiry-day (0DTE) strangle</h2>
@@ -568,7 +568,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Structure</td>
-<td><strong>Short strangle</strong> — SC selector <strong>OTM %</strong> <code>0.5</code>, SP selector <strong>OTM %</strong> <code>-0.5</code> (tight, expiry-day-like)</td>
+<td><strong>Short strangle</strong> — SC selector <strong>OTM %</strong> <code>0.5</code>, SP selector <strong>OTM %</strong> <code>0.5</code> (tight, expiry-day-like)</td>
 </tr>
 <tr>
 <td>Exits (in order)</td>
@@ -634,7 +634,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Structure</td>
-<td><strong>Iron condor</strong> — 4 legs total: SC/SP (the two you configure below) plus two bought "wing" legs, LC/LP, that get added automatically. Click the chip itself and set <strong>Wing width (pts)</strong> <code>300</code>; on the legs set SC selector <strong>OTM %</strong> <code>1.0</code>, SP selector <strong>OTM %</strong> <code>-1.0</code>. The wings need no selector — the structure places them at short strike ± width.</td>
+<td><strong>Iron condor</strong> — 4 legs total: SC/SP (the two you configure below) plus two bought "wing" legs, LC/LP, that get added automatically. Click the chip itself and set <strong>Wing width (pts)</strong> <code>300</code>; on the legs set SC selector <strong>OTM %</strong> <code>1.0</code>, SP selector <strong>OTM %</strong> <code>1.0</code>. The wings need no selector — the structure places them at short strike ± width.</td>
 </tr>
 <tr>
 <td>Exits (in order)</td>
@@ -732,7 +732,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Structure</td>
-<td><strong>Bull put spread</strong> — Wing width (pts) <code>200</code>; SP selector <strong>OTM %</strong> <code>-1.0</code> (LP needs no selector — it's placed at SP strike − width)</td>
+<td><strong>Bull put spread</strong> — Wing width (pts) <code>200</code>; SP selector <strong>OTM %</strong> <code>1.0</code> (LP needs no selector — it's placed at SP strike − width)</td>
 </tr>
 <tr>
 <td>Exits (in order)</td>
@@ -778,7 +778,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 </tbody>
 </table>
-<p>Swap the structure for <strong>Bear put spread</strong> (mirror image, bearish): LP selector <strong>OTM %</strong> <code>-0.5</code>, wing (SP) placed at LP strike − width.</p>
+<p>Swap the structure for <strong>Bear put spread</strong> (mirror image, bearish): LP selector <strong>OTM %</strong> <code>0.5</code>, wing (SP) placed at LP strike − width.</p>
 <hr />
 <h2 id="10-naked-short-put-income-leg">10. Naked short put (income leg)</h2>
 <p>The simplest building block: a single sold put, cash-secured-put style. No wing, no second leg — margin is the naked-option margin, not a spread margin, so size conservatively.</p>
@@ -800,7 +800,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Structure</td>
-<td><strong>Short put</strong> — SP selector <strong>OTM %</strong> <code>-1.5</code></td>
+<td><strong>Short put</strong> — SP selector <strong>OTM %</strong> <code>1.5</code></td>
 </tr>
 <tr>
 <td>Exits (in order)</td>
@@ -864,7 +864,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </tr>
 <tr>
 <td>Structure</td>
-<td><strong>Short strangle</strong> — SC selector <strong>OTM %</strong> <code>1.0</code>, SP selector <strong>OTM %</strong> <code>-1.0</code></td>
+<td><strong>Short strangle</strong> — SC selector <strong>OTM %</strong> <code>1.0</code>, SP selector <strong>OTM %</strong> <code>1.0</code></td>
 </tr>
 <tr>
 <td>Exits (in order)</td>
@@ -1374,13 +1374,12 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <ul>
 <li><strong>Ratio spreads / jade lizard</strong> — need per-leg quantity multipliers.</li>
 <li><strong>"Expiry-day only" or day-of-week entry</strong> — no DTE/day filter yet; min DTE <code>0</code> enters every day, not just Tuesday. Example 3 above works around it by running daily with tight OTM strikes.</li>
-<li><strong>Delta-target OTM shorts</strong> (the optionstrat-style "sell the 16-delta strangle") — <strong>Delta target</strong> only scans deep-ITM strikes, it's for the diagonal's long legs. Use <strong>Premium target</strong> or <strong>OTM %</strong> for strangle shorts instead (example 2).</li>
 <li><strong>Earnings-calendar filter</strong> — no block reads an earnings date. Examples 22/23 use <strong>Date window</strong> as a manual stand-in, re-typed every cycle.</li>
 <li><strong>Per-stock IV filter</strong> — <code>vix_skip</code>/<code>vix_floor</code> read India VIX, market-wide, not this underlying's own implied vol (example 24). <code>gamma_target</code> and <code>delta_stop</code> do solve a per-name IV from a live quote internally, but there's no filter block exposing it yet.</li>
 </ul>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="strategy-composer.html">← <span>Strategy Composer Guide</span></a><a class="doc-prev-next-link next" href="strategy-usage.html"><span>Strategy Configuration & Usage</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.39.0 · Page last updated 2026-08-14</p>
+<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-19</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#example-groups">Example Groups</a></li><li><a href="#1-920-atm-short-straddle-intraday">1. 9:20 ATM short straddle (intraday)</a></li><li><a href="#2-weekly-premium-target-short-strangle">2. Weekly premium-target short strangle</a></li><li><a href="#3-expiry-day-0dte-strangle">3. Expiry-day (0DTE) strangle</a></li><li><a href="#4-vix-regime-straddle-with-trailing-stop">4. VIX-regime straddle with trailing stop</a></li><li><a href="#5-iron-condor-defined-risk-strangle">5. Iron condor (defined-risk strangle)</a></li><li><a href="#6-iron-butterfly">6. Iron butterfly</a></li><li><a href="#7-diagonal-iron-butterfly-weekly-vs-monthly">7. Diagonal iron butterfly (weekly vs monthly)</a></li><li><a href="#8-bull-put-spread-defined-risk-directional-credit">8. Bull put spread (defined-risk directional credit)</a></li><li><a href="#9-bull-call-spread-debit-directional">9. Bull call spread (debit, directional)</a></li><li><a href="#10-naked-short-put-income-leg">10. Naked short put (income leg)</a></li><li><a href="#11-call-calendar-same-strike-two-expiries">11. Call calendar (same strike, two expiries)</a></li><li><a href="#12-weekly-strangle-with-adjustment-roll-the-untested-side">12. Weekly strangle with adjustment (roll the untested side)</a></li><li><a href="#13-rent-collector-condor-weekly-carried-to-expiry">13. Rent Collector Condor (weekly, carried to expiry)</a></li><li><a href="#14-gamma-fenced-daily-condor-0dte-without-the-blowup">14. Gamma-Fenced Daily Condor ("0DTE without the blowup")</a></li><li><a href="#15-put-calendar-skew-harvester">15. Put Calendar Skew Harvester</a></li><li><a href="#16-self-centering-condor-roll-both-sides">16. Self-Centering Condor (roll both sides)</a></li><li><a href="#17-monthly-fd-plus-condor-fixed-deposit-plus">17. Monthly FD-Plus Condor ("Fixed Deposit Plus")</a></li><li><a href="#18-positional-bear-put-spread-one-shot-directional-view">18. Positional bear put spread (one-shot directional view)</a></li><li><a href="#19-cash-secured-put-fo-stock-income">19. Cash-secured put (F&amp;O stock, income)</a></li><li><a href="#20-covered-call-fo-stock-income">20. Covered call (F&amp;O stock, income)</a></li><li><a href="#21-stock-bull-put-spread-one-shot-directional-view">21. Stock bull put spread (one-shot directional view)</a></li><li><a href="#22-pre-earnings-long-straddle-event-volatility">22. Pre-earnings long straddle (event volatility)</a></li><li><a href="#23-post-earnings-iv-crush-short-strangle">23. Post-earnings IV-crush short strangle</a></li><li><a href="#24-stock-premium-target-short-strangle-clone-per-name">24. Stock premium-target short strangle (clone per name)</a></li><li><a href="#25-covered-strangle-fo-stock-income">25. Covered strangle (F&amp;O stock, income)</a></li><li><a href="#dispersion-and-sector-pairs-multi-spec-patterns">Dispersion and sector pairs (multi-spec patterns)</a></li><li><a href="#not-yet-expressible-roadmap">Not yet expressible (roadmap)</a></li></ul></nav></div>
 </main>
 <footer>
@@ -1400,7 +1399,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.35.4</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

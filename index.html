@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- content-synced-through: v0.39.0 (2026-09-13) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
+<!-- content-synced-through: v0.42.0 (2026-09-22) -- see .claude/skills/update-website (Kiteconnect repo) Part B before editing feature copy -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="ThetaPrime runs your options-selling strategies — strangles, straddles, diagonals — on your own Windows PC, across NIFTY, BankNifty, FinNifty, and F&#38;O stocks. Discipline built into every step, live monitoring you can always see.">
@@ -443,7 +443,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <h2 style="margin-top:0.7rem;">Build a strangle by clicking, not scripting.</h2>
           <p class="lede" style="margin-top:1rem;">The Composer opens pre-seeded with a working ATM strangle. Swap the structure, tighten a strike, add a trailing stop — the live spec preview tells you the instant it's valid. Every saved strategy runs on the same engine, dashboard, and P&amp;L reports — there's no separate code path to fall back to.</p>
           <ul class="check-list">
-            <li><b>Build with AI</b> — describe what you want in plain English. With an AI provider configured it's an in-app chat, each reply validated server-side against the composer's own rules before you can apply it, with one automatic retry if a reply comes back invalid. No provider configured falls back to a copy/paste prompt handoff instead.</li>
+            <li><b>Build with AI</b> — describe what you want in plain English. With an AI provider configured it's an in-app chat, each reply validated server-side against the composer's own rules before you can apply it, with one automatic retry if a reply comes back invalid. No provider configured falls back to a copy/paste prompt handoff instead. Prefer your own Claude or Cursor? Download the ThetaPrime strategy skill and describe the strategy there — it validates offline against the same rules and hands back an importable spec, or saves it straight into Composer if you've turned that on.</li>
             <li><b>Validates as you build</b> — every parameter checked against its allowed range before you can save.</li>
             <li><b>Payoff diagram + Ask AI</b> — see max profit/loss, breakevens, probability of profit, net Delta/Gamma/Theta/Vega, and a P&amp;L what-if at spot ±1/2/3%, then hand the structure to your own ChatGPT, Claude, Perplexity, or Gemini for a second opinion. No API key stored.</li>
             <li><b>Edit in place</b> — reopen any composed strategy pre-filled, tune it, save over it.</li>
@@ -494,6 +494,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
           <h2 style="margin-top:0.7rem;">Read the option chain's own footprints, not just the price.</h2>
           <p class="lede" style="margin-top:1rem;">Three scan modes, no strategy required: a specific underlying's full chain, a Top F&amp;O Stocks sweep, or Flow — per-strike OI buildup and PCR, live off whichever broker you pick.</p>
           <ul class="check-list">
+            <li><b>Full Greeks in every mode</b> — IV, Delta, Gamma, Theta, Vega, and Bid/Ask alongside LTP and OI, whether you're scanning one underlying, the Top F&amp;O sweep, or Flow.</li>
             <li><b>Flow (OI Analysis)</b> — every strike tagged Strong/Moderate Buildup, Short Covering, Long Unwinding, or Weak/Mixed from price + OI direction combined, plus PCR (OI) for the whole chain.</li>
             <li><b>Unusual Activity score</b> — a 0-100 score from volume turnover, fresh OI, and buildup strength flags strikes EXTREME/HIGH/NOTABLE, plus a same-day flag once volume reaches 50% of open interest.</li>
             <li><b>Any connected broker</b> — Kite, Breeze, or Dhan, switchable mid-scan; instruments, spot, OI, and LTPs all come from the one you pick.</li>
@@ -589,7 +590,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <div class="feature-card"><span class="tag">Alerts</span><h3>Entries, exits, status — off the dashboard</h3><p>Every entry, exit, and adjustment can push straight to WhatsApp, Telegram, email, or a webhook — no bridge process to babysit, useful mid-meeting, mid-commute, anywhere a screen isn't handy. Windows toast notifications too, right from the tray, while the app window's open.</p></div>
         <div class="feature-card"><span class="tag">Event Log</span><h3>Every action, one searchable trail</h3><p>Login, entry, exit, adjustment, error — every action lands in a filterable log (by category and level) with CSV export, so you can reconstruct exactly what happened and when.</p></div>
         <div class="feature-card"><span class="tag">Live status</span><h3>Badges, not a one-time check</h3><p>Broker connection, available margin, and the Nifty LTP sit in the navbar on every page, updating in the background for the whole session — not just at login.</p></div>
-        <div class="feature-card"><span class="tag">AI Assistant</span><h3>Ask Claude Desktop or Cursor, not just the dashboard</h3><p>An MCP server exposes read-only tools — strategy status, positions, P&amp;L, reconciliation health, recent logs — to your AI assistant over local stdio, authenticated with your dashboard password. An opt-in Safety Settings toggle lets it arm a strategy or square off positions too, confirming with you first — same live-order risk as clicking the button yourself. Nothing new leaves your machine.</p></div>
+        <div class="feature-card"><span class="tag">AI Assistant</span><h3>Ask Claude Desktop or Cursor, not just the dashboard</h3><p>An MCP server exposes read-only tools — strategy status, positions, P&amp;L, reconciliation health, recent logs — to your AI assistant over local stdio, authenticated with your dashboard password. One opt-in Safety Settings toggle lets it arm a strategy or square off positions too, confirming with you first — same live-order risk as clicking the button yourself. A separate opt-in toggle lets it build and save a new strategy spec straight into Composer (created disabled, in Paper), or edit an existing one — always previewed and confirmed before anything is written. Nothing new leaves your machine.</p></div>
       </div>
     </div>
   </section>
@@ -720,7 +721,7 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

@@ -436,8 +436,9 @@ reconciliation clean" without opening the dashboard.</p>
 <p>This is <strong>local only</strong> — the assistant spawns <code>mcp_server.py</code> on your own
 machine, which talks to your already-running ThetaPrime over <code>localhost</code> only;
 nothing is exposed to the internet. Read tools (P&amp;L, positions, status, logs)
-always work. Arming a strategy or closing a position is <strong>opt-in</strong> — see
-<a href="#write-tools-opt-in">Write tools</a> below.</p>
+always work. Arming a strategy, closing a position, and saving or editing a
+strategy spec are each <strong>opt-in</strong> — see <a href="#write-tools-opt-in">Write tools</a> and
+<a href="#saving-strategy-specs-opt-in">Saving strategy specs</a> below.</p>
 <h2 id="requirements">Requirements</h2>
 <ul>
 <li>
@@ -465,8 +466,8 @@ target if you installed elsewhere).</p>
 <pre><code class="language-json">{
   &quot;mcpServers&quot;: {
     &quot;thetaprime&quot;: {
-      &quot;command&quot;: &quot;C:\\Users\\you\\AppData\\Local\\Programs\\Python\\Python312\\python.exe&quot;,
-      &quot;args&quot;: [&quot;C:\\Program Files\\ThetaPrime\\mcp_server.py&quot;],
+      &quot;command&quot;: &quot;C:\Users\you\AppData\Local\Programs\Python\Python312\python.exe&quot;,
+      &quot;args&quot;: [&quot;C:\Program Files\ThetaPrime\mcp_server.py&quot;],
       &quot;env&quot;: {
         &quot;THETAPRIME_URL&quot;: &quot;http://localhost:5000&quot;,
         &quot;THETAPRIME_MCP_PASSWORD&quot;: &quot;your-dashboard-password&quot;
@@ -511,11 +512,15 @@ PowerShell (after installing Python, if you haven't already).</p>
 <td><code>get_recent_logs(n?)</code></td>
 <td>Recent App Event Log entries</td>
 </tr>
+<tr>
+<td><code>get_strategy_spec(strategy)</code></td>
+<td>The full Composer spec (JSON) of an existing strategy — accepts <code>lib_v1</code> or <code>lib_v1.spec.json</code></td>
+</tr>
 </tbody>
 </table>
 <h2 id="write-tools-opt-in">Write tools (opt-in)</h2>
 <p>Off by default. Turn on <strong>Settings → Safety Settings → "Allow AI assistant
-(MCP) to arm/square off strategies"</strong> to enable these:</p>
+(MCP) to arm, enable and square off strategies"</strong> to enable these:</p>
 <table>
 <thead>
 <tr>
@@ -529,6 +534,14 @@ PowerShell (after installing Python, if you haven't already).</p>
 <td>Disarms — no confirmation step, this is the fail-safe direction</td>
 </tr>
 <tr>
+<td><code>disable_strategy(strategy)</code></td>
+<td>Disables and unschedules — no confirmation step, and <strong>not</strong> behind this switch (fail-safe direction). Refused while the strategy has an open position</td>
+</tr>
+<tr>
+<td><code>enable_strategy(strategy, confirm=False)</code></td>
+<td>Enables (schedules) a strategy — paper enables at once; real mode is a two-call flow, see below. Does not arm it</td>
+</tr>
+<tr>
 <td><code>arm_strategy(strategy, confirm=False)</code></td>
 <td>Arms for real trading — two-call flow, see below</td>
 </tr>
@@ -538,21 +551,71 @@ PowerShell (after installing Python, if you haven't already).</p>
 </tr>
 </tbody>
 </table>
-<p><code>arm_strategy</code> and <code>close_position</code> use a two-call confirm convention, same
+<p><code>arm_strategy</code>, <code>close_position</code> and (for a real-mode strategy) <code>enable_strategy</code>
+use a two-call confirm convention, same
 as clicking the button on the dashboard: call once with <code>confirm=False</code> to
-get a preview (today's P&amp;L for arm, the legs/exit prices for close) — the
+get a preview (today's P&amp;L for arm, the legs/exit prices for close, the mode,
+armed state and next entry time for enable) — the
 assistant should show you that and get your explicit go-ahead in the
 conversation — then call again with <code>confirm=True</code> to actually place the
 order. Both routes are the exact same code path the dashboard buttons use;
 turning this on is equivalent to handing the AI assistant your dashboard
 password's arm/square-off access, gated by this separate switch.</p>
+<p><code>enable_strategy</code> is also refused while the daily loss limit is active, and
+<code>disable_strategy</code> is refused unless the strategy is completely flat (no open
+leg, no parked long leg, no unconfirmed close, no manual-control flag, no position
+engine running) — the dashboard's own Pause button is unchanged and less strict.
+The strategy name can be given as <code>lib_v1</code> or <code>lib_v1.spec.json</code>. Assistant
+enables/disables are recorded in the App Event Log with <code>source: mcp</code>.</p>
 <p>There's no raw order-placement tool either way — ThetaPrime's unit is a
 configured strategy, not a manual order, and every tool requires an explicit
 <code>strategy</code> argument (no "current"/"last mentioned" strategy).</p>
+<h2 id="saving-strategy-specs-opt-in">Saving strategy specs (opt-in)</h2>
+<p>A separate switch from the one above: <strong>Settings → Safety Settings → "Allow AI
+assistant (MCP) to save and edit strategy specs"</strong>. Off by default. It lets an
+assistant — for example one using the <code>thetaprime-strategy-builder</code> skill from
+<a href="strategy-composer.html#ai-skill">Composer's Build with AI dialog</a> — put a
+strategy straight into Composer instead of you importing a <code>.spec.json</code> by hand.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>save_strategy_spec(strategy, spec, overwrite=False, confirm=False)</code></td>
+<td>Saves a spec under a bare name (letters, digits, underscore)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>A new name saves directly.</strong> The strategy is created <strong>disabled</strong> and in
+  <strong>paper</strong> mode; nothing runs until you enable it (and, for real trading, arm
+  it) yourself. Check the payoff diagram in Composer first.</li>
+<li><strong>Editing an existing strategy</strong> needs <code>overwrite=True</code> and is refused unless
+  the strategy is <strong>disarmed, disabled, and has no open position</strong> (and no
+  position engine running for it). This is checked by ThetaPrime itself, not left
+  to the assistant. Saving from the Composer page in your browser is unchanged.</li>
+<li><strong>Two calls, like arm/close.</strong> With <code>confirm=False</code> nothing is written and the
+  assistant gets back the list of changes (for example
+  <code>blocks.exits[0].params.pts: 60 -&gt; 45</code>); it should show you that and get your
+  go-ahead before calling again with <code>confirm=True</code>.</li>
+<li><strong>The previous version is kept</strong> as <code>&lt;name&gt;.spec.json.bak</code> in the strategies
+  folder — one file, replaced by the next edit. There is no restore tool: to go
+  back, delete the edited <code>&lt;name&gt;.spec.json</code> and rename the <code>.bak</code> to
+  <code>&lt;name&gt;.spec.json</code>. (The dashboard card's <code>&lt;name&gt;.json</code> is regenerated on every
+  save.)</li>
+<li>Every assistant save is recorded in the App Event Log as
+  <code>strategy.composer_saved</code> with <code>source: mcp</code> and the list of changes.</li>
+</ul>
+<p>If the switch is off, <code>save_strategy_spec</code> fails with "AI spec-save is
+disabled in Settings" and the skill falls back to giving you a file to import.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="data-management.html">← <span>Data Management</span></a><a class="doc-prev-next-link next" href="security.html"><span>Security</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.39.0 · Page last updated 2026-09-09</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#requirements">Requirements</a></li><li><a href="#configure-claude-desktop">Configure Claude Desktop</a></li><li><a href="#tools">Tools</a></li><li><a href="#write-tools-opt-in">Write tools (opt-in)</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-21</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#requirements">Requirements</a></li><li><a href="#configure-claude-desktop">Configure Claude Desktop</a></li><li><a href="#tools">Tools</a></li><li><a href="#write-tools-opt-in">Write tools (opt-in)</a></li><li><a href="#saving-strategy-specs-opt-in">Saving strategy specs (opt-in)</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
@@ -571,7 +634,7 @@ configured strategy, not a manual order, and every tool requires an explicit
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.35.4</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

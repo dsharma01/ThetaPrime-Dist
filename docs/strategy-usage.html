@@ -638,9 +638,10 @@ how often the scheduler checks that the engine is still alive and ticking.</p>
 <li><strong>Live Chart</strong> — today's 1-minute candles for the open position (see below)</li>
 </ul>
 <h4 id="engine-status-advanced-opt-in-off-by-default">Engine status (advanced, opt-in — off by default)</h4>
-<p>For a strategy whose broker has opted into the persistent PositionEngine
-(<code>brokers.&lt;broker&gt;.position_engine: true</code> in <code>config.json</code> — off by default, not yet
-rolled out to any broker) an <strong>Engine</strong> line appears above the leg table:</p>
+<p>For a strategy whose broker has opted into the persistent PositionEngine — a
+<strong>Position Engine</strong> switch per broker on the <strong>Settings</strong> page (Auth screen), off by
+default, not yet rolled out to any broker; stored as <code>brokers.&lt;broker&gt;.position_engine</code>
+in <code>config.json</code> — an <strong>Engine</strong> line appears above the leg table:</p>
 <table>
 <thead>
 <tr>
@@ -754,6 +755,10 @@ under the <strong>⋮ More</strong> menu:</p>
 <td>Correct a mistake in the recorded trade — wrong price, symbol, or strike. If the trade shows <strong>ENTRY REJECTED — rolled back</strong> but the broker actually has the legs open (a rare fill-confirmation race), a <strong>Confirm Active (broker-verified)</strong> button appears — it re-checks broker.positions() for every rejected leg itself before changing anything, and changes nothing if any leg doesn't match.</td>
 </tr>
 <tr>
+<td>▶ Resume Automation…</td>
+<td>Only shown while the strategy is under <strong>manual control</strong> (a partial manual close via Mark Exited / Square Off left some legs parked and handed the rest to you — see below). Re-checks the parked legs against broker.positions() first; if any leg doesn't match, nothing changes. Once confirmed, autopilot resumes immediately and may place a new entry on the very next tick.</td>
+</tr>
+<tr>
 <td>🔄 Restart Position Engine</td>
 <td>Only shown for a strategy on the (opt-in, off-by-default) persistent PositionEngine path — see <strong>Engine status</strong> above. Kills and immediately restarts the engine process; the recorded trade is untouched.</td>
 </tr>
@@ -777,6 +782,12 @@ Exited (Manual)</strong> — puts the whole strategy into manual control: it sho
 adjustments, no re-entry) until every remaining leg is closed, by hand or
 automatically. It resumes on its own the moment the position is fully flat —
 nothing to re-arm.</p>
+<p>If you want autopilot back <em>before</em> the position is fully flat — e.g. a
+diagonal's short legs closed by hand and you want the automated short
+re-entry to run today rather than wait — use <strong>▶ Resume Automation…</strong>
+(Corrections menu) instead of hand-editing state. It won't clear manual
+control on its own say-so: it re-checks the parked legs against
+broker.positions() first and refuses if anything doesn't match.</p>
 <hr />
 <h3 id="manual-run">Manual Run</h3>
 <p>Click <strong>Run</strong>. The strategy executes immediately as a subprocess using the current mode and configured lots. A popup shows the return code, stdout, and stderr when it finishes.</p>
@@ -1098,7 +1109,7 @@ nothing to re-arm.</p>
 </tr>
 <tr>
 <td>Charges ₹</td>
-<td>Brokerage + STT + exchange transaction charges + GST + SEBI fee + stamp duty for this trade. Real (broker-reported) for a live trade; a flat-rate estimate for paper trades, since there's no real order to ask a broker about. A real trade shows a <strong>Retry</strong> link instead of "—" while the broker hasn't settled charges yet (brokers finalize them T+1, never same-day) — click it to re-run the lookup immediately instead of waiting for the daily 08:00 IST sweep. After 3 daily retries with no luck, you get a notification to enter the amount by hand instead</td>
+<td>Brokerage + STT + exchange transaction charges + GST + SEBI fee + stamp duty for this trade. Real (broker-reported) for a live trade; a flat-rate estimate for paper trades, since there's no real order to ask a broker about. A real trade shows a <strong>Retry</strong> link instead of "—" while its charges aren't resolved yet (brokers finalize them T+1, never same-day) — click it to look up <strong>that row's</strong> charges immediately instead of waiting for the daily 08:00 IST sweep. The message says what actually happened: saved, broker hasn't priced the orders yet, the broker session expired / rate-limited (try again after re-login), or no order IDs were kept for this trade. Trades closed from now on keep their order IDs on the row, so Retry always works for them. Rows closed before order IDs were kept have none: Retry tells you so and you enter the amount by hand (a broker's whole-day total isn't used, since a day's orders often include ones that belong to no trade row). A failed lookup (expired token, rate limit) never counts toward the 3 daily retries after which you get a notification to enter the amount by hand</td>
 </tr>
 <tr>
 <td>Net P&amp;L ₹</td>
@@ -1161,7 +1172,7 @@ nothing to re-arm.</p>
 <p><strong>Delete</strong> — click <strong>✕</strong> on any row. <strong>Clear</strong> — click <strong>🗑 Clear</strong> in the card header.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="composer-strategy-examples.html">← <span>Composer Strategy Examples</span></a><a class="doc-prev-next-link next" href="order-lifecycle.html"><span>Order Placement & Failure Recovery</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.39.0 · Page last updated 2026-09-13</p>
+<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-19</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a><ul><li><a href="#nifty-ticker">Nifty Ticker</a></li></ul></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#engine-status-advanced-opt-in-off-by-default">Engine status (advanced, opt-in — off by default)</a></li><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li><li><a href="#manual-takeover">Manual takeover</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#choosing-a-broker-for-simulations">Choosing a broker for simulations</a></li><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
 </main>
 <footer>
@@ -1181,7 +1192,7 @@ nothing to re-arm.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.35.4</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>
