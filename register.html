@@ -394,6 +394,17 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         <a class="btn btn-ghost" href="beta.html" style="margin-top:1.2rem;">Back to Beta Plan &rarr;</a>
       </div>
 
+      <div id="verifying-panel" class="form-card" style="display:none;">
+        <h3>Confirming your registration&hellip;</h3>
+        <p class="lede" style="margin-top:0.6rem;">Hang on a moment.</p>
+      </div>
+
+      <div id="verify-error-panel" class="form-card" style="display:none;">
+        <h3>Couldn't confirm your registration</h3>
+        <p class="lede" id="verify-error-text" style="margin-top:0.6rem;"></p>
+        <a class="btn btn-ghost" href="beta.html" style="margin-top:1.2rem;">Back to Beta Plan &rarr;</a>
+      </div>
+
       <form id="reg-form" class="form-card" style="display:none;">
         <p class="hero-fine" id="cohort-label" style="margin-top:0;margin-bottom:1.2rem;"></p>
         <div id="form-msg" class="form-msg" role="alert" style="display:none;"></div>
@@ -413,6 +424,11 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
         </label>
         <button type="submit" class="btn btn-primary" id="submit-btn" disabled style="width:100%;">Register</button>
       </form>
+
+      <div id="check-email-panel" class="form-card" style="display:none;">
+        <h3>Check your email</h3>
+        <p class="lede" style="margin-top:0.6rem;">We sent a confirmation link to <b id="check-email-address"></b>. Click it to finish registering and get your coupon code &mdash; it expires in 30 minutes. Didn't get it? Check spam, or come back to this page and try again.</p>
+      </div>
 
       <div id="success-panel" class="form-card" style="display:none;">
         <h3>You're in.</h3>
@@ -435,11 +451,57 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 </main>
 <script>
 (function(){
-  var cohort = new URLSearchParams(window.location.search).get('cohort');
+  var params = new URLSearchParams(window.location.search);
+  var cohort = params.get('cohort');
+  var verifyToken = params.get('verify');
   var noCohort = document.getElementById('no-cohort');
+  var verifyingPanel = document.getElementById('verifying-panel');
+  var verifyErrorPanel = document.getElementById('verify-error-panel');
   var form = document.getElementById('reg-form');
+  var checkEmailPanel = document.getElementById('check-email-panel');
   var successPanel = document.getElementById('success-panel');
   var msg = document.getElementById('form-msg');
+
+  function showSuccess(data){
+    document.getElementById('coupon-code').textContent = data.coupon_code;
+    document.getElementById('download-btn').setAttribute('href', data.download_url || '#');
+    successPanel.style.display = 'block';
+  }
+
+  // A mailed confirmation link landed here with ?verify=<token> -- this is
+  // the step that actually mints the coupon (see license-server's confirmBeta),
+  // so registration only completes once the caller proves inbox access by
+  // clicking a link nobody else could have seen.
+  if (verifyToken) {
+    verifyingPanel.style.display = 'block';
+    fetch('https://license.thetaprime.in/v1/beta/confirm', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({token: verifyToken})
+    })
+    .then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        return {ok: res.ok, status: res.status, data: data};
+      });
+    })
+    .then(function(result){
+      verifyingPanel.style.display = 'none';
+      if (result.ok && result.data.coupon_code) {
+        showSuccess(result.data);
+        return;
+      }
+      document.getElementById('verify-error-text').textContent =
+        (result.data && result.data.error) || 'This link is invalid or has expired. Go back and register again.';
+      verifyErrorPanel.style.display = 'block';
+    })
+    .catch(function(){
+      verifyingPanel.style.display = 'none';
+      document.getElementById('verify-error-text').textContent =
+        'Could not reach the registration server. Check your connection and try again.';
+      verifyErrorPanel.style.display = 'block';
+    });
+    return;
+  }
 
   if (!cohort) {
     noCohort.style.display = 'block';
@@ -481,10 +543,15 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
     })
     .then(function(result){
       if (result.ok && result.data.coupon_code) {
+        // Repeat visitor -- already confirmed a previous registration.
         form.style.display = 'none';
-        document.getElementById('coupon-code').textContent = result.data.coupon_code;
-        document.getElementById('download-btn').setAttribute('href', result.data.download_url || '#');
-        successPanel.style.display = 'block';
+        showSuccess(result.data);
+        return;
+      }
+      if (result.ok && result.data.status === 'check_email') {
+        form.style.display = 'none';
+        document.getElementById('check-email-address').textContent = emailInput.value;
+        checkEmailPanel.style.display = 'block';
         return;
       }
       if (result.status === 400) {
