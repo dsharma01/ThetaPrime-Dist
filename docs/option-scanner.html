@@ -830,8 +830,14 @@ that can't be computed (no spot, no Greeks) shows <code>—</code>:</p>
 </tbody>
 </table>
 <p><strong>Auto-refresh</strong> (Flow mode only) polls on an interval you pick, approximating
-a live ticker without you re-triggering the scan by hand. It only runs while
-this page is open.</p>
+a live ticker without you re-triggering the scan by hand. It runs server-side,
+so it keeps going if you navigate away; click <strong>Stop</strong> to end it.</p>
+<p><strong>Scans run in the background.</strong> Leaving the page doesn't kill a scan in
+progress — the last result, and the whole form (mode, underlying, expiry,
+filters), are restored when you come back. A badge in the top bar shows the
+scanner's state on every page (running / ready / auto-refresh / recording), and
+<strong>Stop</strong> — on the page or the badge — cancels a running scan and ends
+auto-refresh.</p>
 <p><strong>Record history</strong> (Flow mode only, off by default) is the always-on
 counterpart: with the switch on, ThetaPrime saves a snapshot of the selected
 underlying's option chain every 5 minutes during market hours
@@ -896,7 +902,7 @@ expected move, whether the option flow agrees with the futures buildup, which
 strikes deserve a closer look, and what data is still missing.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="is-it-running.html">← <span>Is ThetaPrime Running?</span></a><a class="doc-prev-next-link next" href="data-sources.html"><span>Data Sources</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.45.3 · Page last updated 2026-09-25</p>
+<p class="doc-meta">Applies to ThetaPrime v0.45.4 · Page last updated 2026-09-26</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#scan-modes">Scan Modes</a><ul><li><a href="#specific-underlying">Specific Underlying</a></li><li><a href="#top-fo-stocks">Top F&amp;O Stocks</a></li><li><a href="#flow-oi-analysis">Flow (OI Analysis)</a></li></ul></li><li><a href="#common-controls-specific-top-modes">Common Controls (Specific / Top modes)</a></li><li><a href="#results-columns-specific-top-modes">Results Columns (Specific / Top modes)</a></li><li><a href="#flow-mode-columns">Flow Mode Columns</a><ul><li><a href="#how-the-unusual-activity-score-works">How the Unusual Activity score works</a></li></ul></li><li><a href="#scans-run-in-the-background">Scans run in the background</a></li><li><a href="#ask-ai">Ask AI</a></li></ul></nav></div>
 </main>
 <footer>
@@ -916,7 +922,7 @@ strikes deserve a closer look, and what data is still missing.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.45.3</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>
