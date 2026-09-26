@@ -1,7 +1,7 @@
 {
-  "version": "0.45.4",
-  "released": "2026-09-26",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.45.4/ThetaPrime-0.45.4-setup.exe",
-  "release_notes": "**MCP `/mode=real` is gated behind `mcp_write_enabled`**: switching a strategy to Real mode over MCP now requires the write switch, like the other MCP write tools. **Scheduled-backup Browse hung in the installed app**: the folder dialog now opens from the desktop shell process. Docs: Option Scanner background scans and Stop, Reports page state restore, Dashboard shows no live prices outside market hours.",
-  "min_supported": "0.45.4"
+  "version": "0.45.5",
+  "released": "2026-09-27",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.45.5/ThetaPrime-0.45.5-setup.exe",
+  "release_notes": "**Feedback and feature requests through the existing form**: the navbar item is now \"Report Issue / Feedback\". The form branches into Bug, Feedback (with a 1\u20135 rating) and Feature Request, and each submission is filed as a labeled issue. **Composer tooltips**: every block parameter and static input now has a tooltip. **Reconcile badge tooltip**: shows the last API contract-check time per broker. **Navbar**: two-row layout, the Recording tag shows only in market hours, and a token-expiry error during Option Scanner scans is reported correctly. Docs: design and product notes on the navbar indicator rule and deliberate non-goals (hotkeys, layout customization).",
+  "min_supported": "0.45.5"
 }
