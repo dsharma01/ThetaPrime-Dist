@@ -1,7 +1,7 @@
 {
-  "version": "0.45.2",
-  "released": "2026-09-25",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.45.2/ThetaPrime-0.45.2-setup.exe",
-  "release_notes": "**Option Scanner runs as a background job**: scans run in a server-side thread, so leaving the page no longer kills them and the last result is restored on return. Flow auto-refresh now runs server-side, the whole form is persisted, and a Stop button (page and top-bar badge) cancels a scan and ends auto-refresh. The top-bar badge shows running / ready / auto-refresh / recording state on every page. **Reports page keeps its place across navigation**: tab, filters, sim session, intraday date and scroll position are restored when you return (per browser tab). **Option Scanner form restore** no longer crashes in Specific/Top modes.",
-  "min_supported": "0.45.2"
+  "version": "0.45.3",
+  "released": "2026-09-26",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.45.3/ThetaPrime-0.45.3-setup.exe",
+  "release_notes": "**Option Scanner multi-expiry**: the Flow tab gains an **IV term** tile (ATM IV and 1\u03c3 move for the next 4 expiries, flagged when the front expiry's IV is above the next) and a **Next futures** tile with the combined near + next OI change and a **Roll** label when the two OI changes are roughly equal and opposite. **Snapshot recorder records 4 expiries**: the nearest two at ATM \u00b115 strikes, the next two at \u00b13, plus near- and next-month futures, in one batched quote. Later expiries store only their ATM IV and 1\u03c3 move. Needs a full rebuild to take effect on the installed app.",
+  "min_supported": "0.45.3"
 }
