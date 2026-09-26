@@ -430,9 +430,9 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <div class="doc-crumb"><a href="../docs/index.html">Docs</a> / Option Scanner</div>
 <div class="doc-body">
 <h1 id="option-scanner">Option Scanner</h1>
-<p>Open <strong>More → Option Scanner</strong> in the top navigation bar (or go to
-<code>/option-scanner</code>). It's a read-only research tool — scans and shows you the
-option chain, never places an order.</p>
+<p>Open <a href="/option-scanner"><strong>More → Option Scanner</strong></a> in the top navigation bar. It's
+a read-only research tool — scans and shows you the option chain, never places
+an order.</p>
 <p>Everything on the page — instruments, spot, option LTPs, and open interest —
 comes from whichever <strong>Broker</strong> you pick in the scan form (Kite, Breeze, or
 Dhan), switchable per scan with no restart. There's no requirement that it be
@@ -471,7 +471,7 @@ mode</a> below. The common filters below (Option Type, LTP
 <tbody>
 <tr>
 <td>Spot</td>
-<td>Underlying's spot price at scan time</td>
+<td>Underlying's spot price at scan time — shown in Top mode only; in Specific mode it's in the summary line (see below)</td>
 </tr>
 <tr>
 <td>Strike</td>
@@ -523,10 +523,15 @@ mode</a> below. The common filters below (Option Type, LTP
 broker exposes native IV/Greeks, so these are model estimates, not
 broker-reported values. Any of them can show <code>—</code> when the LTP falls outside
 the range implied_vol can solve (illiquid/mispriced quote).</p>
-<p>Top F&amp;O Stocks mode adds <strong>Underlying</strong> and <strong>Expiry</strong> columns since results
-span multiple stocks — Spot then reflects each row's own stock, not one
-shared value. Click any column header to sort; <strong>Export CSV</strong> saves the
-current table (spot/bid/ask/Greeks included, same as what's on screen).</p>
+<p>In Specific mode, <strong>Spot</strong> (and the scan's underlying and expiry) is the same
+on every row, so it's not shown as a column — it's already in the summary
+line above the table. It's still included in <strong>Export CSV</strong> and <strong>Ask AI</strong>,
+which add hidden <strong>Underlying</strong>, <strong>Expiry</strong> and <strong>Spot</strong> columns so the data
+is self-contained once it leaves the page.</p>
+<p>Top F&amp;O Stocks mode shows <strong>Underlying</strong>, <strong>Expiry</strong> and <strong>Spot</strong> as real
+columns since results span multiple stocks — Spot then reflects each row's
+own stock, not one shared value. Click any column header to sort; <strong>Export
+CSV</strong> saves the current table (spot/bid/ask/Greeks included).</p>
 <h2 id="flow-mode-columns">Flow Mode Columns</h2>
 <table>
 <thead>
@@ -538,7 +543,7 @@ current table (spot/bid/ask/Greeks included, same as what's on screen).</p>
 <tbody>
 <tr>
 <td>Spot</td>
-<td>Underlying's spot price at scan time</td>
+<td>Hidden on screen (same on every row — shown in the summary line instead); still included in Export CSV and Ask AI</td>
 </tr>
 <tr>
 <td>Strike / Type</td>
@@ -551,6 +556,10 @@ current table (spot/bid/ask/Greeks included, same as what's on screen).</p>
 <tr>
 <td>Bid / Ask</td>
 <td>Best bid/offer, top of book — same caveat as above</td>
+</tr>
+<tr>
+<td>Spread %</td>
+<td>(Ask − Bid) ÷ midpoint. <code>—</code> when either side is missing. Above <strong>5%</strong> the row's Flag is capped at <code>NOTABLE</code>; above <strong>10%</strong> it gets no Flag (the Score still shows). A <code>⚠</code> marks anything over 5%</td>
 </tr>
 <tr>
 <td>IV % / Delta / Gamma / Theta / Vega</td>
@@ -767,8 +776,92 @@ pts). Score = 15+5+5+15 = <strong>40 → NOTABLE</strong>, if it also ranks in t
 of that expiry's chain today.</p>
 <p>The chain-wide <strong>PCR (OI)</strong> (put OI ÷ call OI) shows in the summary line
 above the table.</p>
+<p><strong>Chain summary tiles</strong> (the row of small cards under the summary line, also included in Ask AI). All of
+it comes from the same scan (plus one small extra quote request for IV term and one for the next-month futures) and any figure
+that can't be computed (no spot, no Greeks) shows <code>—</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Futures</td>
+<td>The nearest-expiry futures contract: price, <strong>basis</strong> (futures − spot, also as % of spot), OI and today's OI change, and a buildup label from price × OI: <strong>Long Buildup</strong> (price ↑, OI ↑), <strong>Short Buildup</strong> (price ↓, OI ↑), <strong>Short Covering</strong> (price ↑, OI ↓), <strong>Long Unwinding</strong> (price ↓, OI ↓), or <strong>Flat / Mixed</strong> for tiny moves (price under 0.05% or OI under 0.5%). Use it to cross-check the option flow — e.g. put writing under a futures <em>long</em> buildup reads differently from put writing under a <em>short</em> buildup. Shows <code>—</code> on Breeze (its integration has no futures contracts) or if the futures quote fails; the option scan is never blocked by it</td>
+</tr>
+<tr>
+<td>Next futures</td>
+<td>The next-month futures contract's price, OI and OI change, plus the <strong>combined near + next OI change</strong>. When the two OI changes are roughly equal and opposite (residual under 30% of the larger one) it says <strong>Roll</strong> — positions moving to next month, so the near-month "Long Unwinding" / "Short Covering" label above is not a real exit. Most useful in roll week. Hidden when there's no next-month contract (Breeze)</td>
+</tr>
+<tr>
+<td>IV term</td>
+<td>ATM IV and 1σ move for the next 4 expiries, from a quote of the 7 strikes around the money in each. A front expiry with higher IV than the next one is flagged <strong>inverted — event risk</strong>. Note the 1σ move of the <em>selected</em> expiry near expiry day shrinks toward zero; the later expiries show the wider cone</td>
+</tr>
+<tr>
+<td>ATM IV</td>
+<td>Implied vol at the strike nearest spot (average of its CE and PE)</td>
+</tr>
+<tr>
+<td>1σ move</td>
+<td>Spot × ATM IV × √(time to expiry) — the volatility-implied range to expiry, with its lower–upper bounds</td>
+</tr>
+<tr>
+<td>25Δ skew</td>
+<td>Put IV at the strike nearest −25 delta minus call IV nearest +25 delta. Positive = downside protection is priced richer. <code>—</code> if no strike is within 0.1 delta of ±25</td>
+</tr>
+<tr>
+<td>PCR near-ATM / delta-weighted</td>
+<td>PCR using only strikes within ±5% of spot; and PCR weighting each strike's OI by |delta| so deep-OTM OI counts for less</td>
+</tr>
+<tr>
+<td>Put / Call OI walls</td>
+<td>The 3 strikes with the most put OI (support candidates) and call OI (resistance candidates)</td>
+</tr>
+<tr>
+<td>Top-5 OI share</td>
+<td>Share of each side's total OI held by its 5 biggest strikes — higher means more concentrated</td>
+</tr>
+<tr>
+<td>Max pain</td>
+<td>The expiry price at which option buyers' total payout is smallest. Context only, not a signal on its own</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Auto-refresh</strong> (Flow mode only) polls on an interval you pick, approximating
-a live ticker without you re-triggering the scan by hand.</p>
+a live ticker without you re-triggering the scan by hand. It only runs while
+this page is open.</p>
+<p><strong>Record history</strong> (Flow mode only, off by default) is the always-on
+counterpart: with the switch on, ThetaPrime saves a snapshot of the selected
+underlying's option chain every 5 minutes during market hours
+(Mon–Fri 09:15–15:30 IST, skipping holidays), even with this page closed. Each
+snapshot covers the next <strong>4 expiries</strong>: the nearest two keep the 31 strikes
+around the money, the other two keep 7 (LTP, bid/ask, OI, volume, IV, delta). It
+also keeps the near- and next-month futures price and OI, and, for the nearest
+expiry only, the whole-chain summary above (PCR, max pain, OI walls) — those are
+never mixed across expiries; later expiries store just their ATM IV and 1σ move.
+Later expiries can't be reconstructed afterwards, which is why they're recorded
+from day one. OI, price and IV history builds up for later analysis. Snapshots older than 90
+days are deleted automatically.</p>
+<ul>
+<li>Turn the switch on per underlying (NIFTY, BANKNIFTY, …); the status line
+  shows what's being recorded, the last snapshot time and the total kept.</li>
+<li>One broker records for all underlyings — the one selected in the <strong>Broker</strong>
+  box when you last switched an underlying on.</li>
+<li>It takes effect on the next 5-minute tick, no restart needed. It only runs
+  while ThetaPrime itself is running.</li>
+<li>Snapshots are stored in <code>flow_snapshots.sqlite</code> in your data folder. It is
+  market data only, so unlike your trades it is <strong>not encrypted</strong> and is not
+  included in scheduled backups.</li>
+<li>Each snapshot is one batched quote request for the nearest chain plus the small
+  later-expiry slices and the two futures. If the broker's
+  token has expired the recorder just skips that tick and logs one error event
+  (not one per tick).</li>
+<li>Don't turn this on in a dev/source install pointed at the same live Dhan or
+  Breeze token as your installed app — the two would each pace themselves
+  against one shared broker rate limit.</li>
+</ul>
 <blockquote>
 <p><strong>Previous-close OI baseline</strong>: confirmed accurate for Kite and Breeze. For
 Dhan it's forwarded to the API but not yet confirmed against a live
@@ -784,6 +877,8 @@ against a live REST response for the option-chain endpoint specifically —
 if they're absent or misnamed, Bid/Ask just shows <code>—</code> rather than erroring.</p>
 </blockquote>
 <hr />
+<h2 id="scans-run-in-the-background">Scans run in the background</h2>
+<p>A scan keeps running on the server when you leave the page. While it runs (and after it finishes, until you open the scanner again) a <strong>⏳ Scan running / ✓ Scan ready</strong> badge shows in the top bar of every other page — click it to return to the results. Coming back to the scanner restores the last result; <strong>Clear</strong> discards it. Press <strong>Stop</strong> (next to Scan, or <strong>✕ Stop</strong> on the top-bar badge from any page) to cancel a running scan and turn off auto-refresh — it shows whenever a scan is running or auto-refresh is on — it halts at the next stage, so a broker call already in flight still finishes. Only one scan runs at a time, and a scan in progress is lost if ThetaPrime restarts. Flow <strong>auto-refresh</strong> and <strong>Record history</strong> also keep running when you leave the page (the badge shows ⟳ Auto-refresh / ● Recording); <strong>Stop</strong> ends auto-refresh, and the scanner page restores all your selections when you return. Auto-refresh stops if ThetaPrime restarts.</p>
 <h2 id="ask-ai">Ask AI</h2>
 <p>Both result tables have an <strong>✨ Ask AI</strong> button — pick ChatGPT, Claude,
 Perplexity, Gemini, or Copilot and it builds a prompt from the current scan
@@ -792,10 +887,17 @@ opens that AI's site so you can paste it in for a second read on notable
 strikes, mispricings, or unusual activity. No API key stored, no call made
 from ThetaPrime itself — same bring-your-own-AI pattern as the <a href="strategy-composer.html#build-with-ai">Strategy
 Composer</a>'s payoff diagram.</p>
+<p>From <strong>Flow mode</strong>, the prompt is different: it includes the summary line and
+the chain summary tiles (futures, expected move, skew, PCRs, OI walls, max
+pain) alongside the table, and it tells the AI how to read Buildup, Score/Flag
+and Spread % — including that flags on wide-spread strikes are unreliable and
+that there is no trade tape. It asks for where OI is concentrated versus the
+expected move, whether the option flow agrees with the futures buildup, which
+strikes deserve a closer look, and what data is still missing.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="is-it-running.html">← <span>Is ThetaPrime Running?</span></a><a class="doc-prev-next-link next" href="data-sources.html"><span>Data Sources</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-17</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#scan-modes">Scan Modes</a><ul><li><a href="#specific-underlying">Specific Underlying</a></li><li><a href="#top-fo-stocks">Top F&amp;O Stocks</a></li><li><a href="#flow-oi-analysis">Flow (OI Analysis)</a></li></ul></li><li><a href="#common-controls-specific-top-modes">Common Controls (Specific / Top modes)</a></li><li><a href="#results-columns-specific-top-modes">Results Columns (Specific / Top modes)</a></li><li><a href="#flow-mode-columns">Flow Mode Columns</a><ul><li><a href="#how-the-unusual-activity-score-works">How the Unusual Activity score works</a></li></ul></li><li><a href="#ask-ai">Ask AI</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.45.3 · Page last updated 2026-09-25</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#scan-modes">Scan Modes</a><ul><li><a href="#specific-underlying">Specific Underlying</a></li><li><a href="#top-fo-stocks">Top F&amp;O Stocks</a></li><li><a href="#flow-oi-analysis">Flow (OI Analysis)</a></li></ul></li><li><a href="#common-controls-specific-top-modes">Common Controls (Specific / Top modes)</a></li><li><a href="#results-columns-specific-top-modes">Results Columns (Specific / Top modes)</a></li><li><a href="#flow-mode-columns">Flow Mode Columns</a><ul><li><a href="#how-the-unusual-activity-score-works">How the Unusual Activity score works</a></li></ul></li><li><a href="#scans-run-in-the-background">Scans run in the background</a></li><li><a href="#ask-ai">Ask AI</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
@@ -814,7 +916,7 @@ Composer</a>'s payoff diagram.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

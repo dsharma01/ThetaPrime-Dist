@@ -527,14 +527,32 @@ pypi.org/project/breeze-connect):</p>
   Master ShortName), not the NSE tradingsymbol — the covered-call cover check
   compares against NSE names, so the adapter translates.</li>
 </ul>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>ICICI enforces an undocumented <strong>daily API call quota</strong> — empirically about
+3,500 calls/day (<code>brokers.breeze.daily_call_cap</code> in <code>config.json</code> if this
+ever needs adjusting). ThetaPrime tracks its own count and stops calling
+before hitting ICICI's real limit; live prices then come from the WebSocket
+tick cache instead, which is what keeps a feed alive once REST is blocked
+(<code>brokers.breeze.ws_ticks</code> in <code>config.json</code>, on by default). You may see:</p>
+<ul>
+<li>One alert a day when ThetaPrime's own cap trips ("Breeze daily call cap
+  reached — live quotes off for the day").</li>
+<li>One alert a day if ICICI's own quota rejection fires first.</li>
+<li>An alert at most every 30 minutes if a leg can't be priced while REST is
+  blocked and the WebSocket feed is quiet for that leg too — its stop-loss is
+  then being evaluated on a stale, last-known price rather than a fresh one.</li>
+</ul>
+<p>None of these require action — the cap resets automatically at ICICI's next
+daily rollover. If you've explicitly turned <code>ws_ticks</code> off, turning it back
+on gives the blind-spot alert a live feed to fall back on.</p>
 <h2 id="static-ip-requirement">Static IP Requirement</h2>
 <p>Ask your ISP for a static IP add-on before setting up your Breeze API app —
 SEBI's API trading rules require a fixed IP for order placement, registered
 with your broker.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="../brokers/kite.html">← <span>Kite (Zerodha) Setup</span></a><a class="doc-prev-next-link next" href="../brokers/dhan.html"><span>Dhan Setup</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-09</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#obtaining-api-credentials">Obtaining API Credentials</a></li><li><a href="#entering-credentials">Entering Credentials</a></li><li><a href="#daily-login">Daily Login</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#known-strengths">Known Strengths</a></li><li><a href="#response-shapes-that-differ-from-kite">Response Shapes That Differ From Kite</a></li><li><a href="#static-ip-requirement">Static IP Requirement</a></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.45.3 · Page last updated 2026-09-22</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#obtaining-api-credentials">Obtaining API Credentials</a></li><li><a href="#entering-credentials">Entering Credentials</a></li><li><a href="#daily-login">Daily Login</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#known-strengths">Known Strengths</a></li><li><a href="#response-shapes-that-differ-from-kite">Response Shapes That Differ From Kite</a></li><li><a href="#known-limitations">Known Limitations</a></li><li><a href="#static-ip-requirement">Static IP Requirement</a></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
@@ -553,7 +571,7 @@ with your broker.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>

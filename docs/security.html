@@ -482,6 +482,16 @@ footer{border-top:1px solid var(--border);padding-block:2.5rem;}
 <td>CSV file (<code>strategies/lib_v1_paper_trade_journal.csv</code>)</td>
 <td><strong>Yes</strong> — same AES-256-GCM encryption at rest as trade history above</td>
 </tr>
+<tr>
+<td>App event log</td>
+<td><code>app_events</code> table inside <code>performance.db</code></td>
+<td><strong>Yes</strong> — it's not a separate file, so it's covered by <code>performance.db</code>'s encryption above</td>
+</tr>
+<tr>
+<td>Scheduler job store</td>
+<td><code>jobs.sqlite</code></td>
+<td><strong>No</strong> — holds only job names/next-run times for the scheduler, not credentials or trade data; intentionally left out as lower-sensitivity</td>
+</tr>
 </tbody>
 </table>
 <p><strong>What this means in practice:</strong></p>
@@ -583,6 +593,10 @@ have.</p>
 <p><strong>Turning it off:</strong> The periodic background check is a <strong>Safety Settings</strong> toggle on the <strong>Settings</strong> page ("Automatic orphan-position reconciliation"), on by default. Turning it off stops the every-5-minutes background check and the startup check; the dashboard badge still works on demand regardless.</p>
 <p>This check requires a fresh broker login; it's skipped (not flagged as an error) if your token has expired.</p>
 <p><strong>AI assistant write access:</strong> A separate <strong>Safety Settings</strong> toggle ("Allow AI assistant (MCP) to arm/square off strategies"), off by default, controls whether an AI assistant connected via MCP can arm a strategy or square off a position — see <a href="mcp-setup.html#write-tools-opt-in">docs/mcp-setup.md</a>.</p>
+<h2 id="entry-time-clustering-warning">Entry time clustering warning</h2>
+<p>Each broker has a per-day API call quota. If several enabled strategies on the same broker enter within a couple minutes of each other, they can burst past that quota faster than the same strategies spread across the day — this is what fills the Events log with skipped-quote warnings on a heavy day.</p>
+<p><strong>Where you see it:</strong> When you save a strategy's entry time, or enable a strategy, ThetaPrime checks whether any other enabled strategy on the same broker enters within 2 minutes. If so, a warning toast names the clustering strategies. It's advisory only — it never blocks the save or the enable, and it doesn't stagger anything for you; you decide whether to move an entry time.</p>
+<p><strong>Turning it off:</strong> A <strong>Safety Settings</strong> toggle on the <strong>Settings</strong> page ("Warn when strategy entry times cluster"), on by default.</p>
 <h3 id="worked-example-a-real-fill-misread-as-rejected-then-reset-live-state-makes-it-worse">Worked example: a real fill misread as "rejected," then Reset Live State makes it worse</h3>
 <p>This walks through an actual incident end to end — a diagonal's long legs (LC/LP) genuinely filled at the broker, but ThetaPrime's own fill check misread them as rejected, and the first recovery attempt (Reset Live State) deleted the only local record that they were real. Recognize this shape and follow this sequence rather than improvising — some of the obvious-looking recovery steps make it worse.</p>
 <p><strong>How to recognize it:</strong> The trade shows <strong>ENTRY REJECTED — rolled back</strong>, but the rejection reason recorded per leg is literally <strong><code>UNKNOWN</code></strong> rather than a real broker message (a margin shortfall or a banned-contract error shows the broker's own text instead). <code>UNKNOWN</code> means ThetaPrime's own fill check couldn't read the broker's order status at all — it does not mean the broker actually rejected anything. Before doing anything else, check the broker's own <strong>order book / trade book</strong> (not ThetaPrime's dashboard) for the legs named in the rejection — if they show as filled there, this is that scenario, and the "rejected" leg is a real, live position ThetaPrime has lost track of.</p>
@@ -596,8 +610,8 @@ have.</p>
 <p><strong>If this keeps happening on Dhan specifically:</strong> a rejection reason of <code>UNKNOWN</code> (rather than a real broker message) on Dhan is a known signature of the broker adapter misreading Dhan's order-status response — confirm the running app build actually includes the fix for it before assuming this is a margin or contract problem. This is a broker-adapter defect, not something to work around per-incident in the UI.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="mcp-setup.html">← <span>MCP Setup (AI Assistant Tools)</span></a><a class="doc-prev-next-link next" href="licensing.html"><span>License & Activation</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.42.0 · Page last updated 2026-09-09</p>
-</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#trade-data-encryption">Trade Data Encryption</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a><ul><li><a href="#worked-example-a-real-fill-misread-as-rejected-then-reset-live-state-makes-it-worse">Worked example: a real fill misread as "rejected," then Reset Live State makes it worse</a></li></ul></li></ul></nav></div>
+<p class="doc-meta">Applies to ThetaPrime v0.45.3 · Page last updated 2026-09-23</p>
+</div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-password">Dashboard Password</a></li><li><a href="#password-recovery">Password Recovery</a></li><li><a href="#what-is-protected-and-what-is-not">What Is Protected and What Is Not</a></li><li><a href="#trade-data-encryption">Trade Data Encryption</a></li><li><a href="#your-credentials-are-stored-securely">Your Credentials Are Stored Securely</a></li><li><a href="#expired-login-prevents-live-trading">Expired Login Prevents Live Trading</a></li><li><a href="#no-double-entry">No Double Entry</a></li><li><a href="#maximum-lots-limit">Maximum Lots Limit</a></li><li><a href="#switching-a-strategy-to-real-mode">Switching a Strategy to Real Mode</a></li><li><a href="#daily-loss-limit">Daily Loss Limit</a></li><li><a href="#orphan-position-detection">Orphan Position Detection</a></li><li><a href="#entry-time-clustering-warning">Entry time clustering warning</a><ul><li><a href="#worked-example-a-real-fill-misread-as-rejected-then-reset-live-state-makes-it-worse">Worked example: a real fill misread as "rejected," then Reset Live State makes it worse</a></li></ul></li></ul></nav></div>
 </main>
 <footer>
   <div class="wrap">
@@ -616,7 +630,7 @@ have.</p>
     </div>
     <p class="foot-legal">ThetaPrime is a trade-automation tool, not a broker, exchange, or investment adviser. Options trading carries substantial risk of loss, including loss beyond the initial premium on short options. You are solely responsible for your trading decisions and for complying with SEBI and exchange regulations. Past paper-trading or backtest performance does not guarantee live results.</p>
     <div class="foot-meta">
-      <span id="site-app-version">ThetaPrime v0.39.0</span><span>·</span>
+      <span id="site-app-version">ThetaPrime v0.42.0</span><span>·</span>
       <span>Windows 10 (1903+) / 11, 64-bit</span><span>·</span>
       <span>4GB RAM minimum</span><span>·</span>
       <span>Requires a Zerodha Kite Connect, ICICI Direct Breeze, or Dhan API subscription, billed separately</span><span>·</span>
