@@ -560,7 +560,9 @@ assistant should show you that and get your explicit go-ahead in the
 conversation — then call again with <code>confirm=True</code> to actually place the
 order. Both routes are the exact same code path the dashboard buttons use;
 turning this on is equivalent to handing the AI assistant your dashboard
-password's arm/square-off access, gated by this separate switch.</p>
+password's arm/square-off access, gated by this separate switch. Switching a
+strategy to <strong>Real</strong> mode counts as arming, so it is behind the same switch;
+switching back to Paper (which disarms) is not.</p>
 <p><code>enable_strategy</code> is also refused while the daily loss limit is active, and
 <code>disable_strategy</code> is refused unless the strategy is completely flat (no open
 leg, no parked long leg, no unconfirmed close, no manual-control flag, no position
@@ -614,7 +616,7 @@ strategy straight into Composer instead of you importing a <code>.spec.json</cod
 disabled in Settings" and the skill falls back to giving you a file to import.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="data-management.html">← <span>Data Management</span></a><a class="doc-prev-next-link next" href="security.html"><span>Security</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.45.4 · Page last updated 2026-09-21</p>
+<p class="doc-meta">Applies to ThetaPrime v0.45.5 · Page last updated 2026-09-26</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#requirements">Requirements</a></li><li><a href="#configure-claude-desktop">Configure Claude Desktop</a></li><li><a href="#tools">Tools</a></li><li><a href="#write-tools-opt-in">Write tools (opt-in)</a></li><li><a href="#saving-strategy-specs-opt-in">Saving strategy specs (opt-in)</a></li></ul></nav></div>
 </main>
 <footer>
