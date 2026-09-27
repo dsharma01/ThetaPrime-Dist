@@ -1,7 +1,7 @@
 {
-  "version": "0.45.5",
+  "version": "0.46.1",
   "released": "2026-09-27",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.45.5/ThetaPrime-0.45.5-setup.exe",
-  "release_notes": "**Feedback and feature requests through the existing form**: the navbar item is now \"Report Issue / Feedback\". The form branches into Bug, Feedback (with a 1\u20135 rating) and Feature Request, and each submission is filed as a labeled issue. **Composer tooltips**: every block parameter and static input now has a tooltip. **Reconcile badge tooltip**: shows the last API contract-check time per broker. **Navbar**: two-row layout, the Recording tag shows only in market hours, and a token-expiry error during Option Scanner scans is reported correctly. Docs: design and product notes on the navbar indicator rule and deliberate non-goals (hotkeys, layout customization).",
-  "min_supported": "0.45.5"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.46.1/ThetaPrime-0.46.1-setup.exe",
+  "release_notes": "**Docs**: `docs/option-scanner.md` now notes the top-bar **\u25cf Recording** badge only shows during market hours (matching the v0.45.5 gating), instead of implying it appears whenever \"Record history\" is enabled.",
+  "min_supported": "0.46.1"
 }
