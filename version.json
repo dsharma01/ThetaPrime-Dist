@@ -1,7 +1,7 @@
 {
-  "version": "0.46.1",
-  "released": "2026-09-27",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.46.1/ThetaPrime-0.46.1-setup.exe",
-  "release_notes": "**Docs**: `docs/option-scanner.md` now notes the top-bar **\u25cf Recording** badge only shows during market hours (matching the v0.45.5 gating), instead of implying it appears whenever \"Record history\" is enabled.",
-  "min_supported": "0.46.1"
+  "version": "0.46.2",
+  "released": "2026-09-28",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.46.2/ThetaPrime-0.46.2-setup.exe",
+  "release_notes": "**Dhan rate-limit alerts (429/805) from the dashboard's risk poll**: `/api/risk_summary` is polled every 15s by the dashboard, all night, and each poll REST-quoted every open leg plus an uncached previous-close quote \u2014 enough to trip Dhan's 1 req/s limit even with the market closed. It now returns an empty summary outside market hours (same guard as `trade_ltp`), and a successful previous close is cached per underlying per day instead of being re-quoted on every poll.",
+  "min_supported": "0.46.2"
 }
