@@ -1,7 +1,7 @@
 {
-  "version": "0.46.2",
-  "released": "2026-09-28",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.46.2/ThetaPrime-0.46.2-setup.exe",
-  "release_notes": "**Dhan rate-limit alerts (429/805) from the dashboard's risk poll**: `/api/risk_summary` is polled every 15s by the dashboard, all night, and each poll REST-quoted every open leg plus an uncached previous-close quote \u2014 enough to trip Dhan's 1 req/s limit even with the market closed. It now returns an empty summary outside market hours (same guard as `trade_ltp`), and a successful previous close is cached per underlying per day instead of being re-quoted on every poll.",
-  "min_supported": "0.46.2"
+  "version": "0.46.4",
+  "released": "2026-09-29",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.46.4/ThetaPrime-0.46.4-setup.exe",
+  "release_notes": "**Dhan market-feed pacing widened from 1.0s to 1.3s**: spacing `ltp()`/`quote()` calls exactly at Dhan's documented 1 req/s left no margin for network jitter, and prod 429s kept landing on the 1.0s-spaced second call of an ltp+quote pair. Every market-feed call (including retries) now waits 1.3s after the previous one, across all processes. **Breeze empty `quote()` no longer suppresses profit exits**: Breeze's own daily-call-cap guard (3,500) made `quote()` return `{}` instead of raising, so the illiquid-leg check read \"no rows\" as \"no market\" and skipped the fail-open path \u2014 silently suppressing a real profit exit. An empty `quote()` is now treated as a failed call; a missing row next to live rows for other legs is still flagged. Also raises the default `brokers.breeze.daily_call_cap` 3500 \u2192 6000 since 09-21 and 09-28 both tripped it with no ICICI-side rejection.",
+  "min_supported": "0.46.4"
 }
