@@ -688,6 +688,12 @@ daily loss-limit breaker aren't affected — neither depends on a single live ti
 live stream straight from it. If the tick cache is off, not running, or goes
 quiet, prices just fall back to the modal's regular 5-second refresh instead —
 there's no separate setting to turn on.</p>
+<p>A leg with no live tick at all can sit on a frozen last price for minutes
+while the broker's own order book keeps moving. For a leg in that state, the
+modal fetches the broker's current bid/offer and shows it alongside the
+frozen price as a "(book mid ₹…)" tag — hover it for the underlying bid/ask.
+This is display-only: it doesn't change the P&amp;L figure, which still uses the
+existing price.</p>
 <h4 id="live-chart">Live Chart</h4>
 <p>The Trade Status modal's status/P&amp;L table and chart refresh every 5 seconds
 while it's open (prices update faster than that via the tick stream above).
@@ -1174,7 +1180,7 @@ broker.positions() first and refuses if anything doesn't match.</p>
 <p><strong>Delete</strong> — click <strong>✕</strong> on any row. <strong>Clear</strong> — click <strong>🗑 Clear</strong> in the card header.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="composer-strategy-examples.html">← <span>Composer Strategy Examples</span></a><a class="doc-prev-next-link next" href="order-lifecycle.html"><span>Order Placement & Failure Recovery</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.46.3 · Page last updated 2026-09-26</p>
+<p class="doc-meta">Applies to ThetaPrime v0.46.7 · Page last updated 2026-09-26</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#dashboard-overview">Dashboard Overview</a><ul><li><a href="#nifty-ticker">Nifty Ticker</a></li></ul></li><li><a href="#managing-strategies">Managing Strategies</a><ul><li><a href="#edit-a-strategy">Edit a Strategy</a></li><li><a href="#clone-a-strategy">Clone a Strategy</a></li><li><a href="#archive-a-strategy">Archive a Strategy</a></li><li><a href="#delete-a-strategy">Delete a Strategy</a></li></ul></li><li><a href="#strategy-controls-per-row">Strategy Controls (per row)</a><ul><li><a href="#automation-switch">Automation Switch</a></li><li><a href="#money-mode-paper-real">Money Mode (Paper / Real)</a></li><li><a href="#config-lots-monitor-interval">Config (Lots &amp; Monitor Interval)</a></li></ul></li><li><a href="#running-a-strategy">Running a Strategy</a><ul><li><a href="#trade-status">Trade Status</a><ul><li><a href="#engine-status-advanced-opt-in-off-by-default">Engine status (advanced, opt-in — off by default)</a></li><li><a href="#live-chart">Live Chart</a></li><li><a href="#modal-actions">Modal actions</a></li><li><a href="#manual-takeover">Manual takeover</a></li></ul></li><li><a href="#manual-run">Manual Run</a></li><li><a href="#simulate">Simulate</a><ul><li><a href="#choosing-a-broker-for-simulations">Choosing a broker for simulations</a></li><li><a href="#data-availability-check">Data availability check</a></li><li><a href="#preview-strikes-optional-full-day-entry-only">Preview Strikes (optional, Full Day / Entry only)</a></li><li><a href="#extending-a-multi-day-session">Extending a multi-day session</a></li></ul></li></ul></li><li><a href="#scheduling">Scheduling</a><ul><li><a href="#how-a-strategy-gets-scheduled">How a strategy gets scheduled</a></li><li><a href="#viewing-and-removing-jobs">Viewing and Removing Jobs</a></li></ul></li><li><a href="#reports-page">Reports Page</a><ul><li><a href="#filters">Filters</a></li><li><a href="#summary-cards">Summary Cards</a></li><li><a href="#charts">Charts</a></li><li><a href="#trade-log-table">Trade Log Table</a></li></ul></li><li><a href="#performance-page">Performance Page</a><ul><li><a href="#summary-cards_1">Summary Cards</a></li><li><a href="#trade-events">Trade Events</a></li><li><a href="#run-logs">Run Logs</a></li></ul></li></ul></nav></div>
 </main>
 <footer>

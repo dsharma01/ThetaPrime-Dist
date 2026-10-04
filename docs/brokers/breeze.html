@@ -529,7 +529,7 @@ pypi.org/project/breeze-connect):</p>
 </ul>
 <h2 id="known-limitations">Known Limitations</h2>
 <p>ICICI enforces an undocumented <strong>daily API call quota</strong> — empirically about
-3,500 calls/day (<code>brokers.breeze.daily_call_cap</code> in <code>config.json</code> if this
+6,000 calls/day (<code>brokers.breeze.daily_call_cap</code> in <code>config.json</code> if this
 ever needs adjusting). ThetaPrime tracks its own count and stops calling
 before hitting ICICI's real limit; live prices then come from the WebSocket
 tick cache instead, which is what keeps a feed alive once REST is blocked
@@ -551,7 +551,7 @@ SEBI's API trading rules require a fixed IP for order placement, registered
 with your broker.</p>
 </div>
 <div class="doc-prev-next"><a class="doc-prev-next-link prev" href="../brokers/kite.html">← <span>Kite (Zerodha) Setup</span></a><a class="doc-prev-next-link next" href="../brokers/dhan.html"><span>Dhan Setup</span> →</a></div>
-<p class="doc-meta">Applies to ThetaPrime v0.46.3 · Page last updated 2026-09-22</p>
+<p class="doc-meta">Applies to ThetaPrime v0.46.7 · Page last updated 2026-09-28</p>
 </div><nav class="doc-toc"><span class="doc-toc-label">On this page</span><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#obtaining-api-credentials">Obtaining API Credentials</a></li><li><a href="#entering-credentials">Entering Credentials</a></li><li><a href="#daily-login">Daily Login</a></li><li><a href="#api-contract-check">API Contract Check</a></li><li><a href="#known-strengths">Known Strengths</a></li><li><a href="#response-shapes-that-differ-from-kite">Response Shapes That Differ From Kite</a></li><li><a href="#known-limitations">Known Limitations</a></li><li><a href="#static-ip-requirement">Static IP Requirement</a></li></ul></nav></div>
 </main>
 <footer>
