@@ -1,7 +1,7 @@
 {
-  "version": "0.47.2",
+  "version": "0.47.3",
   "released": "2026-10-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.47.2/ThetaPrime-0.47.2-setup.exe",
-  "release_notes": "**Upstox analytics token (optional)**: paste a 1-year read-only token in Settings \u2192 Upstox and market data (quotes, candles, margin / charge calculators), the Option Scanner, the live-tick feed and paper mode keep working without the daily login. It cannot place orders \u2014 live trading still needs the daily token, and orders now fail fast with a clear message when it's missing. **Upstox automatic login with TOTP (optional, unverified live)**: save your PIN and TOTP secret and the installed app logs in by itself on trading mornings (08:30\u201308:50 IST) when the token has lapsed; **Login now with TOTP** does it on demand. The development copy never auto-logs in. `UPSTOX_SANDBOX=1` switch plus `tools/upstox_*` sandbox, live read-only and WebSocket probe scripts. **Upstox LIMIT orders were rejected** (`price is required`): `place_order` always sent price 0. Only the MARKET\u2192LIMIT retry set a price, which hid it. Found by the Upstox sandbox run. **Upstox login no longer ends on the ThetaPrime login page**: the callback (which opens in your default browser) now shows a \"login done, you can close this tab\" page.",
-  "min_supported": "0.47.2"
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.47.3/ThetaPrime-0.47.3-setup.exe",
+  "release_notes": "**Settings page reorganised**: each broker is now a collapsed row showing its connection status (Connected / Session expired / Not connected), calls today and the enable switch \u2014 click to expand login, token and margin controls. Safety settings are grouped (Limits, Risk alerts, Automation, AI assistant) with a single Save button.",
+  "min_supported": "0.47.3"
 }
