@@ -1,7 +1,7 @@
 {
-  "version": "0.47.3",
-  "released": "2026-10-05",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.47.3/ThetaPrime-0.47.3-setup.exe",
-  "release_notes": "**Settings page reorganised**: each broker is now a collapsed row showing its connection status (Connected / Session expired / Not connected), calls today and the enable switch \u2014 click to expand login, token and margin controls. Safety settings are grouped (Limits, Risk alerts, Automation, AI assistant) with a single Save button.",
-  "min_supported": "0.47.3"
+  "version": "0.48.1",
+  "released": "2026-10-07",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.1/ThetaPrime-0.48.1-setup.exe",
+  "release_notes": "**Strategy Composer**: sockets and the block palette now follow a trader-first order \u2014 Structure \u2192 Expiry \u2192 Filters \u2192 Exits \u2192 Adjustment \u2192 Re-entry \u2192 Sizing (display only; how strategies run is unchanged). The Structure palette is grouped into *Options only*, *Options + Futures* and *Futures only*. **Option Scanner**: the IV term-structure tile wraps onto a new line instead of overflowing when a symbol has 4+ expiries.",
+  "min_supported": "0.48.1"
 }
