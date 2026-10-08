@@ -1,7 +1,7 @@
 {
-  "version": "0.48.1",
-  "released": "2026-10-07",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.1/ThetaPrime-0.48.1-setup.exe",
-  "release_notes": "**Strategy Composer**: sockets and the block palette now follow a trader-first order \u2014 Structure \u2192 Expiry \u2192 Filters \u2192 Exits \u2192 Adjustment \u2192 Re-entry \u2192 Sizing (display only; how strategies run is unchanged). The Structure palette is grouped into *Options only*, *Options + Futures* and *Futures only*. **Option Scanner**: the IV term-structure tile wraps onto a new line instead of overflowing when a symbol has 4+ expiries.",
-  "min_supported": "0.48.1"
+  "version": "0.48.3",
+  "released": "2026-10-08",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.3/ThetaPrime-0.48.3-setup.exe",
+  "release_notes": "A profit target or other profit-taking exit no longer fires on a leg whose live price is far from its fair value (more than 50% or 20 points off) or below its intrinsic value. A broker can report a stale price for a contract it won't actually trade; the strategy then thinks it hit its target, the close is rejected, and a loss is booked. Stop-losses are unaffected, and the exit fires normally once the price looks real again.",
+  "min_supported": "0.48.3"
 }
