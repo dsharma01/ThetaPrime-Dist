@@ -1,7 +1,7 @@
 {
-  "version": "0.48.3",
-  "released": "2026-10-08",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.3/ThetaPrime-0.48.3-setup.exe",
-  "release_notes": "A profit target or other profit-taking exit no longer fires on a leg whose live price is far from its fair value (more than 50% or 20 points off) or below its intrinsic value. A broker can report a stale price for a contract it won't actually trade; the strategy then thinks it hit its target, the close is rejected, and a loss is booked. Stop-losses are unaffected, and the exit fires normally once the price looks real again.",
-  "min_supported": "0.48.3"
+  "version": "0.48.4",
+  "released": "2026-10-12",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.4/ThetaPrime-0.48.4-setup.exe",
+  "release_notes": "**Dashboard Table view**: a **Cards / Table** toggle next to the Strategies filters. The table shows one row per strategy with Mode (and Re-arm when unarmed), Automation, LIVE/SIM position status (including MANUAL and EXIT UNCONFIRMED), live P&L with a stop-loss-to-target gauge, entry, exposure and margin, next run, and last run. It refreshes on the same cycle as the cards, and the Mode and Auto-on-only filters apply to both views. **Details**, **Log** and **Sq Off** stay pinned to the right edge, and clicking the strategy name also opens the Trade Status details. Your chosen view is remembered in the browser.",
+  "min_supported": "0.48.4"
 }
