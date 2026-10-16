@@ -1,7 +1,7 @@
 {
-  "version": "0.48.4",
-  "released": "2026-10-12",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.48.4/ThetaPrime-0.48.4-setup.exe",
-  "release_notes": "**Dashboard Table view**: a **Cards / Table** toggle next to the Strategies filters. The table shows one row per strategy with Mode (and Re-arm when unarmed), Automation, LIVE/SIM position status (including MANUAL and EXIT UNCONFIRMED), live P&L with a stop-loss-to-target gauge, entry, exposure and margin, next run, and last run. It refreshes on the same cycle as the cards, and the Mode and Auto-on-only filters apply to both views. **Details**, **Log** and **Sq Off** stay pinned to the right edge, and clicking the strategy name also opens the Trade Status details. Your chosen view is remembered in the browser.",
-  "min_supported": "0.48.4"
+  "version": "0.49.0",
+  "released": "2026-10-16",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.49.0/ThetaPrime-0.49.0-setup.exe",
+  "release_notes": "**Fibonacci pivot strike selector** (Strategy Composer): picks a strike at the R1\u2013R3 or S1\u2013S3 Fibonacci pivot from the previous day's or week's high/low/close, rounded outward. The strategy skips entry if the price data is missing or stale, or if spot has already moved past the level. **Weekday filter**: allow entry only on one chosen day of the week. **Premium decay exit**: closes the position once every sold option leg is priced at or below a set value (default \u20b90.05, i.e. almost all premium gone). Treated as a profit-taking exit, so the same live-price checks apply. **Dashboard Table view \u22ee menu**: each table row now has the same \u22ee menu as the card (Config, Edit in Composer, Clone, Archive, Delete). **Export Excel** on the run-log window: downloads the run as a `.xlsx` with an **Events** sheet (one row per event, every leg/price field as its own filterable column) and a **Log** sheet with the raw lines. macOS downloads now include a `.pkg` installer, which always installs to /Applications. The zip stays available as the no-installer option. **Upstox** backtests on past dates now fetch candles for expired option contracts through Upstox's expired-instruments API (requires Upstox Plus). Expired futures are not covered yet.",
+  "min_supported": "0.49.0"
 }
