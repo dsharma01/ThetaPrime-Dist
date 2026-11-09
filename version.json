@@ -1,7 +1,7 @@
 {
-  "version": "0.49.2",
-  "released": "2026-10-29",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.49.2/ThetaPrime-0.49.2-setup.exe",
-  "release_notes": "**Next weekly expiry can now trade today's contract (0DTE).** A new **Include today's expiry (0DTE)** option on the Next weekly expiry block. Before this, a strategy entering on expiry day (Tuesday) always traded next week's contract, even with Min days to expiry set to 0. It's off by default, so existing strategies are unchanged. The Gamma-Fenced Daily Condor template now turns it on, so it trades 0DTE as its description always said; strategies already saved from that template keep their old behaviour until the box is ticked.",
-  "min_supported": "0.49.2"
+  "version": "0.50.1",
+  "released": "2026-11-09",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.50.1/ThetaPrime-0.50.1-setup.exe",
+  "release_notes": "**No more broker calls overnight from an open dashboard.** With the dashboard left open, its once-a-minute refresh kept quoting Kite (about 6 calls a minute) and, after midnight, Dhan, all night long, even with no strategy on Dhan. Outside market hours the dashboard now makes no broker calls for its cards, and during market hours the cards share one market-open check instead of each making their own. **Multi-sim results page no longer crashes when opened.**",
+  "min_supported": "0.50.1"
 }
