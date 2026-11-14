@@ -1,7 +1,7 @@
 {
-  "version": "0.50.1",
-  "released": "2026-11-09",
-  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.50.1/ThetaPrime-0.50.1-setup.exe",
-  "release_notes": "**No more broker calls overnight from an open dashboard.** With the dashboard left open, its once-a-minute refresh kept quoting Kite (about 6 calls a minute) and, after midnight, Dhan, all night long, even with no strategy on Dhan. Outside market hours the dashboard now makes no broker calls for its cards, and during market hours the cards share one market-open check instead of each making their own. **Multi-sim results page no longer crashes when opened.**",
-  "min_supported": "0.50.1"
+  "version": "0.50.2",
+  "released": "2026-11-14",
+  "download_url": "https://github.com/dsharma01/ThetaPrime-Dist/releases/download/v0.50.2/ThetaPrime-0.50.2-setup.exe",
+  "release_notes": "**Strategies with a Weekday filter only schedule their entry on that weekday.** The daily entry job used to fire every trading day and then skip itself; it now follows the spec's Weekday filter, and saving a strategy in the Composer reschedules it straight away. **No more broker polling or alerts from the position check when nothing is open.** The every-5-minutes orphan-position check now runs only while a real-mode strategy has an open trade, and only against the brokers those trades are on. Previously it polled every broker in use all day, so an expired Breeze or Dhan login sent a \"reconciliation check failed\" alert every 10 minutes even with no positions. The Reconcile badge still checks every broker on demand.",
+  "min_supported": "0.50.2"
 }
